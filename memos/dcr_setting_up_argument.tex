@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage[margin=1.2in]{geometry} 
+\usepackage{amsmath}
+\usepackage{tcolorbox}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{accents}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{apacite}
+\pagestyle{fancy}
+\setlength{\headheight}{38pt}
+\usepackage{natbib} % For references
+\bibpunct{(}{)}{;}{a}{}{,} % Reference punctuation
+\def\citeapos#1{\citeauthor{#1}'s (\citeyear{#1})}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!50!blue},
+    citecolor={blue!50!blue},
+    urlcolor={blue!80!blue}
+}
+
+
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\begin{document}
+
+\lhead{Damon Roberts} 
+\rhead{Dissertation \\ Memo: Structuring an argument \\ \today}
+
+\cfoot{\thepage}
+
+\doublespacing
+
+\section{Introduction}
+
+Political scientists following the Columbia school approach to examining political behavior are primarily focused on the role of deliberation and social groups on influencing behavior. As the Michigan school, which took the more social-psychological approach to studying behavior, rose to prominence at about the same time, this competing argument necessitated a research agenda explaining whether social influence mattered for political outcomes. As a result, our understanding of deliberation is much more oriented towards explaining how it influences or explains important behavioral outcomes. The context by which this research agenda arose meant that there was less emphasis among these scholars on explaining how social networks are formed and what motivates people to engage in deliberative democracy. The literature has taken a turn to answering this question in recent years.
+
+As the literature examining what motivates one to participate in deliberation is relatively new, in a review of this literature, Shapiro and colleagues \citeyearpar{shapiro_et-al_2020_oh} offer three theories that are currently out there: (1) that people may engage in political deliberation to reinforce a feeling of belonging to a social group, (2) they may be motivated to engage in information search and use the expertise in their network to learn, or (3) they engage in strategic deliberation as a way to follow the norms of democracy while also trying to preserve their social ties. 
+
+A common thread in the work taking either of these three paths is emotion. To the hypothesis that political deliberation is motivated by concerns with belonging, some evidence suggests that ``social emotions" mediate the relationship between peer approval and conformity \citep{suhay_2015_pb}. Those who explore the hypothesis that deliberation is motivated by information search often are building upon affective intelligence theory by arguing that emotions motivate one to engage or avoid discussion. When one is anxious, individuals tend to seek out political conversations \citep{mackuen_et-al_2010_ajps}. To the third hypothesis that deliberation is strategic and is used to expressively participate in debate, even when there is disagreement, some evidence suggests that the underlying strategy for engaging in such conversations is also dictated by emotion. That is, those who engage in conversations with those they disagree with are not necessarily doing it with the purpose of information gathering \citep{lyons_sokhey_2014_pc}. Those who enter a conversation with someone they disagree with are more likely to be in an emotional state of embarrassment as opposed to anger, who to tend to seek out conversations with like-minded egos \citep{wolak_sokhey_2022_apr}.
+
+A well-recognized challenge in this work on deliberation is identifying causality. Most measures are cross-sectional and are collected in surveys. This often means that disentangling these measures of one's networks or their conversations tend to suffer from doubts about one's ability to identify a causal mechanism. This happens for a number of reasons. As cross-sectional data, we often are at a disadvantage in teasing out the likely endogenous relationship between emotions and deliberation \citep{sokhey_stapleton_2020_oh}. The work cited above implies a that emotion dictate the conversation. Though deliberation is a form of democratic participation, it is often seen as a stopping-point towards more sociotropically influential political participation such as voting, volunteering, and protesting. Furthermore, affective intelligence theory is naturally applied to understanding individual motivations to follow campaings more closely, to engage in protest, and to vote. Neblo \citeyearpar{neblo_2020_apsr} sees emotions as a variable linkage between externalizing the thoughts in one's head and to using it to make decisions about policies that will affect the broader society. 
+
+We have the pieces to putting everything together when it comes to understanding the role of emotion on deliberation and participation. Though not easy, this should be done. As discussed in the previous paragraph, there are a number of challenges that come with following this process in its entirety, another threat to this task is the way in which we conceptualize and measure emotion in this literature. Neblo \citep{neblo_2020_apsr} defines emotions as felt and situational evaluations which motivate action. This definition follows in the tradition of the popular affective intelligence theory. What is clear in this definition, however, is that there is a conflation between the words emotion and feelings; something that those who study affective neuroscience view as distinct concepts \citep{sander_2013_chhan,ralph_anderson_2018}. I believe political scientists have this tendency to conflate these concepts for similar reasons we have problems with completing a full picture of the role emotion plays in motivating deliberation, shaping how the conversation occurs, and how the conversation spurs other forms of participation and attitude formation: the measures we use in political science are not granular enough. As affective intelligence theory is the popular conceptualization of emotion in this particular literature, the measures often are self-reported survey questions asking people the degree to which they feel anxious, angry, scared, and enthusiastic. These questions typically show up once in a survey or wave administration. As emotional states are more variable than moods, the frequency we receive self-reported emotions are likely too far apart to let us temporally compare emotional states but probably moods. Moreover, though I am omitting a rich intellectual history going back to a debate between Charles Darwin and William James here, affective neuroscientists conceptualize emotions as the pre-conscious reaction to a stimuli and feelings are our conscious reactions to it \citep{sander_2013_chhan}. So self-reports are likely better described as a feeling which does not identify everything happening under the hood to describe our emotional state, which contain both emotions and feelings. 
+
+There are three primary tools that affective neuroscientists use to examine emotional states: functional magnetic resonance imaging, electromyography, and electroencephalography. Each of these often accompany self-reports for validation. FMRI's are state of the art tools used to detect neurological networks which, with machine learning, correspond with a particular emotion. These, however, are expensive and come with computational challenges as the detection of emotions often require some sophisticated statistics. What is fascinating is that FMRI enables one to examine the active neurological network over time which has significant advantages for claims of causal identification. FMRI's are the most granular measure of emotions available. While EMGs and EEGs offer granular temporal data, the measure itself is a bit less granular. EMGs capture muscle activation in the face. It is effective for capturing emotion valence if one attaches the sensors to the zygomaticus and corrugator muscle \citep{bakker_et-al_2020_apsr}. Patterns from EEGs have been used to identify emotions, but confidence on whether these findings are a bit weaker than it is with FMRI's as a result of the lack of spatial granularity in detecting activation (tends to be at the level of identifying posterior or anterior activation) \citep{mauss_robinson_2009_ce}.
+
+Taking the functional definition of emotions, to identify an emotional state, there are calls to examine the neurological, physiological, and cognitive responses to a stimuli simultaneously \citep{ralph_anderson_2018}. This allows one to not only use EMGs, EEGs, or FMRI's but to also examine heart rate variability (HRV), and skin conductance \citep{ralph_anderson_2018}. While there have been these advancements in distinguishing and combining these measures to detect emotions, feelings, and the emotional state overall in the field of affective neuroscience, political scientists continue to largely be dependent on self-reports despite the significant advantages to not only measurement but correspondingly advancing the literature forward that these instruments offer. 
+
+To examine just how uncommon these tools are in political science, I perform a keyword search of the most prominent, and relevant, political science journals as a proxy for the uptake of these instruments. Using the JSTOR text analyzer tool, I search for the terms: ``fmri", ``Functional Magnetic Resonance Imaging", ``EMG", ``Electromyography", ``EEG", and ``Electroencephalogram". The search is limited to prominent political science journals such as AJPS, JOP, APSR, JEPS, Political Behavior, and Political Analysis. The results of the search are in Table \ref{tab:use_of_tools}.
+
+\begin{table}[h!]
+    \centering
+    \caption{The use of the tools in political science's top journals}
+    \begin{tabular}{p{7cm}p{2cm}p{4cm}p{2cm}}
+        \hline
+        Tool & Use & Discuss or cite only & Total \\
+        \hline
+        FMRI (Functional Magnetic Resonance Imaging) & 0 & 22 & 22 \\
+        EEG (Electroencephalogram) & 0 & 0 & 0 \\
+        EMG (Electromyography) & 1 & 1 & 2 \\
+        \hline
+        \multicolumn{4}{p{15cm}}{Notes: Search covered the AJPS, JOP, APSR, Political Behavior, JEPS, and Political Analysis for the years $1900 - \text{May} 4^{th}, 2022$}
+\end{tabular}
+    \label{tab:use_of_tools}
+\end{table}
+
+The results of the search suggest that political psychologists have not taken advantage of using any of these tools to measure emotion, despite their prevalence as measures in affective neuroscience and psychology. From reading, each of the articles that showed up in the results, many of the articles include a citation which contains the keyword and a handful discuss the use of these tools in other disciplines in their literature reviews. My search and read indicated that there's been one article that has used these tools. I have no doubt that these tools are used in political science, but as these are popular general interest, relevant subfield, and important methods journals, the lack of presence of these tools indicate that they are still relatively fringe in political science. Even further still, my read of the articles also gives the impression there is not too much meaningful engagement with research that does use these tools given the context in which these keywords show up. Overall, this gives the impression that there is a lot of work to be done among political scientists studying affect to validate our common measures that we use and to learn from the fields that consider subconscious affect. Moreover, using these instruments, again, offer the opportunity to connect the sweeping role that emotions have through internal attitudes, to motivating conversation and attitudes' shaping, to the motivation to express those attitudes in a public way.
+
+\section{Based on where I am currently at, this is what I am imagining:}
+\begin{itemize}
+    \item[Introduction:] Spell out this argument that I did here some more. Include more motivation. Explain why this is important and/or valuable.
+    \item[Chapter 2:] How does emotion flow through the process of attitude formation and participation via deliberation?
+    \item[Chapter 3:] How can we construct granular measures of emotion? Are existing self-report measures enough?
+    \item[Chapter 4:] What can we tell about emotion's role in predicting and being predicted by attitude formation, deliberation, and participation? What does this imply about the competing theories of emotions? Testing these popular theories with these more granular measures
+    \item[Chapter 5:] Providing cheaper, but still granular, measures of emotions. Do they still work? 
+    \item[Chapter 6:] Conclusions
+\end{itemize}
+
+Do we think that this is a useful substantive addition to the literature? Are there alternatives?
+
+
+\newpage 
+\bibliographystyle{apsr}
+\bibliography{/Users/damonroberts/Dropbox/bibliographies/representation/deliberation.bib,/Users/damonroberts/Dropbox/bibliographies/representation/norms_and_democracy.bib,/Users/damonroberts/Dropbox/bibliographies/information_processing/interest.bib,/Users/damonroberts/Dropbox/bibliographies/neuroscience_biopolitics/neuroscience/affective_neuroscience.bib,/Users/damonroberts/Dropbox/bibliographies/representation/attitudes.bib}
+\end{document}
