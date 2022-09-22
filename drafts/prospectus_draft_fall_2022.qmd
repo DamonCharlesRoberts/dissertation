@@ -1,0 +1,421 @@
+---
+title: |
+  The color and shape of politics
+subtitle: How does simple visual information affect political attitudes?
+short-title: Color and shape
+published: "Dissertation prospectus draft: please do not share without author permission."
+code-repo: "Replication materials are stored at <https:://github.com/DamonCharlesRoberts/dissertation>."
+author:
+  - name: Damon C. Roberts
+    email: damon.roberts-1@colorado.edu
+    orcid: 0000-0002-4360-3675
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+abstract: |
+  How do people process politically-relevant visual information? What effects does this information have on negative partisanship? There is a rich intellectual history examining the ways individuals process political information. However, most information these theories consider are complex text-based or audio messages. I argue that these theories overlook important sources of information that we are cognitively hardwired to focus on before other types of information. This dissertation seeks out to examine the role that relatively simple visual information, such as color and shapes, plays in cueing and molding political attitudes. This dissertation expands upon existing models of information processing and presents a snap-judgement model of visual information processing. The snap-judgment model is a general framework for understanding the role that simple and complex information have in shaping our political attitudes.
+thanks: |
+  I would like to express my thanks to Anand Sokhey for his advice on this dissertation and to encourage me to recognize the potential in my ideas.
+additional-info: |
+  I have no known conflict of interest to disclose.
+keywords:
+  - information processing
+  - visual information
+  - color
+date: today
+bibliography: dissertation.bib
+format:
+  hikmah-pdf: 
+    biblatex-chicago: true
+    biblio-style: authordate
+    biblatexoptions:
+      - backend=biber
+      - autolang=hyphen
+      - isbn=false
+      - uniquename=false
+execute:
+  echo: false
+  warning: false
+  message: false
+epigraph:
+    - text: I haven't seen someone that disappointed to see me since I wore a red baseball cap to a Planned Parenthood fundraiser.
+      source: Ted Lasso
+---
+
+{{< pagebreak >}}
+
+# Introduction {#sec-introduction}
+
+Imagine we are at the airport and we see a bright red had with white lettering on it. You have well-trodden neurological paths of what the color red looks like, what a hat looks like, and what a hat with white lettering looks like. You are accessing associative memory to not just imagine what each of these pieces of information look like in isolation, but you likely have seen these features in combination before. So rather than just seeing these details, you likely are filling in other gaps too by relying on memory. You may be thinking to yourself "this is a MAGA hat". This realization triggers an affectively valenced response; even though you cannot be sure that it is actually a MAGA hat.
+
+This dissertation explains this process and elaborates on the implications of it. Specifically, this dissertation presents an elaboration of two popular models of political information processing, which yields the Snap-judgement model, to explain the underlying cognitive processes that drive the connection of simple visual information, such as party branding, to complex political meaning. In doing so, it also explains the cognitive processes that underlie the way in which this simple visual information promotes attitude change or entrenchment. 
+
+In the next section, I make a case for the need to understand visual political information as well as engaging in a brief explanation of the two most prominent models of information processing: the online and memory-based models. In doing so, I compare and contrast the models to highlight their weaknesses and strengths as general models for information processing. In the third section, I then outline the snap-judgement model and explain the ways in which it provides expectations about the processing of less complex information and explain how it combines the strengths of the online and memory-based models. In the fourth section I provide an outline of the key empirical chapters of the dissertation along with providing a description of the research designs that are meant to test parts of the snap-judgement model. In the fifth section I close with a proof-of-concept study which provides preliminary evidence of a number of assertions I make with the model.
+
+# Simple visual information and existing theories of information processing {#sec-existing-theories}
+
+The role that color and symbology play in politics is understudied. Despite this, parties foster their brands. Incentives for political candidates are to win political office [@fenno_1973;@mayhew_1974]. As voters heuristically use the partisan affiliation of the candidates and policy stances [@petersen_et-al_2013_pb; @campbell_et-al_1960, Chapter 6] and are largely reluctant to support out-partisan candidates due to affective polarization [@iyengar_et-al_2012;@pickup_et-al_2020_pb;@utych_2020_es], the parties expend significant effort in attempts to distinguish the parties from eachother [see @lee_2009;@lee_2016;@clifford_2020 as examples].
+
+Politics relies heavily on visual imagery to communicate complex ideas. Since the 2000 Presidential election, news organizations consistently use the association between Democrats and the color blue and Republicans with the color red to reflect won districts [@elving_2014_npr]. The ownership and display of campaign yard signs reflect an expressive form of political participation and evoke affective reactions among neighbors who see the signs [@makse_et-al_2019_oup]. Exposure to stereotyped cultural differences between Republicans and Democrats act as relatively accurate visual cues - such as the modal car in the driveway - of any given neighborhood to assume the partisan composition of those who live there [@hetherington_weiler_2018_hmh].
+
+Despite the ubiquity of political symbology, students of political psychology largely ignore simple visual information as sources of cueing and attitude change. There are a number of reasons for this but key among them is the challenges that come with truly interdisciplinary theoretical frameworks. The consequences are that political scientists have yet to take advantage of the theoretical groundwork that neuroscientists and psychologists provide. In particular, models of political information processing do not examine the role of simple visual information that may undergird attitude development, change, or entrenchment. First, let me elaborate on what the two prominent models do and do not explain.
+
+Both the memory and online models of information processing view the mass public as bayesian updaters. The models primarily disagree, however, on the capability of individuals to update their pre-existing views when faced with new and countervailing political information. While the memory-based model views the public as rationally integrating new information with their pre-existing attitudes [see @zaller_1992], the online model contends that the public affectively encode information and that new information brings to memory this affectively encoded prior information [see @lodge_taber_2013_cup]. This process implies that new information is integrated based on its relation to thes prior attitudes. This often means that motivated reasoning is at play with exposure to new information; which means that individuals strengthen pre-existing paths that suggest that congruent information make one feel good, while incongruent information makes one feel bad.
+
+These models consider the role that text-based information communicating elites' policy positions have in shaping the attitudes of the public. Tests of both models consider the role that policy proposals have on shaping the attitudes of those recieving it. This fails to acknowledge the way that relatively simple information such as politically-relevant colors and shapes might activate similar cognitive processes. 
+
+This is an oversight. Visual information contains powerful meaning via affect. Visual information such as color contain important affective associations [@cimbalo_et-al_1978_jgp]. Memory associated with affect pass through the limbic system which mean that they are often easily and quickly encoded, easier to consolidate by placing it in an associative memory network, and will be easier to retrieve later [@kensinger_fields_2022_ohhum]. Simple visual information, like color, are referential in this way [@elliot_maier_2012_aesp]. Republicans report that they prefer "Republican red" more than they do than "Democratic blue"; it engenders an affective response that is rooted in identity.
+
+While the online model conceptualizes this complex, text-based information processing as affectively-laden, it does not provide clear direction about physiological manifestations of an affective reaction to such information nor does it provide a clear set of expectations about the ways in which it may weaken strong affective nuerological pathways. The online model argues that information is affectively encoded into long-term memory and that the core process by which retrieval of it and associated memories occur is through the similarity of affect. Similarity of affective responses are not clearly defined by the online model, however. Indeed, there are patterns of neurological function associated with particular affective states, many neuroscientists, however, view a state as the combination of this neurological functioning and the physiological reactions [@sander_2013_chhan;@ralph_anderson_2018]. The implication of the online model is that individuals strengthen these associations between affect and content of the information. There does not appear, however, to be a clear set of expectations about the ways in which one may weaken these associations. The online model suggests that individuals associate some information with negative affect or with positive affect and will continue to do so as it biases the ways in which people engage with new information. The memory-based model argues that there can be such weakening of prior attitudes when given new information, but it neglects to hypothesize about how this occurs when considering motivated cognition. 
+
+In summary, existing models of information processing are narrow in their view about what forms of new information influence attitudes. These models neglect to provide clear expectations about how people respond to simple visual information that is common in party branding. These models also fail to conceptualize this process as one involving the emotional state, but instead neglect to consider affect entirely or conceptualize it as what is better described by neuroscientists as feelings [@sander_2013_chhan;@ralph_anderson_2018]. And finally, the two models neglect to account for the ways that an affectively-laden model of information processing may weaken these associations between affect and content rather than only strengthen them. The implication is that we should only expect political polarization as the outcome when affect is involved and that we can only detect this affect trhough the measurement of cognitive function or through self-reported measures of feelings. 
+
+@tbl-model-comparison provides a summary of the memory and online models of information processing. The third column presents the model in focus for this dissertation, the snap-judgement model. In the next section I elaborate on how this model works through the anecdote of the Red hat with white lettering discussed in the opening of this prospectus.
+
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+|                                                     | **Memory-based**                 | **Online**                       | **Snap-judgement**               |
++=====================================================+==================================+==================================+==================================+
+| Type of visual information                          | -Complex, text-based information | -Complex, text-based information | -Simple visual information       |
+|                                                     |                                  |                                  |                                  |
+|                                                     |                                  |                                  | -Complex visual information      |
+|                                                     |                                  |                                  |                                  |
+|                                                     |                                  |                                  | -Complex, non-visual information |
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+| Pre-conscious processing                            |                                  | YES                              | YES                              |
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+| Affective memory encoding                           |                                  | YES                              | YES                              |
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+| Affective physiological response                    |                                  |                                  | YES                              |
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+| Political polarization                              | YES                              | YES                              | YES                              |
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+| Political depolarization                            | YES                              |                                  | YES                              |
++-----------------------------------------------------+----------------------------------+----------------------------------+----------------------------------+
+
+: Comparison of information processing models {#tbl-model-comparison}
+
+# The snap-judgement model of information processing {#sec-snap-judgement-model}
+
+
+To illustrate the snap-judgement model, let's go back to the example of being in the airport and seeing someone wearing a red hat with white lettering on it. First, let's understand why one might start to fill in extra information about the hat and the wearer of the hat. 
+
+Memories are easier to retrieve if they are recent, contiguous (associated with other pieces of information), similar to the information that made them "hot", are reinforced, and have primacy over other pieces of information [@kahana_et-al_2022_ohhum]. What this means is that the visual information of a red hat with white lettering likely spark memories by which you've recently seen a hat with similar features.
+
+Given that you are reading a prospectus for a political scientist's dissertation, the contextual state you are in may have prompted you to imagine this hat as being related to politics in some way as opposed to belonging to an Arsenal F.C. supporter. Because of its similarity with the "Make America Great Again" hat which have become a characteristic symbol of the Republican party in the post-Trump era, this information may have sparked your brain to access such a memory of what a MAGA hat looks like. This process is aided by the affective encoding of these memories.
+
+An important contextual feature of memory is the affective state by which you associate with it. Memories are enhanced when they are "tagged" with affective information [@kensinger_fields_2022_ohhum]. When converting perceived visual information to a memory, emotion moderates the encoding, consolidation, and retrieval stages [@kensinger_fields_2022_ohhum]. This means that when you process the visual information of a red hat with white lettering, and you access memories which suggest that it should be a hat representing support for Donald Trump, you retrieve memories that are associated with and trigger a strong autonomic physiological reaction. In response, your brain will contact your limbic system to appraise that particular physiological response and to label it based on memories that associate physiological responses with an affective state [@valentino_et-al_2011_jop]. Individuals are motivated by their affective state.
+
+The link between affective state and physiological response encourages a corresponding behavioral response [@valentino_et-al_2011_jop]. If you connect that the hat belongs to a Trump supporter, you may have a physiological reaction of feeling queasy, an increase in heart rate, and your hands may feel clammy. As these reactions are characteristic of negative affect, you may feel an urge to avoid such a person. It is rare, however, that you have complete control over the situations you find yourself in.
+
+It may be the case that when you board your plane, this person may be in the seat next to you. You realize that despite this urge for you to avoid them, you nonetheless will have to exchange a few niceties at the very least. So long as you avoid talking about politics, you might be able to escape without feeling any worse by managing to avoid getting in a disagreement with someone [@mutz_2006; @carlson_settle_2022_cup]. Despite your best intentions, they begin talking to you, and they jump right into talking about baseball, your favorite sport! The conversation ends up being an engaging one. Your initial intentions of avoiding them are changing. Your initial negative evaluation of that person dissipates and may even turn into a positive one. This is likely short-lived however [@santoro_broockman_2022_sa]. This is because the memories associating a negative affective state with a Trump supporter are stronger than a brief conversation with one about a common interest, so that memory is crowded out and eventually purged as time goes on [@kahana_et-al_2022_ohhum]. The positive evaluation overriding the negative snap-judgement may be reinforced, however, through efforts to not forget the experience and to store its positive effects within long-term memory.
+
+The snap-judgement model highlights a subsystem of information processing. Once an individual forms a snap-judgement, their priors will take over and the affective reaction will activate a particular behavioral response. However, when incorrect appraisals or an intervening factor that attenuates the cognitive disengagement occurs, it may act as a valuable learning lesson that might have an opposite effect. As affective tagging of information can occur later [@kensinger_fields_2022_ohhum], a positive experience, despite a negative snap-judgement, may weaken the association of a visual object with a negative affective response. Some evidence suggests that such a mechanism is plausible [@santoro_broockman_2022_sa]. As evidence suggests these depolarizing effects tend to be short-term [@santoro_broockman_2022_sa], the snap-judgement model suggests that this is due to the case that such interactions are not often reinforced. Without reinforcement, those memories are purged and the dampening effects are removed [see @kahana_et-al_2022_ohhum]. It may be the case, however, that these are not all too common as individuals tend to avoid engaging with an object representing ideologically incongruent positions [see @mutz_2006; @klar_krupnikov_2016].
+
+@fig-snap-judgement-model presents a summary of the snap-judgement model. This dissertation will examine snap-judgments as prompted by a number of different types of visual information. The first empirical chapter will examine the speed at which individuals process such individual information by examining their attention to information like color on political yard signs. The second empirical chapter will step back to examine more complex visual information by asking participants to form snap judgments of a neighborhood with varying characteristics. The final empirical chapter will examine the implications of such a model on informal political discussions as they are often seen as a valuable opportunity to reduce affective polarization and to encourage democratic norms [@levendusky_stecula_2021; @santoro_broockman_2022_sa]. 
+
+```{mermaid}
+%%| label: fig-snap-judgement-model
+%%| fig-cap: Snap-judgement model
+%%| fig-width: 8
+%%{init: {'theme':'base', 'themeVariables':{'primaryColor':'#ffffff', 'primaryBorderColor': '#000000'}}}%%
+graph TD
+    A[Detection of politically-relevant visual information] --> B(Activation of retrieval mechanism)
+    B --> C[Memory and contiguous paths hot]
+    C --> D[Appraisal of hot autonomous nervous system]
+    D --> E1[Negative Valence]
+    D --> E2[Positive Valence]
+    E1 --> F1[Disengagement motivation]
+    E2 --> F2[Attention activated]
+    F1 --> |Neg. new information| G1[Encoded as negative]
+    F1 --> |Pos. new information| G2[Encoded as positive]
+    F2 --> |Neg. new information| G3[Encoded as negative]
+    F2 --> |Pos. new information| G4[Encoded as positive]
+    G1 --> H1[Strengthens negative path]
+    G2 --> H2[Weakens negative path]
+    G3 --> H3[Weakens positive path]
+    G4 --> H4[Strengthens positive path]
+    G2 --> |forgotten| H1
+    H2 --> |reinforced| G2
+    H3 --> |reinforced| G3
+    G3 --> |forgotten| H4
+
+```
+
+{{< pagebreak >}}
+
+# Outline of empirical chapters
+
+## Empirical chapter 1 {#sec-chapter-1}
+
+### Argument {#sec-chapter-1-arg}
+
+Can something as simple as color influence a campaign or even one's political attitudes? The starting position of the snap-judgement model is that simple visual information can. Political scientists have largely ignored such simple visual information despite their focus on party branding and communication strategies. Besides the challenges of interdisciplinary work, one potential reason for this being is that the literature still largely disagrees over whether campaigns, on the whole, matter for shaping electoral outcomes and the attitudes of voters [@broockman_kalla_2022_ajps]. I argue, however, that though color may not determine electoral outcomes, it may still be an important piece of visual information that encourages learning by voters. I also test whether it influences how people respond to political surveys as they are often used for polls which are a cottage industry partially as a result of the popularity of election forecasting.
+
+Since the 2000 election cycle, it is now commonplace for political candidates to rely on the colors red and blue as part of their campaign branding strategy. The use of the colors red and blue to distinguish between Republicans and Democrats on electoral maps became more common place starting in the 1970's [@elving_2014_npr]. Outside of this, the literature connecting simple visual information and color is relatively sparse. I attribute this to the tendency for most studies used in political psychology as focusing on the generalizability of their treatments and for the theories to focus on visual and complex visual information.
+
+The snap-judgement model offers predictions about how individuals should process simple visual information such as colors. Colors are first perceived as a particular set of wavelengths which trigger particular sensory receptors in the back of one's eye. This is converted into an electrochemical message that goes to the thalamus and into the primary visual cortex in the back of the brain. To make sense of this information, our brain accesses memories containing similar information which are affectively encoded [@cimbalo_et-al_1978_jgp]. Beyond the connection between particular colors and affect, the use of colors to distinguish political parties are so common-place that individuals likely access affectively encoded referential memories as well.
+
+In non-political settings, we may unconsciously associate colors, [see @mehta_zhu_2009_s], such as blue with "happy" and pleasure and red as "sad" [@dandrade_egan_1974_ae], arousing [@valdez_mehrabian_1994;@mehta_zhu_2009_s;@elliot_maier_2012_aesp], and angry [@epps_kaya_2004; @elliot_maier_2012_aesp]. Indeed, in a political context, such visual information activates pre-conscious processes that may diverge from that. These colors hold important meaning beyond the raw affect they engender. Republicans report that they prefer the "Republican red" more than they do the "Democrat blue" [@schloss_palmer_2014_pbr]. That is, the colors red and blue in a political context are likely to make the neural pathways related to one's partisanship "hot". Some evidence suggests that there is indeed a strong link between ideology and color [@casiraghi_et-al_2022_pp], and that these associations are stronger in Western European countries and for parties that are relatively well-established. As simple visual information such as color is processed at remarkable speeds, it likely occurs even faster as primes of group identity speed up pre-conscious processing of information [@lodge_taber_2013_cup]. 
+
+Once these politically-laden neurological pathways are active, the affect associated with these nodes along the path are appraised by the body and will encourage a particular physiological reaction; which are themselves associated with particular behavioral outcomes. Where these colors activate associations with the out-group, an individual is likely to have a physiological response encouraging the disengagement motivation. Where the color activate associations with the in-group, an individual will experience a physiological response encouraging an approach motivation. 
+
+As this is pre-conscious processing, it will put an individual in a "mental framework" or in a cognitive state that encourages biased information processing, both pre-consciously and consciously [@lodge_taber_2013_cup]. However, this is continually updated with more information. Where new information comes in such as context, or a conversation, or just new and relatively more complex visual information, the mental state that the snap-judgement put one in, will update with this information; it will either strengthen the path initiated by the snap-judgement, or it will attenuate the strength of the path. As this experience is forgotten, the effects of strengthening or attenuating the strength of the path will dissipate. If it is reinforced, then the effects will hold and may even strengthen. This chapter examines the pre-conscious processing component of this process.
+
+In line with the snap-judgement model, some evidence suggests that the use of red and blue in political messages activate partisan biases in Spanish samples [@maestre_medero_2022_pr]. As the colors red and blue hold important meaning in political contexts, these colors pre-consciously activate pathways that associate those colors with particular partisan or ideological groups. These associations are stronger the more established the party is [@casiraghi_et-al_2022_pp]. That is to say that these associative networks are stronger and easier to access in pre-conscious processing. 
+
+Applying the snap-judgement model to such a case yields a handful of expectations: Individuals associate the color red with Republicans and the color blue with Democrats (**$H_1$**). When exposed to stimuli containing a political message and colors with political meaning, individuals will process the color before the message (**$H_2$**). When engaging with the colors red and blue, they will experience cognitive and physiological changes to their affective states in response to such stimuli as the result of the identity-based meaning associated with the stimuli (**$H_3$**). 
+
+### Research Design {#sec-chapter-1-rd}
+
+It is important to first establish whether individuals associate particular colors with groups. Studies that associate color with parties are largely focused on European samples [see @casiraghi_et-al_2022_pp;@maestre_medero_2022_pr]. It is unclear, however, how engrained these associations are among Americans. I conduct four studies in this first chapter: (1) an online survey, (2 & 3) two online survey experiments, (4) and a experiment in a lab with a convenience sample.
+
+To examine **$H_1$**, I propose conducting an online survey where I ask respondents to match visual information they associate with different political groups. These visual groups include the parties: Republicans and Democrats, but also prominent political interest groups such as the Sierra Club, the Proud Boys, and anarchists. They are asked to match the group to complex visual imagery using logos such as an elephant - associated with the Republican party, a donkey - associated with the Democratic party, trees - associated with the sierra club, the rooster symbol - associated with the proud boys, the characteristic A associated with anarchists. These images are monochrome to isolate the effects of the image. In a second round of matching, the respondents are asked to match simple visual information to the groups, the color their branding tends to use: Red and white - associated with Republicans, Blue and white - associated with Democrats, green and white - associated with the sierra club, black and yellow - associated with the proud boys, and red and black - associated with anarchists.
+
+To study **$H_3$**, I need to examine whether people experience affectively valanced reactions to colors in both political and apolitical settings. It is important to examine whether these responses are different depending on context as it establishes whether consuming such visual information in different contexts activate different neurological paths. To do this, I conduct a online survey experiment where I randomly assign experimental participants into different conditions. 
+
+In the political context condition, participants start the experiment by responding to a political attitudes questionnaire; a battery that asks them a number of questions prompting them to express their political views on policy issues. In the apolitical conditions, participants skip the political attitudes questionnaire and experience the treatment. 
+
+The treatment is a square box with the color red, blue, or grey. The treatment asks participants to also report whether it is a positive or negative color. The computer records how long it took for participants to report the valence. Like the implicit attitudes test, the goal of this is to examine immediate valanced affective reactions to the treatment. There are a number of burn-in rounds where participants see other colors such as orange, grey, and yellow as a way to get a baseline - this is important given the individual-level heterogeneity in speed that may come about from unobserved factors such as the use of a laptop, monitor specifications, the use of a mouse and trackpad or arrows on the keyboard, etcetera. 
+
+After the burn-in rounds and a few rounds with the treatment, participants are asked to provide responses to about five open-ended questions asking about what they had for their most recent meal, what their last vacation was, what was the last item they bought, what day of the week elections tend to be held on in the United States, and what was the last bit of news they had heard about American politics. The point of these questions is for detecting insincere responses. As experiments suffer mightily from inattentive subjects, from those who are indeed American citizens, and from trained bots, evidence suggests that - beyond the use of attention checks, identifying duplicate IP addresses, and identifying "speeders" and "turtles" - the use of open-ended responses are an effective way at identifying subjects providing insincere data points [@kennedy_et-al_2021_poq]. 
+
+To establish another critical assumption of the model is whether people do pick up on this simple visual information faster than messages, **$H_2$**. Though the psychology literature suggests that may be the case, this is still an untested assumption in political settings. As political messages communicate identity-based information, messages may go through the pre-conscious process faster than simple visual information.
+
+To test whether this assumption holds up, I first ask participants a series of questions in a political attitudes questionnaire. In the questionnaire, participants are asked about their partisan identification. This should prompt them to think of their in-group, what partisan group they belong to. As primes related to one's in-group yield faster responses to messages shared by the in-group, I use this information to conduct a blocked three-arm experimental design.
+
+Participants are randomly assigned into one of three conditions. In each of these three conditions, they see a box with a color background and in the foreground a message to vote for either Joe Biden or Donald Trump. For those who reported that they were Republicans, they receive a message to "Vote for Trump". If the subject self-identifies as a Democrat, they receive a message to "Vote for Biden". The conditions vary in which color is in the background of this message. The three conditions are that the background uses either the color red, blue, or grey. Like I did in the other study, participants are asked on the same screen to report the valence of the image and the length of time it takes for the subject to respond is recorded. They only do one round with the treatment to reduce introducing bias captured by participants realizing it is the same message but with a different color background. Before the treatment, they receive the same burn-in practice to establish a baseline for the participants speed. After the treatment, participants are prompted to respond to the same five open-ended questions as participants in the other study. 
+
+I intend to also replicate the third study by conducting another study in a lab setting with undergraduates using eye-tracking software. I have *a priori* beliefs that a convenience sample of undergraduate students on its own would provide results that are not generalizable to the population. These concerns about the sample are not due entirely to the relative lack of heterogeneity in ascriptive characteristics of the population I sample from, but my concerns stem from differences in an undergraduate's capabilities to process policially-laden visual information relative to the population's. As I expect that the sample would respond differently than the population [see @krupnikov_et-al_2021_cup], I should be concerned with the over-reliance of a convenience sample to establish support for **$H_3$**.  Though I try to mitigate some of the problems with the implicit atttitudes test by first establishing a baseline response time among respondents, these baseline conditions are not political and I expect that the baseline may be somewhat inaccurate. I also am not able to establish that the order of foci for respondents is on simple visual information and then on the more complex visual information. Experiments that take advantage of eye-tracking software have efficacy for addressing both concerns with the first set of studies. 
+
+## Empirical chapter 2 {#sec-chapter-2}
+
+### Argument {#sec-chapter-2-arg}
+
+The previous chapter established whether color engenders affective reactions. It does not, however, examine whether these affective reactions are moderated by new information that runs counter to the initial snap judgement. Further, the studies establish the effects that simple colors have. Visual information is often more complex in that it often comes with important contextual visual information. 
+
+While the experiments outlined in the previous chapter offer an internally valid test of parts of the model, they are unable to say much about the effects that more information have on shaping the initial snap-judgement. That is, they do not offer generalizability. 
+
+Simple visual information such as color does not come in isolation. One may see a red or blue yard sign, but the initial reaction to the color and its associations with the political ideas it represents comes along with other symbology on the yard sign or with the color. Evidence suggests that such simple displays to shift attitudes [@makse_et-al_2019_oup]. More complex information about the neighborhood surrounding such a sign, however, also contextualizes the yard sign and its message. The make of the cars parked in the driveway of the house displaying the yardsign communicates partisanship [see @gebru_et-al_2017_pnas;@hetherington_weiler_2018_hmh]through strong partisan stereotypes, which are purposefully cultivated by the parties. This sort of information may strengthen or weaken the initial reaction to the less complex visual information.
+
+When one experiences an initial snap-judgement and the resulting affective response to the simple visual information, they appraise their affective response to such information and this motivates a behavioral response. Where one experiences a negatively valenced reaction to information, they will to *disengage* from the object that evokes a negative affective state. Where one experiences a positively valenced reaction to information, they will want to *engage* with the object. 
+
+More complex visual information that contextualizes the object that engendered the initial information either encourages further disengagement or engagement with the object. Once one experiences the change to their emotional state as a result of the simple visual inforamtion, the more complex information is also processed and appraised. However, as it is contextual information, it's effect on the affective state is weighted against the affective state initiated by the simple visual information. That is, this more complex visual information can strengthen the affective reaction in the snap-judgement, or it may weaken the initial reaction. 
+
+I therefore expect the following to hold: When one forms a snap-judgement, they will report either a motivation to disengage with the stimulus or the will report a desire to engage with it more (**$H_1$**). When given more information about the object after forming this initial snap-judgement, individuals will process such contextual information and will generate an affective reaction to it. However, the effect of this contextual information will be weighted by the their affective state immediately before recieving such information (**$H_2$**). If the contextual information engenders an affective reaction that runs counter to their previous affective state, it will lead to a weaker disengagement or engagement motivation (**$H_3$**).
+
+### Research Design {#sec-chapter-2-rd}
+
+The goal of the research design in the previous chapter is to examine whether people detect and their immediate reactions to simple visual information. Instead, this chapter sets out to examine how individuals appraise these snap-judgements and what they do to integrate more complex visual information with simple visual information. When this information is integrated with more complex visual information, my primary interest is examining how this moderates the cognitive and behavioral reactions to such simple visual information. I propose 2 key studies for this chapter. 
+
+To examine **$H_1$**, I propose a lab experiment with a sample of undergraduates. In this study, participants first respond to a political attitudes questionaire and then answer questions about their demographics. Next, participants are randomly assigned into one of 3 conditions. In all three conditions, subjects view an image of a fictional discussion partner for which they are assigned to meet and to talk politics with. In the control condition, the participant is shown an image of an individual wearing a white shirt. For those assigned in a co-partisan condition, the fictional discussion partner is wearing a red shirt if the subject reports that they are Republican or the fictional discussion partner is wearing a blue shirt if the subject reports that they are a Democrat. For those assigned in a out-partisan condition, the fictional discussion partner is wearing a blue [red] shirt. In all three conditions, I use eye-tracking software and record their heart rate variability (which is a measure of arousal in the sympatehtic and parasympathetic nervous system) to examine arousal. After viewing the image for a short amount of time, subjects in all conditions are then taken to the next page and are asked a set of questions. These questions ask participants about how they feel about talking politics with this person, whether they want to talk to them about politics or whether they would prefer to retry talking with someone else. 
+
+Those who report that they would like to talk to someone different participate in Study 2; which is meant to examine the plausibility of **$H_2$** and **$H_3$**. Once they report that they would like to talk to someone else, the computer then prompts them to reconsider and shows their image again but this time the picture of the person shows them with a key chain with the logo of one of the two political parties or shows the subjects the same image as in Study 1. Participants are randomly assigned into one of these three conditions. Once they have viewed the image for a brief amount of time, subjects are then asked the same questions as they were in Study 1. If this time they report that they would still prefer to not have a conversation with this person, they are notified that they've completed the study. If, on the other hand, they report that they would like to have a conversation with this person, they are then told that the other person indicated that they were not interested in having a conversation with them at this time and the computer displays an image informing them that they have completed the study. 
+
+## Empirical chapter 3 {#sec-chapter-3}
+
+### Argument {#sec-chapter-3-arg}
+
+What does the snap-judgement model imply for political polarization or depolarization? A central feature of the snap-judgement model is that it provides expectations about the circumstances under which we may expect more political polarization or depolarization as a result of the underlying cognitive processes. The goal of this chapter is to dig deeper into the conditions under which this occurs.
+
+Depolarization is different than attitude change. Partisanship is a social identity that many members of the public rely on to not just inform their political attitudes and behavior, but it also appears to be an identity that encompasses many other social identities [@mason_2018_cup] as well such as race [@iyengar_westwood_2015_ajps;@westwood_peterson_2022_pb]. Using social identity theory, many argue that this leads to strong and negative opinions about out-partisans but strong and positive opinions about in-partisans, regardless of other information about them [@allamong_peterson_2021_pp]. Attitude change on the other hand, reflects a change in attitudes, but does not necessarily imply that one's identity-based attitudes of members of the other party change. For those that argue that political polarization is the result of ideological sorting, this may also imply changes in polarized views [see @abramowitz_saunders_2006_prq;@muste_2014]. However, the literature, on the whole, would suggest that we should expect them to be different concepts [see @layman_carsey_2002_ajps;@iyengar_et-al_2019]. Therefore, this chapter considers an entrenchment of one's views of their party and of the other. 
+
+The online model of information processing provides little direction as to when we might expect depolarization. Scholars have demonstrated the efficacy of framing to shift the attitudes of those engaging in motivated reasoning -- a central feature of the online model. For example, evidence suggests that the attitudes of Republicans about the urgency of policy change due to the threats of climate change are adjustable so long as the message is framed to match the motivation driving their prior attitudes [@bayes_et-al_2020_pp; see also @blumenau_lauderdale_2022_ajps]. That is, if one is motivated to form accuracy motivations, then messages framed as appealing to those wanting accurate information are more successful at persuading individuals. Those who are motivated by an affirmation of their values are more easily persuaded by messages framed around such affirmation of values, even if the individual disagrees with the policy. This process involves affect [@albertson_et-al_2020;@webster_albertson_2022_arps]. @redlawsk_et-al_2010 use affective intelligence theory [see @petersen_2010_jop;@marcus_2000_arps] to demonstrate that there are "affective tipping points" where individuals may experience enough anxiety where their motivation changes from protecting prior beliefs to collecting accurate information; which fosters the capacity for attitude change.
+
+The memory-based model suggests that we should expect attitude change under a few conditions, as well. @zaller_1992 suggests that when one encounters a multitude of new information that counters prior beliefs or when pre-existing attitudes that disagrees with prior attitudes are inaccessible. That is, the memory-based model still suggests that individuals do not blindly accept new information that they may disagree with, but the model suggests that they integrate the new information with what is accessible at the time. 
+
+The two models say little beyond attitude change. The snap-judgement model offers expectations about both. The snap-judgement model characterizes changes in attitudes and perceptions of other partisans as a weighted average of attitudes formed from a snap-judgement about the simple visual information and the attitudes formed from reactions to more information coming from complex visual and contextual information. This implies that the new information must have a stronger affect than the initial information. While the last chapter is designed to provide a simple test of the motivations that bias one's propensity to engage in such attitude change or depolarization, the studies for that chapter are not designed to examine the necessary magnitude for depolarization to occur. This chapter adds to our understanding of information processing by focusing on the conditions under which new information successfully overwrites negative partisanship. 
+
+I expect the following: new information that challenges the conclusions drawn from the snap-judgement are less effective at engendering long-term depolarization if immediately introduced and not reinforced (**$H_1$**). However, if the new information that challenges a snap-judgement is reinforced, it increases the chances that the depolarizing information is stored in long-term memory and is more accessible; which leads to long-term depolarization (**$H_2$**). 
+
+
+### Research Design {#sec-chapter-3-rd}
+
++-------+-----------+-------------------------------------+------------------------------+
+|       | Immediate | $\sim$ immediate, $\sim$ reinforced | $\sim$ immediate, reinforced |
++=======+===========+=====================================+==============================+
+| Blue  |           |                                     |                              |
+| Red   |           |                                     |                              |
+| White |           |                                     |                              |
++-------+-----------+-------------------------------------+------------------------------+
+
+: Visualization of $3 \times 3$ factorial design {#tbl-chapter-3-design}
+
+The studies in the previous chapters do not examine the conditions under which we should expect attitude change and depolarization to occur. [Empirical Chapter 1](prospectus_draft_fall_2022.qmd#empirical-chapter-1-sec-chapter-1) examined the effects of simple visual information on engendering affective responses and to activate associated memories. The [Empirical Chapter 2](prospectus_draft_fall_2022.qmd#empirical-chapter-2-sec-chapter-2) examines the moderating effects of the complex visual information on those from the simple visual information to encourage behavioral reactions and on integrating the two pieces of visual information. The studies in this chapter intend to examine the conditions where the integration of the two types of visual information successfully lead to attitude change or on political polarization. There are three studies in this chapter. 
+
+Subjects participate in a $3 \times 3$ experimental design as depicted in @tbl-chapter-3-design. Once subjects arrive to the lab, they are prompted to respond to a political attitudes questionaire and to provide information about their demographic characteristics. Like [Empirical Chapter 2](prospectus_draft_fall_2022.qmd#research-design-sec-chapter-2-rd), participants are randomly assigned to one of three conditions where they are prompted to form a snap-judgement about a potential discussion partner wearing a red shirt, blue shirt, or a white shirt. Once participants have formed a snap-judgement and have reported whether they are willing to engage in discussion with this fictional discussion partner, they are randomly assigned to either an immediacy condition, not immediate and not reinforced condition, or a not immediate but reinforced condition. The immediacy condition replicates the study from [Emprical Chapter 2](prospectus_draft_fall_2022.qmd#empirical-chapter-2-sec-chapter-2-rd), once subjects form their snap-judgements, they are immediately prompted with new complex visual information (the key chains with the party logos or no new information) of the fictional discussion partner. They are then asked whether they are willing to reconsider having a conversation with this discussion partner. In the not immediate and not reinforced condition, once participants have formed a snap-judgement and are presented with the complex visual information, they are then told to return in a week. When they return, participants are then are asked to reconsider their initial choice of engaging in a conversation with the individual. In the not immediate but reinforced condition, once participants have formed their snap-judgement and are presented with the complex visual information, they are asked to return one week later, but that the researchers will be in touch. Each day over the course of that week, subjects recieve an email reminding them that they have a potential discussion partner with the same image from the complex visual information stage of the study and that when they return they will make a final decision about whether to engage in that conversation. When the participants in the not immediate and not reinforced and the not immediate but reinforced conditions return to the lab, they are asked to reconsider whether or not to engage in the conversation. Once they have made their decision, the study concludes in the same way that it does for the immediate condition and in [Empirical Chapter 2](prospectus_draft_fall_2022.qmd#research-design-sec-chapter-2-rd). 
+
+# Proof-of-concept {#sec-proof-of-concept}
+
+```{r}
+#| label: setup-block
+
+# Setup
+    #* modularly load functions
+box::use(
+    haven = haven[read_dta],
+    dplyr = dplyr[mutate, case_when, select, rename],
+    modelsummary = modelsummary[datasummary_skim, modelsummary],
+    rstanarm = rstanarm[stan_polr, stan_glm, R2],
+    tibble = tibble[tribble]
+)
+    #* create empty data list object
+data = list()
+    #* import cleaned dataset 
+data[['original']] = read_dta('../data/chapter_1/pre-test/sps1.dta')
+
+```
+
+
+I conducted a pre-test in November 2019 with a sample of over 400 undergraduate students at a medium-sized University in the northwestern region of the United States. Students were recruited if they were enrolled in a political science course and were offered extra credit for their participation in the study. The study asked participants to participate in $5$ survey experiments administered by those affiliated with the university's college-level unit. These other survey experiments were focused on capturing local policy issues around urban design, criminal justice, and probing participants about political participation in local and national-level elections. Participants were asked to participate in my survey experiment after one that examined their levels of political participation in local, state, and national elections.
+
+[@tbl-descriptive-stats] presents the descriptive characteristics of the sample. The sample is primarily White with over $80\%$ self-reporting that they are White(coded as: 0 = non-White, 1 = White). The sample also skews slightly female on sex with about $60\%$ of the sample reporting that they are female (coded as: 0 = Male, 1 = Female). The sample also, unsurprisingly, skews young with the average respondent reporting an age of about 22 years old. The average respondent also appears to be an independent but leans Republican (coded as: -3 = strong Democrat, -2 = Democrat, -1 = leans Democrat, 0 = Independent, 1 = leans Republican, 2 = Republican, 3 = strong Republican).
+
+I randomly assign participants into three conditions. The conditions prompt subjects to "Imagine that [they] are driving along a road and see this yard sign" with the same message "Vote for Riley". The conditions vary on the color of the background for the image\footnote{The images used for the treatments and the particular wording for the dependent variables are included in the Appendix}. In the control condition, the background was white. Then I had a red yard sign and blue yard sign condition. On a separate screen participants were asked a series of questions acting as outcomes of interest.
+
+To provide a preliminary test of [Empirical chapter 1's](prospectus_draft_fall_2022.qmd#empirical-chapter-1-sec-chapter-1) **$H_1$**, I ask participants to report whether the candidate was a "Republican, Democrat or Independent". Though it does not capture pre-conscious processes, I also wanted to capture the valence the presumed out-or-co-partisan yard sign evokes for subjects. To do this, I ask respondents whether they would "seek out more information about the candidate", "avoid the candidate", "or vote for the candidate". Subjects could respond to one of three questions with a "yes" or "no" response. 
+
+I then combine these questions into a single measure of the subject's valenced response directed toward the candidate. Those that reported they would vote for the candidate or seek out more information, were coded as 1. Those who reported that they would avoid the candidate were coded as -1. Those who reported some combination that represents mixed views or some degree of ambivalence were coded as 0.
+
+I also wanted to examine whether these valenced reactions to the yard sign are directed toward the presumed neighbor who displays the yard sign. I asked participants to respond "yes" or "no" to whether when "imagining this yard sign on a neighbor's lawn" whether the subject would want to "talk to the neighbor to seek out more information about the candidate", "tell the neighbor that you want to vote for the candidate", or to "avoid the neighbor". As I did with my outcome of valenced response directed toward the candidate, I also combined these three questions. Those who reported that they would want to avoid the neighbor were coded as a 0 and those who indicated that they would want to interact with the neighbor are coded as a 1.
+
+```{r}
+#| label: cleaning-block
+
+data[['clean']] = data[['original']] |>
+    mutate(
+    #* female - gender of respondent
+        #** gender coded as: 1 = male, 2 = female
+        #** Recode to: 0 = male, 1 = female
+    female = case_when(gender == 1 ~ 0, 
+                        gender == 2 ~ 1),
+    #* age - age of respondent
+        #** age coded as: age of respondent
+        #** no change
+    #* white - race of respondent
+        #** race: 1 = asian, 2 = African-American/Black, 3 = Hispanic/Latino, 4 = Native American, 5 = White, 6 = Other
+        #** white: 0 = non-white, 1 = white
+    white = ifelse(race == 5, 1, 0),
+    #* pid - partisan identification
+        #** combination of multiple questions
+        #** pid: -3 = strong democrat, -2 = democrat, -1 = leans democratic, 0 = independent, 1 = leans republican, 2 = republican, 3 = strong republican
+    pid = case_when(pid == 2 & dem1 == 1 ~ -3,
+                    pid == 2 & dem1 == 2 ~ -2,
+                    pid == 3 & ind1 == 2 ~ -1,
+                    pid == 3 & ind1 == 3 ~ 0,
+                    pid == 3 & ind1 == 1 ~ 1,
+                    pid == 1 & rep1 == 2 ~ 2,
+                    pid == 1 & rep1 == 1 ~ 3),
+    #* blue_treatment - did they recieve the blue yard sign treatment
+        #** q265: 0 = did not display treatment, 1 = did display treatment
+        #** new name
+    blue_treatment = case_when(q265 == 1 ~ 1,
+                                is.na(q265) ~ 0),
+    #* red_treatment - did they receive the red yard sign treatment?
+        #** q421: 0 = did not display treatment, 1 = did display treatment 
+        #** new name
+    red_treatment = case_when(q421 == 1 ~ 1,
+                            is.na(q421) ~ 0),
+    #* white_treatment - did they recieve the white yard sign treatment?
+        #** q423: 0 = did not display treatment, 1 = did display treatment
+        #** new name
+    white_treatment = case_when(q423 == 1 ~ 1, 
+                                is.na(q423) ~ 0),
+    #* t_party - party of fictional candidate
+        #** dr_pid: 1 = republican, 2 = democrat, 3 = neither
+        #** t_party: -1 = democrat, 0 = neither, 1 = republican
+    t_party = case_when(dr_pid == 2 ~ -1,
+                        dr_pid == 3 ~ 0,
+                        dr_pid == 1 ~ 1),
+    #* t_vote - vote for fictional candidate
+        #** dr_info_4: 2 = do not vote for the candidate, 1 = vote for candidate & dr_info_5: 2 = do not avoid candidate, 1 = avoid candidate
+        #** t_vote: -1 = avoid candidate, 0 = avoid & vote/do not avoid & do not vote, 1 = vote
+    t_vote = case_when(dr_info_4 == 2 & dr_info_5 == 1 ~ -1,
+                        dr_info_4 == 1 & dr_info_5 == 1 ~ 0,
+                        dr_info_4 == 2 & dr_info_5 == 2 ~ 0,
+                        dr_info_4 == 1 & dr_info_5 == 2 ~ 1),
+    #* t_neigh - interact with neighbor about fictional candidate
+        #** dr_neigh_1: 2 = do not talk to neighbor about more info, 1 = talk to neighbor about more info, dr_neigh_4: 2 = tell neighbor about support, 1 = do not tell neighbor about support, dr_neigh_5: 2 = avoid neighbor, 1 = do not avoid neighbor
+        #** t_neigh: 0 = avoid neighbor, 1 = discuss with neighbor
+    t_neigh = case_when(dr_neigh_5 == 1 ~ 0,
+                        dr_neigh_1 == 1 | dr_neigh_4 == 1 ~ 1)
+    )
+```
+
+
+I test whether participants presumed that the candidate was of a particular partisan persuasion based only on the color choice of the yard sign alone and whether this is moderated by the partisanship of the participant and what influence it has on valenced reactions directed toward the owner of the sign and a neighbor displaying the sign. I create two indicator variables of the treatment the subjects recieved: whether or not they had the blue or red yard sign treatment. The control condition is treated as the baseline condition when including both indicator variables in the model.
+
+To examine whether subjects presumed that the fictional candidate is affiliated with a particular political party, I fit a model using a cumulative link function from the logistic distribution and specify a prior location of $R^2$ - which represents the proportion of variance the model explains for the discretized latent variable - with an average $R^2$ of $0.3$ when the predictors are at their sample means [see @gelman_et-al_2021_cup, Chapter 15]. I assume this about the $R^2$ as I recognize that color is not going to explain all of the variation in the subjects' ability to detect partisanship, however, my theory suggests that it should have a meaningful impact. Therefore, I choose an expected value of $0.3$, representing that I expect that my treatments should predict about $30\%$ of the variation. I also assume that my errors are normally distributedwith a mean of zero. The model is fitted using 6 chains and about 2000 iterations. The results are presented in @tbl-models.
+
+```{r}
+#| label: model-block
+# Create empty model object
+model = list()
+# Models
+    #** Associate color with partisanship
+model[['party_guess']] = stan_polr(as.factor(t_party) ~ blue_treatment + red_treatment, data = data[['clean']], method = 'logistic', prior = R2(0.3, 'mean'), seed = 90210, chains = 6, iter = 2000, adapt_delta = 0.99, refresh = 0)
+    #** evaluation of candidate
+cand_eval = lm(t_vote ~ blue_treatment + red_treatment + pid + blue_treatment*pid + red_treatment*pid, data = data[['clean']])
+model[['cand_eval']]= stan_polr(as.factor(t_vote) ~ blue_treatment + red_treatment + pid + blue_treatment*pid + red_treatment*pid, data = data[['clean']], prior = R2(0.3, 'mean'), seed = 90210, chains = 6, iter = 2000, adapt_delta = 0.99, refresh = 0)
+    #** evaluation of neighbor
+neigh_eval = lm(t_neigh ~ blue_treatment + red_treatment + pid + blue_treatment*pid + red_treatment*pid, data = data[['clean']])
+model[['neigh_eval']]  = stan_glm(t_neigh ~ blue_treatment + red_treatment + pid + blue_treatment*pid + red_treatment*pid, data = data[['clean']], seed = 90210, chains = 6, iter = 2000, adapt_delta = 0.99, refresh = 0)
+```
+
+```{r}
+#| label: tbl-models
+#| tbl-cap: The association of color with partisanship and its effects
+
+# Table for models
+  #* Set up non-coefficient related information from models 
+gm = list(
+    list('raw' = 'nobs', 'clean' = 'N', fmt = 0)
+)
+  #* Store models in list object
+table_contents = list(
+    'Party' = model[['party_guess']],
+    'Candidate evaluation' = model[['cand_eval']],
+    'Neighbor evaluation' = model[['neigh_eval']]
+)
+  #* Add row for sectioning out threshold estimates
+rows = tribble(~term, ~`Party`, ~`Candidate evaluation`, ~`Neighbor evaluation`, 'Thresholds', " ", " ", " ")
+attr(rows, 'position') = c(13)
+  #* Generate table
+modelsummary(table_contents, statistic = 'conf.int', coef_map = c('blue_treatment' = 'Blue treatment', 'red_treatment' = 'Red treatment', 'pid' = 'Party ID', 'blue_treatment:pid' = 'Blue treatment $\\times$ Party ID', 'red_treatment:pid' = 'Red treatment $\\times$ Party ID', '(Intercept)' = 'Intercept', '-1|0' = 'Threshold 1', '0|1' = 'Threshold 2'), gof_map = gm, add_rows = rows, notes = c('95-percent credible intervals in brackets.', 'Median estimate from fitted model with 6 chains and 2000 iterations.', 'Data source: Pre-test experiment.'), escape = FALSE, output = 'latex')
+```
+
+The results sugges that there is some *preliminary* support for my expectation that individuals associate red and blue with Republicans and Democrats. The first column of @tbl-models suggests that individuals in the treatment with the red yard sign were more likely to presume that the candidate was a Republican, despite having *no* other information about the candidate other than their name and the color of their yard sign.Those in the blue yard sign treatment were more likely to assume that the candidate was a Democrat. THe credible intervals for these estimates can be interpreted as the probability that the true estimate is contained in the interval. As neither of these intervals overlap with zero, it is quite plausible that, given the data, these effects are not zero. 
+
+With confidence that the subjects associate the yard signs with the candidate's partisan affiliation, I turn my focus to their evaluations of the owner of the yard sign and the neighbor who display the yard sign. I make the same assumptions with the model of candidate evaluations given the treatment. As the outcome of interest is a ordinal categorical variable, I specify a cumulative link function from the logistic distribution and specify a prior location of the $R^2$ with an average of $0.3$ when the predictors are at their sample means. As I coded my outcome for the neighbor evaluation as binary, I specify a cumulative link function from the logistic distribution and rely on the default uniform distribution as my prior - which represents that I expect a coefficient on any real number line is equally likely as another. The results of these two models are included in the second and third columns of @tbl-models.
+
+Column 2 presents results suggesting that among Republicans recieving the red treatment, they are more likely to indicate that they have a positive valence toward the candidate. We see that while Democrats recieiving the blue treatment are more likely to also report a positive valence toward the candidate, the effect is plausibly zero. This may be an artifact of asymmetric political polarization. Some scholars suggest that Republicans are much more group-oriented than Democrats [see @lupton_et-al_2020], these results may fit with such a narrative. Republicans are reactive to those they may presume to be a co-partisan in a way that Democrats do not appear to be as reactive in a similar magnitude.
+
+Column 3 presents results that we might have expected. That is, Republicans recieving the red treatment were more likely to report that they would want to interact with a neighbor who are displaying the red yard sign and that Democrats would want to interact with a neighbor who are displaying the blue yard sign. Neither of these effects appear to be plausibly different than zero, however. These results could possibly be explained by characteristics of the respondent and the outcomes measured. Those who are more extraverted may be more willing to interact with a neighbor about a yard sign that they posted, which will affect whether they are willing to ask a neighbor more about the candidate or to tell the neighbor about their support for the candidate. For those who are less extroverted, these "approach" behaviors may be unpalatable not because of the treatment. In other words, I have a confound that I did not collect data on. It also appears that there was a steep drop-off in the number of participants who responded to these questions with an $N$ of only $267$ relative to the other two models which have an $N$ over $400$. 
+
+The evidence from this pre-test is limited. The experimental design is not testing pre-conscious evaluations. The treatments are explicitly political and was conducted on a convenience sample of those enrolled in political science classes. The ability for individuals to associate partisanship with the treatments are likely overstated. The sample is also quite unrepresentative, so inference is certainly threatened. As I discussed with the third model, I also have omitted variable bias as the result of my outcome being a better measure of approach behaviors for those who are extroverted. 
+
+Though there are problems with the design here, it does serve some purpose for this prospectus. It demonstrates, that dispite its problems, that at some level, when thinking of poltics, color can betray information. It also provides a useful first test of a possible research design to examine what this particular design can and cannot tell me about my proposed mechanism. 
+
+{{< pagebreak >}}
+
+# Appendix {#sec-appendix}
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-descriptive-stats
+#| tbl-cap: Descriptive Statistics
+
+data[['clean']] |>
+    select(female, white, age, pid) |>
+    rename(`Female` = female, 
+            `White` = white,
+            `Age` = age,
+            `Party ID` = pid) |>
+    datasummary_skim(histogram = FALSE, notes = c('Unique coumn includes NA values.', 'Data source: Pre-test experiment.'))
+```
