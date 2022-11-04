@@ -2,7 +2,7 @@
 conda create --prefix=C:/Users/damon/Dropbox/current_projects/dissertation/drafts/main_draft/visual_env jupyter
 
 # Activate environment
-conda activate C:/Users/damon/Dropbox/current_projects/dissertation/drafts/main_draft/visual_env
+conda activate C:/Users/damon/Dropbox/current_projects/dissertation/assets/visual_env
 
 # Manually installed packages
     #* python
