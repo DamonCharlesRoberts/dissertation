@@ -1,0 +1,20 @@
+project:
+  type: book
+
+book:
+  title: "The Shape and Color of Politics: How citizens process political information and its consequences"
+  author: "Damon C. Roberts"
+  date: today
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - chapter_1.qmd
+    - summary.qmd
+    - references.qmd
+  output-file: book
+
+bibliography: references.bib
+
+format:
+  pdf:
+    documentclass: scrreport
