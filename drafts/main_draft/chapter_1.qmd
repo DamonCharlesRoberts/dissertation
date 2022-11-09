@@ -9,8 +9,21 @@
             ### Scraping:
                 #### CAPD
                     ##### Execute 01_capd_text_scraping.ipynb interactively
+                        ###### table called ch_1_capd_yard_signs
                     ##### Execute 02_capd_img_scraping.ipynb interactively
-                    03_capd_downloading_images.py
-                    ##### table called ch_1_capd_yard_signs
+                        ###### table called ch_1_capd_yard_signs
+                    ##### Execute 03_capd_downloading_images.py
+                        ###### does so at end of 02_capd_img_scraping.ipynb
+                    ##### Execute 04_mit_election_lab_merge.py
+                        ###### does so in the some-script-execution block below
         ## Writing:
 -->
+
+```{python}
+#| label: some-script-execution
+import os
+
+os.system('../../code/04_mit_election_lab_merge.py')
+```
+
+
