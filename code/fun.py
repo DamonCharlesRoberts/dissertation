@@ -50,7 +50,7 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
     """
     # create boundaries 
     boundaries = [([color_lower[2], color_lower[1], color_lower[0]],[color_upper[2], color_upper[1], color_upper[0]])]
-    print("boundaries correct")
+    print("boundaries correct") 
     #print(boundaries)
     # get information about original image
     #width = img.shape[1] # get width of img

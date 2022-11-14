@@ -2,7 +2,7 @@
 
 # Notes: 
     #* Description: Script to detect the colors on the yard signs
-    #* Updated: 2022-11-12 
+    #* Updated: 2022-11-14
     #* Updated by: dcr
 
 # Load modules
@@ -11,12 +11,13 @@ import duckdb # to access the database
 import numpy as np # to wrangle arrays
 import pandas as pd # to wrangle dataFrames
 import re # to wrangle strings
+from PIL import Image # to load images
 import cv2 # to do color detection
 import sys # to wrangle paths
 import os # to wrangle local files
     #* User defined
 sys.path.append("code/")
-from fun import colorDetector
+from fun import names, colorDetector
 
 # Connect to database
 
@@ -54,7 +55,9 @@ for filename in os.listdir("data/chapter_1/capd_yard_signs"):
             lastName, year, file = re.split(r'[_.]', filename)
             print("split file name")
     #* open the image's file
-            img = cv2.imread(f)
+            pil = Image.open(f).convert('RGB')
+            pilCv = np.array(pil)
+            img = pilCv[:,:,::-1].copy()
             print("load file")
     #* calculate the percent of the image that is white
             whitePercent = colorDetector(img = img, color_lower = [255,255,255], color_upper = [255,255,255])
@@ -79,3 +82,13 @@ for filename in os.listdir("data/chapter_1/capd_yard_signs"):
             print("appended to df")
 
 # Merge this information to the yard_signs table
+
+yard_signs = db.execute("SELECT * FROM ch_1_capd_yard_signs").fetch_df() # grab the ch_1_capd_yard_signs table
+
+yard_signs["Last_Name"] = names(yard_signs) # add a last names column
+
+merged = pd.merge(yard_signs, df, how = 'left', left_on=["Last_Name", 'Year'], right_on = ["Last_Name", 'Year']) # merge the dataset with the colors and the candidate information together
+
+# Store data as new table
+
+db.execute("CREATE OR REPLACE TABLE ch_1_capd_color_detected AS SELECT * FROM merged")
