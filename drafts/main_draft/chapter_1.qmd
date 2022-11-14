@@ -24,6 +24,7 @@
 import os
 
 os.system('../../code/04_mit_election_lab_merge.py')
+os.system('../../code/05_color_detection.py')
 ```
 
 

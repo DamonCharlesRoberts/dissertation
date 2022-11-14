@@ -9,17 +9,22 @@
         #** https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/IG0UN2
 
 # Load modules
+    #* from env
 import duckdb
 import pandas as pd
 import numpy as np
+import sys # to manage paths
+    #* User-defined
+sys.path.append("code/")
+from fun import names
 
 # Check out the election lab data
 election_lab = pd.read_csv("data/chapter_1/1976-2020-house.csv")
     #* Recoding
 election_lab = election_lab[["year", "state", "district", "candidate", "party", "candidatevotes", "totalvotes"]] # select the year, state, district, candidate, party, candidatevotes, and totalvotes columns
 election_lab["state"] = election_lab["state"].str.lower() # convert the text in the state column to lowwer case
-election_lab["candidate"] = election_lab["candidate"].str.lower().astype('str') # convert candidate column to lower case and make sure to turn it into string object
-election_lab["Last_Name"] = election_lab["candidate"].str.split(' ').str.get(-1) # split the string to grab the last name and grab the last part of that split
+election_lab["Candidate_Name"] = election_lab["candidate"].str.lower().astype('str') # convert candidate column to lower case and make sure to turn it into string object
+election_lab["Last_Name"] = names(election_lab)
 #election_lab["Party"] = np.select([(election_lab.party == 'DEMOCRAT'), (election_lab.party == 'REPUBLICAN')], ['D', 'R']) # if the party column equals Democrat, re-store it as D. if the party column equals republican, re-store it as R.
 election_lab["year"] = pd.to_numeric(election_lab["year"]).astype(float) # take the year column and convert it to a numeric column stored as a float
 election_lab['State_District'] = election_lab[["state", "district"]].apply(lambda x: '-'.join(x.astype(str)), axis = 1)
@@ -66,9 +71,9 @@ print('load yard_sign')
 
     #* Recoding
 yard_sign["Candidate_Name"] = yard_sign ["Candidate_Name"].str.lower().str.replace('.', '').astype(str) # take the candidate_name column, convert it to lower case, and remove all of the periods in it, also be sure to store it as a string object
-yard_sign["Last_Name"] = yard_sign["Candidate_Name"].str.split(' ').str.get(-2) # take the candidate_name column and separate it up. Grab the second to last result and store that as the candidate's last name
+yard_sign["Last_Name"] = names(yard_sign) # take the candidate_name column and separate it up. Grab the second to last result and store that as the candidate's last name
 yard_sign["state"] = yard_sign["State"].str.lower() # convert the state column to lower case
-yard_sign["year"] = pd.to_numeric(yard_sign["year"]).astype(float) # take the year column and be sure to store it as a numeric column and as a float
+yard_sign["year"] = pd.to_numeric(yard_sign["Year"]).astype(float) # take the year column and be sure to store it as a numeric column and as a float
 
 print('clean yard_sign')
 

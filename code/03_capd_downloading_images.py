@@ -9,19 +9,24 @@
 
 
 # Importing modules 
-import duckdb
-import pandas as pd
-import urllib.request
+    #* From environment
+import duckdb # for database management
+import pandas as pd # for dataFrame management
+import urllib.request # to access site
+import sys # to deal with paths
+
+    #* User-defined
+sys.path.append("code/") # set path for imported modules
+from fun import names
 
 # Loading database
 
 db = duckdb.connect("data/dissertation_database")
 
 links_df = db.execute("SELECT * FROM ch_1_capd_yard_signs").fetchdf()
-links = links_df["Img_URL"].to_list()
-names = links_df["Candidate_Name"].to_list()
-years = links_df["year"].astype('string').to_list()
+links_df["Last_Name"] = names(links_df)
+links_df["Year"] = links_df["Year"].astype(str)
 # Downloading the images
 
-for link in links:
-    urllib.request.urlretrieve(link, "data/chapter_1/capd_yard_signs/" + link.split('/')[6].split('.')[0] + ".png")
+for index, row in links_df.iterrows():
+    urllib.request.urlretrieve(row["Img_URL"], "data/chapter_1/capd_yard_signs/" + row["Last_Name"] + "_" + row["Year"] + ".png")
