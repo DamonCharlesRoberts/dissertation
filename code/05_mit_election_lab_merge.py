@@ -22,7 +22,7 @@ from fun import names
 election_lab = pd.read_csv("data/chapter_1/1976-2020-house.csv")
     #* Recoding
 election_lab = election_lab[["year", "state", "district", "candidate", "party", "candidatevotes", "totalvotes"]] # select the year, state, district, candidate, party, candidatevotes, and totalvotes columns
-election_lab["state"] = election_lab["state"].str.lower() # convert the text in the state column to lowwer case
+election_lab["state"] = election_lab["state"].str.lower() # convert the text in the state column to lower case
 election_lab["Candidate_Name"] = election_lab["candidate"].str.lower().astype('str') # convert candidate column to lower case and make sure to turn it into string object
 election_lab["Last_Name"] = names(election_lab)
 #election_lab["Party"] = np.select([(election_lab.party == 'DEMOCRAT'), (election_lab.party == 'REPUBLICAN')], ['D', 'R']) # if the party column equals Democrat, re-store it as D. if the party column equals republican, re-store it as R.
@@ -47,7 +47,7 @@ filtered = election_lab.drop_duplicates(subset=['State_District', 'year']) # dro
 
 filtered["sma"] = filtered.groupby("State_District")['Dem_vote_share'].rolling(5).mean().reset_index(0, drop = True) # calculate a rolling average over 5 years
 
-filtered.drop(filtered.index[filtered['year'] < 2015], inplace = True) # drop rows that happen befor 2015
+filtered.drop(filtered.index[filtered['year'] < 2015], inplace = True) # drop rows that happen before 2015
 
     #* Merge 5-year simple moving average column
 election_lab_merge = pd.merge(election_lab, filtered, how = 'right', left_on=["State_District", "year"], right_on = ["State_District", "year"], suffixes = (None, "_y"))

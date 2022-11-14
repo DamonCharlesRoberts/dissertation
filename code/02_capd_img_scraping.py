@@ -5,7 +5,7 @@
     #* Updated: 2022-11-04
     #* Updated by: dcr 
     #* Other notes:
-        #** First run 01_capd_text_scraping.ipynb. This should be executed interactively.
+        #** First run 01_capd_text_scraping.py. This should be executed interactively.
 
 # Load Modules
 import time # library to help with sleep and wait times
@@ -39,7 +39,7 @@ img_url = driver.find_elements(By.XPATH, "//picture[@class='responsive-image-wra
 
 img_url2 = [] # create empty list
 for element in img_url:
-    new_srcset = 'https:' + element.get_attribute("srcset").split(' 200w', 1)[0] # for elements in the img_url drivers, take the srcset img attribute and paste it into a full link. Also remove everything after the 400w caracter and retain the first part of that split
+    new_srcset = 'https:' + element.get_attribute("srcset").split(' 200w', 1)[0] # for elements in the img_url drivers, take the srcset img attribute and paste it into a full link. Also remove everything after the 400w character and retain the first part of that split
     img_url2.append(new_srcset) #append the links to the img_url2 list object
 
 ## Data Wrangling

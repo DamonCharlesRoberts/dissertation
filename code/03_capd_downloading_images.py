@@ -5,7 +5,7 @@
     #* Updated: 2022-11-04
     #* Updated by: dcr
     #* Other notes:
-        #** Should execute at end of 02_capd_img_scraping.ipynb
+        #** Should execute at end of 02_capd_img_scraping.py
 
 
 # Importing modules 
