@@ -42,7 +42,7 @@ def preProcess(img = None, size = [224, 224], inter = cv2.INTER_AREA):
 
 def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255]):
     """
-    Description: Function that preprocesses the iamge and calculates the percentage of a particular color in it.
+    Description: Function that preprocesses the image and calculates the percentage of a particular color in it.
 
     Parameters: Original img, and the RBG upper and lower limits of color I want to detect. Defaults for color_upper and color_lower is white.
     

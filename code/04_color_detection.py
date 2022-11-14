@@ -28,7 +28,7 @@ db = duckdb.connect('data/dissertation_database')
         #** Not defined. Default for colorDetector()
     #* Red
 republican_red = [232, 27, 35] # target color
-red_lower = [93, 9, 12] # lower end of specturm for red
+red_lower = [93, 9, 12] # lower end of spectrum for red
 red_higher = [237, 69, 75] # higher end of spectrum for red
     #* Blue
 democrat_blue = [0, 174, 243] # target color
