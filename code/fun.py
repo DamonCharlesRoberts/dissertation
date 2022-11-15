@@ -22,7 +22,7 @@ def names(df):
 
     Depends on pandas and re
     """
-    lastName = df["Candidate_Name"].str.extract(r"([^\s]+)\s*(?=Jr\.|Sr\.|jr|$)")
+    lastName = df["Candidate_Name"].str.extract(r"([^\s]+)\s*(?=Jr\.|Sr\.|sr|jr|ii|iii|iv|IV|$)")
     return lastName
 
 #* Image pre-processing
@@ -50,20 +50,10 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
     """
     # create boundaries 
     boundaries = [([color_lower[2], color_lower[1], color_lower[0]],[color_upper[2], color_upper[1], color_upper[0]])]
-    print("boundaries correct") 
-    #print(boundaries)
-    # get information about original image
-    #width = img.shape[1] # get width of img
-    #height = img.shape[0] # get get height of img
     # Transform image
     img_transformed = preProcess(img)
-    print("img correct")
-    # get information about transformed image
-    #width_t = img_transformed.shape[1] # get width of img_transformed
-    #height_t = img_transformed.shape[0] # get height of img_transformed
     # calculate scale
     scale = ((img_transformed.shape[0]/img.shape[0]) + (img_transformed.shape[1]/img.shape[1]))/2
-    print("scale correct")
     for (lower, upper) in boundaries:
     # adjust color_upper and color_lower to specific type
         lower = np.array(lower, dtype = np.uint8)
@@ -76,6 +66,5 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
         ratio = cv2.countNonZero(mask)/(img_transformed.size/(1/scale))
     # calculate percentage of non-black pixels
         percent = (ratio * 100)/scale
-        #print(percent)
     ## return percentage
         return percent

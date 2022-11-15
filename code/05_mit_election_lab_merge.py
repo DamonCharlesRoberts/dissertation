@@ -24,11 +24,17 @@ election_lab = pd.read_csv("data/chapter_1/1976-2020-house.csv")
 election_lab = election_lab[["year", "state", "district", "candidate", "party", "candidatevotes", "totalvotes"]] # select the year, state, district, candidate, party, candidatevotes, and totalvotes columns
 election_lab["state"] = election_lab["state"].str.lower() # convert the text in the state column to lower case
 election_lab["Candidate_Name"] = election_lab["candidate"].str.lower().astype('str') # convert candidate column to lower case and make sure to turn it into string object
-election_lab["Last_Name"] = names(election_lab)
+election_lab["Last_Name_Encoded"] = names(election_lab)
+election_lab["Last_Name"] = election_lab["Last_Name_Encoded"].str.normalize("NFKD").str.encode("ascii", errors = "ignore").str.decode("utf-8")
 #election_lab["Party"] = np.select([(election_lab.party == 'DEMOCRAT'), (election_lab.party == 'REPUBLICAN')], ['D', 'R']) # if the party column equals Democrat, re-store it as D. if the party column equals republican, re-store it as R.
 election_lab["Year"] = pd.to_numeric(election_lab["year"]).astype(int) # take the year column and convert it to a numeric column stored as a float
 
 election_lab['State_District'] = election_lab[["state", "district"]].apply(lambda x: '-'.join(x.astype(str)), axis = 1) # create State_District column
+election_lab.loc[election_lab["State_District"] == "alaska-0", "State_District"] = "alaska-1"
+election_lab.loc[election_lab["State_District"] == "vermont-0", "State_District"] = "vermont-1"
+election_lab.loc[election_lab["State_District"] == "montana-0", "State_District"] = "montana-1"
+election_lab.loc[election_lab["State_District"] == "wyoming-0", "State_District"] = "wyoming-1"
+election_lab.loc[election_lab["State_District"] == "south dakota-0", "State_District"] = "south dakota-1"
 election_lab.drop(election_lab.index[election_lab['totalvotes'] <= 0], inplace = True) # drop rows that reports the total votes being 0 or negative
 
 print("clean election_lab")
@@ -73,12 +79,18 @@ yard_sign = db.execute("SELECT * FROM ch_1_capd_color_detected").fetch_df() # gr
 print('load yard_sign')
 
     #* Recoding
-yard_sign["Last_Name"] = yard_sign["Last_Name"].str.lower()
+yard_sign["Last_Name"] = yard_sign["Last_Name"].str.lower().str.normalize("NFKD").str.encode("ascii", errors = "ignore").str.decode("utf-8")
 #yard_sign["Candidate_Name"] = yard_sign ["Candidate_Name"].str.lower().str.replace('.', '').astype(str) # take the candidate_name column, convert it to lower case, and remove all of the periods in it, also be sure to store it as a string object
 #yard_sign["Last_Name"] = names(yard_sign) # take the candidate_name column and separate it up. Grab the second to last result and store that as the candidate's last name
 yard_sign["State"] = yard_sign["State"].str.lower() # convert the state column to lower case
 yard_sign["Year"] = pd.to_numeric(yard_sign["Year"]).astype(float) # take the year column and be sure to store it as a numeric column and as a float
 yard_sign["State_District"] = yard_sign['State_District'] = yard_sign[["State", "District"]].apply(lambda x: '-'.join(x.astype(str)), axis = 1)
+yard_sign.loc[yard_sign["State_District"] == "alaska-0", "State_District"] = "alaska-1"
+yard_sign.loc[yard_sign["State_District"] == "vermont-0", "State_District"] = "vermont-1"
+yard_sign.loc[yard_sign["State_District"] == "montana-0", "State_District"] = "montana-1"
+yard_sign.loc[yard_sign["State_District"] == "wyoming-0", "State_District"] = "wyoming-1"
+yard_sign.loc[yard_sign["State_District"] == "south dakota-0", "State_District"] = "south dakota-1"
+
 print('clean yard_sign')
 
 # Join the databases

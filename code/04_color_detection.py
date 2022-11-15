@@ -55,9 +55,10 @@ for filename in os.listdir("data/chapter_1/capd_yard_signs"):
             lastName, year, file = re.split(r'[_.]', filename)
             print("split file name")
     #* open the image's file
-            pil = Image.open(f).convert('RGB')
-            pilCv = np.array(pil)
-            img = pilCv[:,:,::-1].copy()
+            #pil = Image.open(f).convert('RGB')
+            #pilCv = np.array(pil)
+            #img = pilCv[:,:,::-1].copy()
+            img = cv2.imdecode(np.fromfile(f, dtype=np.uint8), cv2.IMREAD_COLOR)
             print("load file")
     #* calculate the percent of the image that is white
             whitePercent = colorDetector(img = img, color_lower = [255,255,255], color_upper = [255,255,255])
