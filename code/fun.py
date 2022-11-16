@@ -66,5 +66,5 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
         ratio = cv2.countNonZero(mask)/(img_transformed.size/(1/scale))
     # calculate percentage of non-black pixels
         percent = (ratio * 100)/scale
-    ## return percentage
+    # return percentage
         return percent
