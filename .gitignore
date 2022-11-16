@@ -9,3 +9,4 @@ memos/
 assets/visual_env
 assets/visual_env_linux
 /.luarc.json
+*.bib
