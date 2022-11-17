@@ -14,7 +14,7 @@ book:
     - references.qmd
   output-file: book
 
-bibliography: references.bib
+bibliography: ../../assets/references.bib
 
 format:
   pdf:

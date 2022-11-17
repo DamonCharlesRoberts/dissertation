@@ -123,11 +123,12 @@ plt.show() # show plot
 
 I then extract the values in the array that are non-black and calculate the percentage of non-black pixels (as depicted in @eq-img-color-percentage).  
 
+
 $$
-\text{Color} \% = \frac{\text{Non-black}_{\text{Height and Width}}}{\frac{\text{Transformed}_{\text{Height and Width}}}{\frac{1}{\frac{\frac{\text{Transformed}_{\text{Height}}}{\text{Original}_{\text{Height}}} + \frac{\text{Transformed}_{\text{Width}}}{\text{Original}_{\text{Width}}}}{2}}}}
+\text{Color} \% = \frac{\text{Non-black}}{\text{Transformed}} \times \frac{\text{Original}_{\text{Height}} + \text{Original}_{\text{Width}}}{2\text{Transformed}_{\text{Height}} + 2\text{Transformed}_{\text{Width}}}
 $$ {#eq-img-color-percentage}
 
 ```{python}
- display(Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}')))
+display(Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}')))
 ```
 
