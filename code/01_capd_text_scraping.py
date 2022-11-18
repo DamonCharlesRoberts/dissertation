@@ -13,7 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager # use the driver manage
 from selenium.webdriver.support.ui import WebDriverWait # use this so that I can wait on my driver to load the page completely before searching
 from selenium.webdriver.common.by import By # using the By function to help with the xpath searching
 from selenium.webdriver.support import expected_conditions as EC # load the expected_conditions function to make sure all elements matching the xpath happen before the driver stops waiting on the loading
-import pandas as pd # need the pandas package for dataFrames
+import polars as pl # need the pandas package for dataFrames
 import duckdb # need to store data into database
 
 # Scraping of CAPD site
@@ -38,33 +38,50 @@ for i in txt_url:
     txt_url2.append(i.text) # grab the text for each of the sessions
 driver.close() # close the driver
 
-## Data wrangling
+# Data wrangling
 txt_url4 = [i for i in txt_url2 if i] # take the elements of txt_url2 and place them in a list
 
-yard_signs = pd.dataFrame(txt_url4) # turn this list into a single column dataframe
+yard_signs = pl.DataFrame({
+    #* Put the txt_url4 list into a column called Full
+    "Full": txt_url4}).with_columns([
+    #* Take the Full column and split it to make the Candidate_Name column 
+    pl.col("Full").str.split("(").arr.get(0).alias("Candidate_Name"),
+    #* Take the Full column and split it to make the Party column
+    pl.col("Full").str.split("(").arr.get(1).alias("Party")
+]).with_columns([
+    #* Take the Party column and split it to retain the Party and strip the )
+    pl.col("Party").str.split("\n").arr.get(0).str.strip(")"),
+    #* Take the Party column and split it to make the State column
+    pl.col("Party").str.split("\n").arr.get(1).alias("State")
+]).with_columns([
+    #* Take the State column and split it to retain the State
+    pl.col("State").str.split("-").arr.get(0),
+    #* Take the State column and split it to create the District column
+    pl.col("State").str.split("-").arr.get(1).alias("District")
+]).with_columns([
+    #* Take the District column and split it to retain the District
+    pl.col("District").str.split(",").arr.get(0),
+    #* Take the District column and split it to make the Office column
+    pl.col("District").str.split(",").arr.get(1).alias("Office"),
+    #* Take the District column and split it to make the Year column
+    pl.col("District").str.split(",").arr.get(2).alias("Year")
+]).drop("Full") # drop the Full column
 
-# Split the single column into 6 to document each piece of information about the candidate
-
-yard_signs[['Candidate_Name', 'Party']] = yard_signs[0].str.split('(', 1, expand = True)
-yard_signs[['Party', 'State']] = yard_signs['Party'].str.split('\n', 1, expand = True)
-yard_signs[['State', 'District']] = yard_signs['State'].str.split('-', 1, expand = True)
-yard_signs[['District', 'Office', 'Year']] = yard_signs['District'].str.split(',', 2, expand = True)
-yard_signs['Party'] = yard_signs.Party.str.strip(')')
+#yard_signs[['Candidate_Name', 'Party']] = yard_signs[0].str.split('(', 1, expand = True)
+#yard_signs[['Party', 'State']] = yard_signs['Party'].str.split('\n', 1, expand = True)
+#yard_signs[['State', 'District']] = yard_signs['State'].str.split('-', 1, expand = True)
+#yard_signs[['District', 'Office', 'Year']] = yard_signs['District'].str.split(',', 2, expand = True)
+#yard_signs['Party'] = yard_signs.Party.str.strip(')')
 
 # Drop that first column with the original list information 
-yard_signs.drop(yard_signs.columns[[0]], axis=1, inplace = True)
+#yard_signs.drop(yard_signs.columns[[0]], axis=1, inplace = True)
 
 
-## Store Data
+# Store Data
 
 db = duckdb.connect('C:/Users/damon/Dropbox/current_projects/dissertation/data/dissertation_database') # connect to the database
 
 yard_signs = db.execute("CREATE OR REPLACE TABLE ch_1_capd_yard_signs AS SELECT * FROM yard_signs").fetchall() # create the table
 
-#database.commit() # commit this to the database
-
-#database.execute("SELECT * FROM ch_1_capd_yard_signs") # go to the ch_1_capd_yard_signs table in the database
-#yard_signs = data.DataFrame(database.fetch_all(), columns = ['Candidate_Name', 'District', 'Office', 'Year', 'Party', 'State']) # take that duckdb table and turn it into a pandas dataframe
-
 # Notes:
-#* Now run 02_capd_img_scraping.ipynb
+#* Now run 02_capd_img_scraping.py
