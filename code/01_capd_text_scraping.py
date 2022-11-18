@@ -41,9 +41,10 @@ driver.close() # close the driver
 ## Data wrangling
 txt_url4 = [i for i in txt_url2 if i] # take the elements of txt_url2 and place them in a list
 
-yard_signs = pd.DataFrame(txt_url4) # turn this list into a single column dataframe
+yard_signs = pd.dataFrame(txt_url4) # turn this list into a single column dataframe
 
 # Split the single column into 6 to document each piece of information about the candidate
+
 yard_signs[['Candidate_Name', 'Party']] = yard_signs[0].str.split('(', 1, expand = True)
 yard_signs[['Party', 'State']] = yard_signs['Party'].str.split('\n', 1, expand = True)
 yard_signs[['State', 'District']] = yard_signs['State'].str.split('-', 1, expand = True)

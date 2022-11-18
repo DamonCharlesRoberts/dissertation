@@ -26,7 +26,7 @@
 import os # for path management
 import sys # for path management
 import numpy as np # for array management
-import pandas as pd # for dataframe management
+import polars as pl # for dataframe management
 import cv2 # for color detection
 from matplotlib import pyplot as plt # for graphics
 from matplotlib import image as mpimg # for displaying images
