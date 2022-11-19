@@ -15,6 +15,6 @@ pre_test = pd.read_stata("data/chapter_1/pre-test/sps1.dta")
 
 # Store pre-test data in db
 
-database = duckdb.connect('data/dissertation_database_db')
+db = duckdb.connect('data/dissertation_database')
 
-database.execute("CREATE OR REPLACE TABLE pre_test AS SELECT * FROM pre_test")
+db.execute("CREATE OR REPLACE TABLE pre_test AS SELECT * FROM pre_test")

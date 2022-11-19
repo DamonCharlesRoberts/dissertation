@@ -10,95 +10,194 @@
 
 # Load modules
     #* from env
-import duckdb
-import pandas as pd
-import numpy as np
+import duckdb # for database access
+import polars as pl # for DataFrame management
+import pandas as pd # for DataFrame management
+import numpy as np # for array management
 import sys # to manage paths
     #* User-defined
 sys.path.append("code/")
 from fun import names
 
 # Check out the election lab data
-election_lab = pd.read_csv("data/chapter_1/1976-2020-house.csv")
-    #* Recoding
-election_lab = election_lab[["year", "state", "district", "candidate", "party", "candidatevotes", "totalvotes"]] # select the year, state, district, candidate, party, candidatevotes, and totalvotes columns
-election_lab["state"] = election_lab["state"].str.lower() # convert the text in the state column to lower case
-election_lab["Candidate_Name"] = election_lab["candidate"].str.lower().astype('str') # convert candidate column to lower case and make sure to turn it into string object
-election_lab["Last_Name_Encoded"] = names(election_lab)
-election_lab["Last_Name"] = election_lab["Last_Name_Encoded"].str.normalize("NFKD").str.encode("ascii", errors = "ignore").str.decode("utf-8")
-#election_lab["Party"] = np.select([(election_lab.party == 'DEMOCRAT'), (election_lab.party == 'REPUBLICAN')], ['D', 'R']) # if the party column equals Democrat, re-store it as D. if the party column equals republican, re-store it as R.
-election_lab["Year"] = pd.to_numeric(election_lab["year"]).astype(int) # take the year column and convert it to a numeric column stored as a float
+election_lab = pl.read_csv(
+    #* lazy load the csv file
+    "data/chapter_1/1976-2020-house.csv",
+    null_values=""
+    ).select([
+    #* select the following columns
+        "year",
+        "state",
+        "district",
+        "candidate",
+        "party",
+        "candidatevotes",
+        "totalvotes"
+    ]).with_columns([
+    #* convert state column to lowercase
+        pl.col("state").str.to_lowercase().alias("state"),
+    #* create candidate_Name column
+        pl.col("candidate").str.to_lowercase().alias("Candidate_Name")
+    ]).with_column(
+        pl.concat_str(["state", "district"], sep = "-").alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "alaska-0")
+        .then("alaska-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "vermont-0")
+       .then("vermont-1")
+       .otherwise(pl.col("State_District")).alias("State_District") 
+    ).with_column(
+        pl.when(pl.col("State_District") == "montana-0")
+        .then("montana-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "wyoming-0")
+        .then("wyoming-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "south dakota-0")
+        .then("south dakota-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).filter(
+        pl.col("totalvotes") > 0
+    ).with_column(
+        names(pl.col("Candidate_Name")).alias("Last_Name")
+    ).with_column(
+        pl.col("year").cast(pl.Utf8).str.strptime(pl.Date, fmt = "%Y").alias("Year")
+    ).drop(
+        "year"
+    )
 
-election_lab['State_District'] = election_lab[["state", "district"]].apply(lambda x: '-'.join(x.astype(str)), axis = 1) # create State_District column
-election_lab.loc[election_lab["State_District"] == "alaska-0", "State_District"] = "alaska-1"
-election_lab.loc[election_lab["State_District"] == "vermont-0", "State_District"] = "vermont-1"
-election_lab.loc[election_lab["State_District"] == "montana-0", "State_District"] = "montana-1"
-election_lab.loc[election_lab["State_District"] == "wyoming-0", "State_District"] = "wyoming-1"
-election_lab.loc[election_lab["State_District"] == "south dakota-0", "State_District"] = "south dakota-1"
-election_lab.drop(election_lab.index[election_lab['totalvotes'] <= 0], inplace = True) # drop rows that reports the total votes being 0 or negative
-
-print("clean election_lab")
-    #* Create Dem vote share column
-mapping_vals = (
-    election_lab[election_lab['party'].eq('DEMOCRAT')]
-    .set_index(['year', 'State_District'])
-    .apply(lambda x: x['candidatevotes']/x['totalvotes'],axis=1)
-    .groupby(level=[0,1]).sum()
+mapped = election_lab.filter(
+    pl.col("party") == "DEMOCRAT"
+).groupby_dynamic(
+    "Year", every = '2y', period = "6y", by = "State_District"
+).agg(
+    pl.apply(exprs = ["candidatevotes", "totalvotes"], f = lambda x: x[0]/x[1]).cast(pl.Float64).alias("Dem_Vote_Share")
+).with_column(
+    pl.col("Dem_Vote_Share").arr.get(0).alias("Dem_Vote_Share")
+).sort(
+    ["State_District", "Year"]
 )
 
-election_lab['Dem_vote_share'] = election_lab.set_index(['year', 'State_District']).index.map(mapping_vals).fillna(0)
+election_lab_merge = election_lab.join(
+    mapped,
+    on = ["State_District", "Year"],
+    how = "left"
+)
 
-    #* Create 5-year simple moving average column
-filtered = election_lab.drop_duplicates(subset=['State_District', 'year']) # drop rows with duplicate state_district and year
-
-filtered["sma"] = filtered.groupby("State_District")['Dem_vote_share'].rolling(5).mean().reset_index(0, drop = True) # calculate a rolling average over 5 years
-
-filtered.drop(filtered.index[filtered['year'] < 2015], inplace = True) # drop rows that happen before 2015
-
-    #* Merge 5-year simple moving average column
-election_lab_merge = pd.merge(election_lab, filtered, how = 'right', left_on=["State_District", "year"], right_on = ["State_District", "year"], suffixes = (None, "_y"))
-
-election_lab_merge.drop(['Last_Name_y', 'Year_y','state_y', 'district_y', 'candidate_y', 'candidatevotes_y', 'totalvotes_y', 'Candidate_Name_y', 'Dem_vote_share_y', 'year', 'party_y'], axis = 1, inplace = True)
-#past = dict(tuple(election_lab.groupby("State_District")))
+#filtered["sma"] = filtered.groupby(
+#    "State_District"
+#    )['Dem_vote_share'].rolling(5).mean().reset_index(0, drop = True) # calculate a rolling average over 5 years
+#
+#mapped_dynamic = mapped.groupby_dynamic(
+#    "year", every = "5y"    
+#).agg(
+#    pl.mean("Dem_Vote_Share").alias("SMA")
+#)
 
 
-#mapping_past = (
-#    election_lab.set_index(['year', 'State_District'])
-#    .groupby(level=[0,1]).rolling(5).mean()
+#groupby_dynamic(
+#    ["year", "State_District"], every = "5y"
+#).agg(
+#    pl.apply(exprs = ["candidatevotes", "totalvotes"], f = lambda x: x[0]/x[1]).alias("Dem_Vote_Share")
 #)
 #
-#election_lab['Dem_past_vote_share'] = election_lab.set_index(['year', 'State_District']).index.map(mapping_past)
-print("create dem vote share column in election lab")
+#election_lab_merge = election_lab.join(
+#    mapped,
+#    on = ["State_District", "year"],
+#    how = "left"
+#).select(["year", "State_District", "party", "Dem_Vote_Share"])
+
+
+#election_lab["Last_Name_Encoded"] = names(election_lab["Candidate_Name"])
+#election_lab["Last_Name"] = election_lab["Last_Name_Encoded"].str.normalize("NFKD").str.encode("ascii", errors = "ignore").str.decode("utf-8")
+    #* Create Dem vote share column
+#mapping_vals = (
+#    election_lab[election_lab['party'].eq('DEMOCRAT')]
+#    .set_index(['year', 'State_District'])
+#    .apply(lambda x: x['candidatevotes']/x['totalvotes'],axis=1)
+#    .groupby(level=[0,1]).sum()
+#)
+#
+#election_lab['Dem_vote_share'] = election_lab.set_index(
+#    ['year', 'State_District']
+#    ).index.map(mapping_vals).fillna(0)
+#
+#    #* Create 5-year simple moving average column
+#filtered = election_lab.drop_duplicates(
+#    subset=['State_District', 'year']
+#    ) # drop rows with duplicate state_district and year
+#
+#filtered["sma"] = filtered.groupby(
+#    "State_District"
+#    )['Dem_vote_share'].rolling(5).mean().reset_index(0, drop = True) # calculate a rolling average over 5 years
+#
+#filtered = pl.DataFrame(
+#    filtered
+#    ).filter(
+#    pl.col("year") > 2015
+#    )
+
+    #* Merge 5-year simple moving average column
+#election_lab_merge = filtered.join(
+#    pl.DataFrame(election_lab), 
+#    on = ["State_District", "year"], 
+#    how = "left"
+#).with_column(
+#    pl.col("year").alias("Year")
+#).drop(
+#    ["year","state_right", "district_right", "candidate_right", "party_right", "candidatevotes_right", "totalvotes_right", "Candidate_Name_right", "Last_Name_right", "Dem_vote_share_right"]
+#)
 # Load database
 
-#ADJUST THIS TO MERGE IT TO TABLE FROM COLOR DETECTION
 db = duckdb.connect("data/dissertation_database") # connect to my database
 
-yard_sign = db.execute("SELECT * FROM ch_1_capd_color_detected").fetch_df() # grab the ch_1_capd_yard_signs table from the database and store it as a pandas dataframe 
-
-print('load yard_sign')
-
-    #* Recoding
-yard_sign["Last_Name"] = yard_sign["Last_Name"].str.lower().str.normalize("NFKD").str.encode("ascii", errors = "ignore").str.decode("utf-8")
-#yard_sign["Candidate_Name"] = yard_sign ["Candidate_Name"].str.lower().str.replace('.', '').astype(str) # take the candidate_name column, convert it to lower case, and remove all of the periods in it, also be sure to store it as a string object
-#yard_sign["Last_Name"] = names(yard_sign) # take the candidate_name column and separate it up. Grab the second to last result and store that as the candidate's last name
-yard_sign["State"] = yard_sign["State"].str.lower() # convert the state column to lower case
-yard_sign["Year"] = pd.to_numeric(yard_sign["Year"]).astype(float) # take the year column and be sure to store it as a numeric column and as a float
-yard_sign["State_District"] = yard_sign['State_District'] = yard_sign[["State", "District"]].apply(lambda x: '-'.join(x.astype(str)), axis = 1)
-yard_sign.loc[yard_sign["State_District"] == "alaska-0", "State_District"] = "alaska-1"
-yard_sign.loc[yard_sign["State_District"] == "vermont-0", "State_District"] = "vermont-1"
-yard_sign.loc[yard_sign["State_District"] == "montana-0", "State_District"] = "montana-1"
-yard_sign.loc[yard_sign["State_District"] == "wyoming-0", "State_District"] = "wyoming-1"
-yard_sign.loc[yard_sign["State_District"] == "south dakota-0", "State_District"] = "south dakota-1"
-
-print('clean yard_sign')
-
-# Join the databases
-merged = pd.merge(yard_sign, election_lab_merge, how = 'left', left_on=["Last_Name", "Year", 'State_District'], right_on = ["Last_Name", "Year", 'State_District']) # merge the two datasets based on the last_name of the candidate and the year of the election
-print('merged dataset') # LOOK INTO THIS MORE. OBVIOUSLY 2022 DATA ARE A PROBLEM FOR NOW, BUT CHECK TO SEE IF THE MERGING IS OFF ON SOME OF THE 2020 CASES BY LOOKING AT A CSV OF yard_sign AND election_lab_merge data
-
+yard_sign = pl.from_arrow(db.execute(
+    '''SELECT * FROM ch_1_capd_color_detected'''
+    ).fetch_arrow_table(
+    #* grab the ch_1_capd_yard_signs table from the database and store it as a pandas dataframe 
+    )
+    #* store it as polars.DataFrame
+    ).with_column(
+        pl.col("State").str.to_lowercase().alias("State")
+    ).with_column(
+        pl.concat_str(["State", "District"], sep = "-").alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "alaska-0")
+        .then("alaska-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "vermont-0")
+       .then("vermont-1")
+       .otherwise(pl.col("State_District")).alias("State_District") 
+    ).with_column(
+        pl.when(pl.col("State_District") == "montana-0")
+        .then("montana-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "wyoming-0")
+        .then("wyoming-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.when(pl.col("State_District") == "south dakota-0")
+        .then("south dakota-1")
+        .otherwise(pl.col("State_District")).alias("State_District")
+    ).with_column(
+        pl.col("Year").cast(pl.Utf8).str.strptime(pl.Date, fmt = "%Y").alias("Year")
+    ).with_column(
+        pl.col("Last_Name").str.to_lowercase().alias("Last_Name")
+    ).join(
+        election_lab_merge, 
+        on = ["Year", "State_District", "Last_Name"], 
+        how = "left"
+    ).drop(
+        "Candidate_Name_right"
+    )
 # Add merged table to database
 
-db.execute("CREATE OR REPLACE TABLE capd_mit_merged AS SELECT * FROM merged") # store merged df in database as capd_mit_merged table
+db.execute("CREATE OR REPLACE TABLE capd_mit_merged AS SELECT * FROM yard_sign") # store merged df in database as capd_mit_merged table
 
 print('SCRIPT COMPLETE')

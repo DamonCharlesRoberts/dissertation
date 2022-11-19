@@ -11,7 +11,7 @@
 # Importing modules 
     #* From environment
 import duckdb # for database management
-import pandas as pd # for dataFrame management
+import polars as pl # for dataFrame management
 import urllib.request # to access site
 import sys # to deal with paths
 
@@ -23,10 +23,13 @@ from fun import names
 
 db = duckdb.connect("data/dissertation_database")
 
-links_df = db.execute("SELECT * FROM ch_1_capd_yard_signs").fetchdf()
-links_df["Last_Name"] = names(links_df)
-links_df["Year"] = links_df["Year"].astype(str)
+links_df = pl.from_arrow(
+    db.execute("SELECT * FROM ch_1_capd_yard_signs").fetch_arrow_table()
+).with_column(
+    names(pl.col("Candidate_Name")).alias("Last_Name")
+).to_pandas()
+
 # Downloading the images
 
 for index, row in links_df.iterrows():
-    urllib.request.urlretrieve(row["Img_URL"], "data/chapter_1/capd_yard_signs/" + row["Last_Name"] + "_" + row["Year"] + ".png")
+    urllib.request.urlretrieve(row["Img_URL"], "data/chapter_1/capd_yard_signs/" + row["Last_Name"] + "_" + str(row["Year"]) + ".png")

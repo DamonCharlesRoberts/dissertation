@@ -9,9 +9,8 @@
     #* From visual_env 
 import duckdb # to access the database
 import numpy as np # to wrangle arrays
-import pandas as pd # to wrangle dataFrames
+import polars as pl # to wrangle dataFrames
 import re # to wrangle strings
-from PIL import Image # to load images
 import cv2 # to do color detection
 import sys # to wrangle paths
 import os # to wrangle local files
@@ -37,13 +36,13 @@ blue_higher = [102, 212, 255] # higher end of spectrum for blue
 
 # Detect colors
     #* Create an empty dataframe to store them in
-df = pd.DataFrame(columns = [
-                    "Last_Name",
-                    "Year",
-                    "White_Percent",
-                    "Blue_Percent",
-                    "Red_Percent"
-])
+df = pl.DataFrame({
+                    "Last_Name": ["Test"],
+                    "Year": ["2022"],
+                    "White_Percent": [1.2],
+                    "Blue_Percent": [1.2],
+                    "Red_Percent": [1.2]
+})
 
 for filename in os.listdir("data/chapter_1/capd_yard_signs"):
     #* check to make sure the file is a png file
@@ -70,7 +69,7 @@ for filename in os.listdir("data/chapter_1/capd_yard_signs"):
             redPercent = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
             print("calculated redPercent")
     #* store these things in a temporary dataframe
-            tempDf = pd.DataFrame({
+            tempDf = pl.DataFrame({
                                     "Last_Name":[lastName], 
                                     "Year":[year], 
                                     "White_Percent":[whitePercent],
@@ -79,17 +78,25 @@ for filename in os.listdir("data/chapter_1/capd_yard_signs"):
                                     })
             print("stored in tempDf")
     #* append the temporary dataframe to the main dataframe
-            df = df.append(tempDf, ignore_index = True)
-            print("appended to df")
+            df = pl.concat(
+                [df,tempDf], rechunk = True
+                ).filter(
+                    pl.col("Last_Name") != "Test"
+                )
 
 # Merge this information to the yard_signs table
 
-yard_signs = db.execute("SELECT * FROM ch_1_capd_yard_signs").fetch_df() # grab the ch_1_capd_yard_signs table
-
-yard_signs["Last_Name"] = names(yard_signs) # add a last names column
-
-merged = pd.merge(yard_signs, df, how = 'left', left_on=["Last_Name", 'Year'], right_on = ["Last_Name", 'Year']) # merge the dataset with the colors and the candidate information together
+yard_signs = pl.from_arrow(
+    #* grab the ch_1_capd_yard_signs table
+    db.execute("SELECT * FROM ch_1_capd_yard_signs").fetch_arrow_table()
+    ).with_column(
+    #* Create Last_Name column from Candidate_Name
+        names(pl.col("Candidate_Name")).alias("Last_Name")
+    ).join(
+    #* Left-join the yard_signs table to the df table by Last_Name and Year value
+        df, on = ["Last_Name", "Year"], how = "left"
+    ).to_arrow()
 
 # Store data as new table
 
-db.execute("CREATE OR REPLACE TABLE ch_1_capd_color_detected AS SELECT * FROM merged")
+db.execute("CREATE OR REPLACE TABLE ch_1_capd_color_detected AS SELECT * FROM yard_signs")

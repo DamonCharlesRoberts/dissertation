@@ -65,7 +65,10 @@ yard_signs = pl.DataFrame({
     pl.col("District").str.split(",").arr.get(1).alias("Office"),
     #* Take the District column and split it to make the Year column
     pl.col("District").str.split(",").arr.get(2).alias("Year")
-]).drop("Full") # drop the Full column
+]).drop(
+    # drop the Full column
+    "Full"
+    ).to_arrow()#convert it to arrow
 
 #yard_signs[['Candidate_Name', 'Party']] = yard_signs[0].str.split('(', 1, expand = True)
 #yard_signs[['Party', 'State']] = yard_signs['Party'].str.split('\n', 1, expand = True)
@@ -79,9 +82,9 @@ yard_signs = pl.DataFrame({
 
 # Store Data
 
-db = duckdb.connect('C:/Users/damon/Dropbox/current_projects/dissertation/data/dissertation_database') # connect to the database
+db = duckdb.connect("data/dissertation_database") # connect to the database
 
-yard_signs = db.execute("CREATE OR REPLACE TABLE ch_1_capd_yard_signs AS SELECT * FROM yard_signs").fetchall() # create the table
+db.execute("CREATE OR REPLACE TABLE ch_1_capd_yard_signs AS SELECT * FROM yard_signs").fetchall() # create the table
 
 # Notes:
 #* Now run 02_capd_img_scraping.py

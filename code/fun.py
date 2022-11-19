@@ -7,14 +7,14 @@
 
 # Dependencies
 import numpy as np # for array management
-import pandas as pd # for dataframe management
+import polars as pl # for dataframe management
 import re # for regex
 import cv2 # for image detection
 
 # CAPD ANALYSIS
 
 #* Dealing with names
-def names(df):
+def names(col):
     """
     Description: Function to extract last names of candidate
 
@@ -22,7 +22,9 @@ def names(df):
 
     Depends on pandas and re
     """
-    lastName = df["Candidate_Name"].str.extract(r"([^\s]+)\s*(?=Jr\.|Sr\.|sr|jr|ii|iii|iv|IV|$)")
+    Name = col.str.replace(r"Jr\.|Sr\.|jr\.|sr\.|jr|III|IV|VI", "")
+    Stripped = Name.str.rstrip()
+    lastName = Stripped.str.split(" ").arr.get(-1)
     return lastName
 
 #* Image pre-processing
