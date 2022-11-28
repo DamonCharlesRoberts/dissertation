@@ -2,7 +2,7 @@
 
 # Notes:
     #* Description: Jupyter Notebook to scrape CAPD site for yard signs in 2018-2022 national elections
-    #* Updated: 2022-11-04
+    #* Updated: 2022-11-28
     #* Updated by: dcr 
 
 # Load Modules
@@ -69,16 +69,6 @@ yard_signs = pl.DataFrame({
     # drop the Full column
     "Full"
     ).to_arrow()#convert it to arrow
-
-#yard_signs[['Candidate_Name', 'Party']] = yard_signs[0].str.split('(', 1, expand = True)
-#yard_signs[['Party', 'State']] = yard_signs['Party'].str.split('\n', 1, expand = True)
-#yard_signs[['State', 'District']] = yard_signs['State'].str.split('-', 1, expand = True)
-#yard_signs[['District', 'Office', 'Year']] = yard_signs['District'].str.split(',', 2, expand = True)
-#yard_signs['Party'] = yard_signs.Party.str.strip(')')
-
-# Drop that first column with the original list information 
-#yard_signs.drop(yard_signs.columns[[0]], axis=1, inplace = True)
-
 
 # Store Data
 

@@ -2,7 +2,7 @@
 
 # Notes:
     #* Description: Jupyter Notebook to scrape CAPD site for yard signs in 2018-2022 national elections
-    #* Updated: 2022-11-04
+    #* Updated: 2022-11-28
     #* Updated by: dcr 
     #* Other notes:
         #** First run 01_capd_text_scraping.py. This should be executed interactively.

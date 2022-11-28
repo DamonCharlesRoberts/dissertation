@@ -22,7 +22,7 @@ def names(col):
 
     Depends on pandas and re
     """
-    Name = col.str.replace(r"Jr\.|Sr\.|jr\.|sr\.|jr|III|IV|VI", "")
+    Name = col.str.replace(r"Jr\.|Sr\.|Jr|Sr|JR|SR|III|\sIV|\sVI", "")
     Stripped = Name.str.rstrip()
     lastName = Stripped.str.split(" ").arr.get(-1)
     return lastName

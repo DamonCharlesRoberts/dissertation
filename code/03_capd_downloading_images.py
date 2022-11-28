@@ -2,7 +2,7 @@
 
 # Notes:
     #* Description: Script to open links to images and downloading them from CAPD site
-    #* Updated: 2022-11-04
+    #* Updated: 2022-11-28
     #* Updated by: dcr
     #* Other notes:
         #** Should execute at end of 02_capd_img_scraping.py

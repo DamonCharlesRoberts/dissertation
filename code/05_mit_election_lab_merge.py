@@ -2,7 +2,7 @@
 
 # Notes:
     #* Description: Script to merge MIT Election Lab US House 1976-2020 Election Returns dataset to Yard signs table
-    #* Updated: 2022-11-14
+    #* Updated: 2022-11-28
     #* Updated by: dcr
     #* Other notes:
         #** To access dataset go to:
@@ -12,7 +12,6 @@
     #* from env
 import duckdb # for database access
 import polars as pl # for DataFrame management
-import pandas as pd # for DataFrame management
 import numpy as np # for array management
 import sys # to manage paths
     #* User-defined
@@ -37,7 +36,7 @@ election_lab = pl.read_csv(
     #* convert state column to lowercase
         pl.col("state").str.to_lowercase().alias("state"),
     #* create candidate_Name column
-        pl.col("candidate").str.to_lowercase().alias("Candidate_Name")
+        #pl.col("candidate").str.to_lowercase().alias("Candidate_Name")
     ]).with_column(
         pl.concat_str(["state", "district"], sep = "-").alias("State_District")
     ).with_column(
@@ -63,7 +62,7 @@ election_lab = pl.read_csv(
     ).filter(
         pl.col("totalvotes") > 0
     ).with_column(
-        names(pl.col("Candidate_Name")).alias("Last_Name")
+        names(pl.col("candidate")).str.to_lowercase().alias("Last_Name")
     ).with_column(
         pl.col("year").cast(pl.Utf8).str.strptime(pl.Date, fmt = "%Y").alias("Year")
     ).drop(
@@ -88,69 +87,6 @@ election_lab_merge = election_lab.join(
     how = "left"
 )
 
-#filtered["sma"] = filtered.groupby(
-#    "State_District"
-#    )['Dem_vote_share'].rolling(5).mean().reset_index(0, drop = True) # calculate a rolling average over 5 years
-#
-#mapped_dynamic = mapped.groupby_dynamic(
-#    "year", every = "5y"    
-#).agg(
-#    pl.mean("Dem_Vote_Share").alias("SMA")
-#)
-
-
-#groupby_dynamic(
-#    ["year", "State_District"], every = "5y"
-#).agg(
-#    pl.apply(exprs = ["candidatevotes", "totalvotes"], f = lambda x: x[0]/x[1]).alias("Dem_Vote_Share")
-#)
-#
-#election_lab_merge = election_lab.join(
-#    mapped,
-#    on = ["State_District", "year"],
-#    how = "left"
-#).select(["year", "State_District", "party", "Dem_Vote_Share"])
-
-
-#election_lab["Last_Name_Encoded"] = names(election_lab["Candidate_Name"])
-#election_lab["Last_Name"] = election_lab["Last_Name_Encoded"].str.normalize("NFKD").str.encode("ascii", errors = "ignore").str.decode("utf-8")
-    #* Create Dem vote share column
-#mapping_vals = (
-#    election_lab[election_lab['party'].eq('DEMOCRAT')]
-#    .set_index(['year', 'State_District'])
-#    .apply(lambda x: x['candidatevotes']/x['totalvotes'],axis=1)
-#    .groupby(level=[0,1]).sum()
-#)
-#
-#election_lab['Dem_vote_share'] = election_lab.set_index(
-#    ['year', 'State_District']
-#    ).index.map(mapping_vals).fillna(0)
-#
-#    #* Create 5-year simple moving average column
-#filtered = election_lab.drop_duplicates(
-#    subset=['State_District', 'year']
-#    ) # drop rows with duplicate state_district and year
-#
-#filtered["sma"] = filtered.groupby(
-#    "State_District"
-#    )['Dem_vote_share'].rolling(5).mean().reset_index(0, drop = True) # calculate a rolling average over 5 years
-#
-#filtered = pl.DataFrame(
-#    filtered
-#    ).filter(
-#    pl.col("year") > 2015
-#    )
-
-    #* Merge 5-year simple moving average column
-#election_lab_merge = filtered.join(
-#    pl.DataFrame(election_lab), 
-#    on = ["State_District", "year"], 
-#    how = "left"
-#).with_column(
-#    pl.col("year").alias("Year")
-#).drop(
-#    ["year","state_right", "district_right", "candidate_right", "party_right", "candidatevotes_right", "totalvotes_right", "Candidate_Name_right", "Last_Name_right", "Dem_vote_share_right"]
-#)
 # Load database
 
 db = duckdb.connect("data/dissertation_database") # connect to my database
@@ -188,14 +124,13 @@ yard_sign = pl.from_arrow(db.execute(
     ).with_column(
         pl.col("Year").cast(pl.Utf8).str.strptime(pl.Date, fmt = "%Y").alias("Year")
     ).with_column(
-        pl.col("Last_Name").str.to_lowercase().alias("Last_Name")
+        pl.col("Last_Name").str.decode(pl.Utf8).str.to_lowercase().alias("Last_Name")
     ).join(
         election_lab_merge, 
         on = ["Year", "State_District", "Last_Name"], 
         how = "left"
-    ).drop(
-        "Candidate_Name_right"
-    )
+    ).to_arrow()
+
 # Add merged table to database
 
 db.execute("CREATE OR REPLACE TABLE capd_mit_merged AS SELECT * FROM yard_sign") # store merged df in database as capd_mit_merged table

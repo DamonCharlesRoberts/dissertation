@@ -2,7 +2,7 @@
 
 # Notes: 
     #* Description: Script to detect the colors on the yard signs
-    #* Updated: 2022-11-14
+    #* Updated: 2022-11-28
     #* Updated by: dcr
 
 # Load modules

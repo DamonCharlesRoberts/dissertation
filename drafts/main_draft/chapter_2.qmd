@@ -1,22 +1,28 @@
 # Do colors convey political information?
 
 <!--
-    # Notes:
-        ## Code:
-            ### pre-test:
-                #### 00_pre-test.py
-                #### table called pre-test
-            ### Scraping:
-                #### CAPD
-                    ##### Execute 01_capd_text_scraping.ipynb interactively
-                        ###### table called ch_1_capd_yard_signs
-                    ##### Execute 02_capd_img_scraping.ipynb interactively
-                        ###### table called ch_1_capd_yard_signs
-                    ##### Execute 03_capd_downloading_images.py
-                        ###### does so at end of 02_capd_img_scraping.ipynb
-                    ##### Execute 04_mit_election_lab_merge.py
-                        ###### does so in the some-script-execution block below
-        ## Writing:
+    - Description: QMD script for chapter 2
+    - Updated: 2022-11-28
+    - Updated by: dcr
+    - Notes:
+        * Code:
+            ** pre-test:
+                *** 00_pre-test.py
+                *** table called pre-test
+            ** Scraping:
+                *** CAPD
+                    **** Execute 01_capd_text_scraping.ipynb interactively
+                        ***** table called ch_1_capd_yard_signs
+                    **** Execute 02_capd_img_scraping.ipynb interactively
+                        ***** table called ch_1_capd_yard_signs
+                    **** Execute 03_capd_downloading_images.py
+                        ***** does so at end of 02_capd_img_scraping.ipynb
+                    **** Execute 04_mit_election_lab_merge.py
+                        ***** does so in the some-script-execution block below
+        * Writing:
+            ** First should write an annotated bibliography for this chapter
+            ** Once annotated bibliography is complete, should have enough to start working on a pre-registered report for this chapter
+            
 -->
 ```{python}
 #| label: python-setup-block
