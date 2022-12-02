@@ -10,3 +10,4 @@ assets/dissertation_env
 assets/visual_env_linux
 /.luarc.json
 *.bib
+assets/dissertation.bib
