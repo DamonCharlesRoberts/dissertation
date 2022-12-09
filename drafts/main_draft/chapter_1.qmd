@@ -1,1 +1,176 @@
-# Introduction
+# How do colors convey political information and effect individual attitudes? {#sec-2}
+<!--
+    - Description: QMD script for chapter 1
+    - Updated: 2022-12-09
+    - Updated by: dcr
+    - Notes:
+        * Code:
+            ** pre-test:
+                *** 00_pre-test.py
+                *** table called pre-test
+            ** Scraping:
+                *** CAPD
+                    **** Execute 01_capd_text_scraping.ipynb interactively
+                        ***** table called ch_1_capd_yard_signs
+                    **** Execute 02_capd_img_scraping.ipynb interactively
+                        ***** table called ch_1_capd_yard_signs
+                    **** Execute 03_capd_downloading_images.py
+                        ***** does so at end of 02_capd_img_scraping.ipynb
+                    **** Execute 04_mit_election_lab_merge.py
+                        ***** does so in the some-script-execution block below
+        * Writing:
+            ** First should write an annotated bibliography for this chapter
+            ** Once annotated bibliography is complete, should have enough to start working on a pre-registered report for this chapter
+            
+-->
+```{python}
+#| label: python-setup-block
+
+# import modules
+    #* from environment
+import os # for path management
+import sys # for path management
+import numpy as np # for array management
+import polars as pl # for dataframe management
+import cv2 # for color detection
+from matplotlib import pyplot as plt # for graphics
+from matplotlib import image as mpimg # for displaying images
+from IPython.display import display, Markdown # for displaying inline code
+    #* user-defined
+sys.path.append("../../code/chapter_2/")
+from fun import preProcess
+```
+
+## Introduction
+
+Are colors important to politics? This chapter argues that they are; at least that they convey information that voters and campaigns care about. 
+
+## The role of visual information in politics
+
+Though there is not much literature on visual information in politics, a concurrent recognition of it with the growth of image-based social media necessitates a shift in this trend by scholars of political communication. As the rise of Television consumption rose in the United States and news papers and magazine subscriptions became less common, this necessitated a change in the focus of the medium in the research for political communication scholars [CITATION] to focus on audio-based information. For a number of methodological and disciplinary reasons, the visual aspects of television were not of much focus in the literature [@bucy_joo_2021_ijpp]. However, with the increasing ubiquitous use of the public to use image-dominant social media platforms like TikTok and Instagram, news organizations and politicians have followed and are relatively active on this platforms as well. We need to make this transition to integrate the role of simple visual information into our theories of political information processing (abbreviated as *pip*) and attitude formation. 
+
+A number of scholars make this argument. An edited issue of *The International Journal of Press/Politics* is centered around making the point that visual politics is understudied, yet important [@lilleker_2019_pm]. Those who are engaged in these sorts of question attribute these challenges to methodological and the requirement for interdisciplinary theorizing to engage in such a questions [@gerodimos_2019_pm;@bucy_joo_2021_ijpp]. 
+
+How does politically-relevant visual information matter to politics? From a evolutionary-biological perspective, visual information is a common source of information that organisms have relied upon for millions of years to evaluate their environment [see @grabe_bucy_2009_oup, Chapter 1 for a useful discussion]. As an ancient biological invention, the brain is organized around the processing of visual information. Reflecting this, many scholars of neuroscience consider visual information to be the fastest form of information processing. For example, even with complex visual information like the warmth expressed in someone's facial features are automatically and subconsciously processed in only about 33`ms` [@ames_et-al_2012_ohsn].
+
+At a higher level, as the public are cognitive misers \index{cognitive misers}, visual information provides efficient information to voters about politically-relevant actors and events [@lilleker_2019_pm]. Evidence suggests that voters rely on simple visual information in the background of an image to impute the ideological position [@dan_arendt_2021_ijpp] and that their coverage reflects electability perceptions [@stewart_et-al_2021_ijpp] -- which influences reported desire to vote for the candidate. Images posted on social media by politicians provide more personalized information about them and that they take on their own styles [@lindholm_et-al_2021_ijpp; @peng_2021_ijpp]; reflecting that it is an alternative source of information curated to attract support.
+
+While visual politics is enjoying more attention, there is still little focus on the simplest visual information: color. In the context of the United States, the "Republican red" and "Democratic blue" are a relatively recent invention that has significant import in a era of significant effort by the parties to distinguish themselves from each other [@clifford_2020_pb] and voters to toe the party line [@utych_2020_es]. Since the 2000 presidential election, the media have consistently used the color red on their electoral maps in "horserace" journalism to represent Republicans and blue to represent Democrats [@elving_2014_npr]. The consequence of this is that Democrats now report preference for the color blue over the color red; and Republicans report a preference for the color red over the color blue [@schloss_palmer_2014_pbr]. Like visual politics, as a field of study, theorizing about the use of color as a form of information is quite limited. Much of this literature argues that colors are a source of visual information to classify more abstract concepts for voters. For example, in western Europe, voters are better at connecting the ideological positioning of a party with the color they use in their branding, the longer-surviving and more prominent the party is [@casiraghi_et-al_2022_pp]. The use of politically-relevant colors activate biases toward pre-existing ideological and partisan preferences among voters in a Spanish sample [@maestre_medero_2022_pr]. It remains unclear, however, what the particular psychological mechanism drives this and how even colors as a form of political information is organized into a schema that allow voters to quickly access and form political attitudes.
+
+## Integrating color into a model of political information processing
+
+Existing models of *pip* are largely focused on non-visual political information. As individuals process visual information before other sorts of information, they may form the snap-judgement or the initial appraisal of an object. This has a number of important implications for derived theoretical expectations from the mechanism underlying *pip*. First, let me describe the leading theories of *pip*. Then, I will describe the adjustments that need to be made to account for this new type of information by taking a broader, and more interdisciplinary perspective to attitude formation and retrieval.
+
+The first prominent model of *pip* is derived from rational choice perspectives. The memory-based model of *pip* views attitudes as a weighted collection of prior information [see @zaller_1992_cup]. As individuals receive new information, they organize it in a schema that is relative to prior objects they already have encoded. With the encoding of this new information, the model predicts that individuals incorporate this new object with similar objects to form an attitude. While the Receive-Accept-Sample (RAS) model accepts the view that expressed attitudes are based on a weighting that is most accessible at the time of attitude expression [@zaller_feldman_1992_ajps], it still presupposes that the weighting is an average of prior information.
+
+The second prominent model challenges this latter point. The online model of *pip* contends that individuals do not evenly weigh information, but that whether they even store it into their long-term memory to access later is biased in the direction of supporting pre-existing attitudes [@lodge_taber_2013_cup]; this is referred to as motivated reasoning [@kunda_1990_pb]. This model suggests that people ignore new information that goes against their prior beliefs and that information confirmatory of their preferences are quicker to access -- referred to as hot cognition [@lodge_taber_2013_cup].
+
+The online model conceptualizes this underlying mechanism of information encoding and attitude retrieval as automatic [@lodge_taber_2013_cup]. This occurs as a result of the information's strong associations with valanced appraisals of the information guiding the attitude [@lodge_taber_2013_cup]. This brings political scientists closer to the dominant conceptualizations among neuroscientists and psychologists concerned with memory retrieval and encoding [see @fazio_2007_sc]. Namely, that attitudes are encoded and retrieved based on associations and are quickly done so as a result of their association with valanced appraisals [@kensinger_fields_2022_ohhum].
+
+Though the online model of information processing goes a long way to inform us about the ways that our physiology engages attitude formation and retrieval, the information it considers necessarily limits the applicability of the theory to other forms of political information. Color and other forms of visual information are processed much more quickly and occurs more frequently than text-based information [@mehta_zhu_2009_s]. As color and other types of visual information are processed differently, we should consider its use as political information differently as well. As visual information is affectively encoded [@cimbalo_et-al_1978_jgp], this means that it has the potential to effect the affective state and processing of more complex information, such as text, is a downstream effect of the visual information. That is, the visual information provides a snap-judgement or an impression of the object through faster processing and activates particular neurological processes that influence subsequent information appraisals [@ames_et-al_2012_ohsn].
+
+Before expanding upon the role that colors have on shaping political attitudes, let me first define an attitude. An attitude represents an accessible evaluation of associated prior information and experiences. This conceptualization fits with that of the Object-Evaluation Associations Model [@fazio_2007_sc]. As opposed to viewing attitudes as a latent collection of memories, as is done in the memory-based model of *pip* [@zaller_feldman_1992_ajps], it views attitudes as measurable evaluations of memories. As memories, are at the core of an attitude, the association of memories with its evaluative component [see @kensinger_fields_2022_ohhum] contribute to the perspective that attitudes are affective.
+
+In line with the existing models of *pip*, I view attitudes as associative. This means that attitudes may be unstable - not stochastically, though. As attitudes are associative, they appear slightly different depending on the associative paths that are activated [@fazio_2007_sc]. The retrieval of relevant memories to the attitude depend on a number of factors such as the recency of the event, the similarity of the context, and the importance or salience of the memory [@kahana_et-al_2022_ohhum]. This means that the memories that are retrieved to contribute to an attitude are quite variable. 
+
+Colors are associative and are affectively encoded [@cimbalo_et-al_1978_jgp]. When individuals access a memory, they do not just recall an object but they may recall visual information such as the color of an object. As visual information like colors are quickly processed and encoded, they are also quickly retrieved with their associative memories and can do so unconsciously [@mehta_zhu_2009_s]. As they are affectively encoded, their associations with particular memory contribute to the evaluative component of the memory. For example, colors like red are associated with anger, arousal [@valdez_mehrabian_1994]; whereas blue is associated with things like happiness and pleasure [@dandrade_egan_1974_ae].
+
+What this means, is that when we view political events or consume political information that has a visual component, we are going to encode visual information along with it. Taking expectations formed from theories of motivated reasoning [see @kunda_1990_pb], I'd expect that the visual information that we encode with it is likely congruent with the evaluation of the object; we are likely to expend less effort to encode the visual information that is not congruent with the visual information as we do with text-based political information [see @lodge_taber_2013_cup].
+
+- Colors are processed; associations are retrieved along with their valanced evalatuions; then based on the congruency with it, they are then encoded.
+
+
+## The systematic use of colors in campaign branding
+
+```{python}
+#| label: some-script-execution
+#| eval: false
+import os
+
+os.system('../../code/03_capd_downloading_images.py')
+os.system('../../code/04_mit_election_lab_merge.py')
+os.system('../../code/05_color_detection.py')
+```
+
+- Descriptive analysis of the use of color in yard signs
+- Consider using district level fixed effects in a regression to show District PID $\rightarrow$ Color selection
+
+To examine whether the use of colors on yard signs vary in systematic ways, I collect images from the 2018, 2020, and 2022 Congressional elections for the House of Representatives across the United States. These yard signs are pulled together on one website by the Center for American Politics and Design^[See: https://www.politicsanddesign.com/]. From this website, I am able to extract over 1,100 images for these three elections. I then combine this information with district-level data provided by the MIT election lab on election returns for candidates in these House elections ^[See: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/IG0UN2].
+
+With these data, I detect the percentage of the "Republican Red" and "Democratic Blue" on the yard signs and examine whether the 5-year smooth moving average of Democratic candidate vote share in that given district correlate. The purpose of this analysis is to examine the hypothesis that campaigns respond to the preferences of partisan voters and adjust their branding as a result. In this case, the branding being the color on the yard sign.
+
+To provide an example of how the color detection works, I collected the GOP logo used on their official Twitter account during the 2022 midterm election cycle. I load this image and convert it to a three-dimensional array that contains information about the GBR (reversed RBG) values for the pixels in that image. I then resize the images to be a standardized 224 $x$ 224 pixels. The computer is trained to detect a range of GBR values that encompass the official "Republican Red"^[lower values: (93, 9, 12), higher values: (236, 69, 75)]. For the broader exercise, I do it for the color white^[upper and lower values: (255, 255, 255)] and "Democratic blue"^[lower values: (0, 18, 26), higher values: (102, 212, 255)]. Once this range of values is specified, the computer detects the pixels that do not contain values within this pre-specified range and converts those values to represent the color black. @fig-color-detection-example presents this process.
+
+```{python}
+#| label: fig-color-detection-example
+#| layout-ncol: 2
+#| fig-cap: Detecting colors in the GOP logo
+#| fig-subcap:
+#|  - "Resized original image"
+#|  - "Masked"
+
+# Define colors to detect
+    #* White
+        #** Not defined. Default for colorDetector()
+    #* Red
+republican_red = [232, 27, 35] # target color
+red_lower = [93, 9, 12] # lower end of spectrum for red
+red_higher = [237, 69, 75] # higher end of spectrum for red
+
+# Load gop image to read
+img = cv2.imread("../../data/chapter_1/gop_2022.png")
+
+# Detect colors
+    # create boundaries 
+boundaries = [([red_lower[2], red_lower[1], red_lower[0]],[red_higher[2], red_higher[1], red_higher[0]])]
+    #print("boundaries correct") 
+    #print(boundaries)
+    # get information about original image
+    #width = img.shape[1] # get width of img
+    #height = img.shape[0] # get get height of img
+    # Transform image
+img_transformed = preProcess(img)
+    #print("img correct")
+    # get information about transformed image
+    #width_t = img_transformed.shape[1] # get width of img_transformed
+    #height_t = img_transformed.shape[0] # get height of img_transformed
+    # calculate scale
+scale = ((img_transformed.shape[0]/img.shape[0]) + (img_transformed.shape[1]/img.shape[1]))/2
+    #print("scale correct")
+for (lower, upper) in boundaries:
+    # adjust red_higher and red_lower to specific type
+    lower = np.array(lower, dtype = np.uint8)
+    upper = np.array(upper, dtype = np.uint8)
+    # take all values within color range and make it white; everything else black
+    mask = cv2.inRange(img_transformed, lower, upper)
+    # take all white values and put it on original image. keep black pixels black
+    result = cv2.bitwise_and(img_transformed, img_transformed, mask = mask)
+    # get ratio of non-black pixels
+    ratio = cv2.countNonZero(mask)/(img_transformed.size/(1/scale))
+    # calculate percentage of non-black pixels
+    percent = (ratio * 100)/scale
+cv2.imwrite("../../data/gop_2022_transformed.png", img_transformed) # save transformed image
+
+cv2.imwrite("../../data/gop_2022_detected.png", result) # save masked image
+
+img_transformed = mpimg.imread("../../data/gop_2022_transformed.png") # load transformed image
+plt.imshow(img_transformed) # show img_transformed
+plt.axis("off") # remove axes
+plt.show() # show plot
+
+img_masked = mpimg.imread("../../data/gop_2022_detected.png") # load masked image
+plt.imshow(img_masked) # show img_masked
+plt.axis("off") # remove axes
+plt.show() # show plot
+```
+
+I then extract the values in the array that are non-black and calculate the percentage of non-black pixels (as depicted in @eq-img-color-percentage).  
+
+
+$$
+\text{Color} \% = \frac{\text{Non-black}}{\text{Transformed}} \times \frac{\text{Original}_{\text{Height}} + \text{Original}_{\text{Width}}}{2\text{Transformed}_{\text{Height}} + 2\text{Transformed}_{\text{Width}}}
+$$ {#eq-img-color-percentage}
+
+```{python}
+display(Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}')))
+```

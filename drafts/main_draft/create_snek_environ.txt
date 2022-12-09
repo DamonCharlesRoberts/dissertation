@@ -1,6 +1,0 @@
-# Create env
-
-conda create --prefix=C:/Users/damon/Dropbox/current_projects/dissertation/drafts/main_draft/snek python=3.11.0
-
-# Load env
-conda activate C:/Users/damon/Dropbox/current_projects/dissertation/drafts/main_draft/snek

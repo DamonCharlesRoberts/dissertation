@@ -11,3 +11,6 @@ assets/visual_env_linux
 /.luarc.json
 *.bib
 assets/dissertation.bib
+*/__pycache__/
+.jupyter_cache
+*/prospectus/

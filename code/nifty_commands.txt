@@ -1,7 +1,0 @@
-# Nifty commands
-
-## To load database as dataframe
-
-db = duckdb.connect("data/dissertation_database")
-
-yard_signs = db.execute("SELECT * FROM ch_1_capd_yard_signs").fetchdf()
