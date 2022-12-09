@@ -14,3 +14,5 @@ assets/dissertation.bib
 */__pycache__/
 .jupyter_cache
 */prospectus/
+drafts/main_draft/*.otf
+.quarto

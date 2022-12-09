@@ -35,17 +35,12 @@ format:
     coverpage: titleauthor
     coverpage-bg-image: "./../../assets/cover.jpeg"
     coverpage-theme:
-    #  title-color: "white"
-    #  title-fontfamily: "QTDublinIrish.otf"
       title-fontsize: 100
       author-fontstyle: ["textsc"]
       author-style: "plain"
-    #  author-color: "white"
       author-fontsize: 30
       author-align: "right"
       author-bottom: "2in"
-    #  footer-style: "none"
-    #  header-style: "none"
       date-style: "none"
     titlepage: "plain"
     titlepage-theme:
