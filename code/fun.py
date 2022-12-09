@@ -1,18 +1,46 @@
-# Title: functions
+"""
+Title: Functions for dissertation
 
-# Notes:
-    #* Description: Script to define the functions
-    #* Updated: 2022-11-11
-    #* Updated by: dcr
+Notes:
+    - Description: Script containing all the functions used in dissertation
+    - Updated: 2022-12-09
+    - Updated by: dcr
+"""
 
-# Dependencies
+# Importing dependencies
+    #* COVER
+import random # to generate distributions
+import math # for useful math operators
+    #* CAPD ANALYSIS
 import numpy as np # for array management
 import polars as pl # for dataframe management
 import re # for regex
 import cv2 # for image detection
 
-# CAPD ANALYSIS
+# COVER
+    #* Defining vectors
+def f1(x,y):
+    """
+        Description: To create the first vector for cover image
 
+        Parameters: x,y
+
+        Depends on: random, math
+    """
+    result = random.uniform(-100,100) * x**2  - math.sin(y**2) + abs(y-x)
+    return result
+def f2(x, y):
+    """
+        Description: To create the second vector for cover image
+        
+        Parameters: x,y
+
+        Depends on: random, math
+    """
+    result = random.uniform(-1,1) * y**3 - math.cos(x**2) + 2*x
+    return result
+
+# CAPD ANALYSIS
 #* Dealing with names
 def names(col):
     """

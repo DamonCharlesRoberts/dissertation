@@ -9,14 +9,13 @@
 
 # Import packages
 import matplotlib.pyplot as plt # for plots
-from samila import GenerativeImage
-from samila import Projection # for generative art
-import time
+from samila import GenerativeImage # for generating image
+from samila import Projection # for transformation of vector
 import sys # to deal with paths
 
     #* User-defined
-sys.path.append("code/cover/") # set path for imported modules
-from cover_fun import f1, f2
+sys.path.append("code/") # set path for imported modules
+from fun import f1, f2 # import f1 and f2 from cover_fun module
 
 # Create plot
 colorArray = [
