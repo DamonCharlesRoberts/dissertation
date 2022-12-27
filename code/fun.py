@@ -66,7 +66,7 @@ def preProcess(img = None, size = [224, 224], inter = cv2.INTER_AREA):
     Depends on: cv2
     """
     resized = cv2.resize(img, size, inter)
-    return(resized)
+    return resized
 
 #* Color detection
 
