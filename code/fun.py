@@ -81,7 +81,6 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
     # create boundaries 
     boundaries = [([color_lower[2], color_lower[1], color_lower[0]],[color_upper[2], color_upper[1], color_upper[0]])]
     # Transform image
-    global img_transformed
     img_transformed = preProcess(img)
     # calculate scale
     scale = ((img_transformed.shape[0]/img.shape[0]) + (img_transformed.shape[1]/img.shape[1]))/2
@@ -92,11 +91,10 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
     # take all values within color range and make it white; everything else black
         mask = cv2.inRange(img_transformed, lower, upper)
     # take all white values and put it on original image. keep black pixels black
-        global result
         result = cv2.bitwise_and(img_transformed, img_transformed, mask = mask)
     # get ratio of non-black pixels
         ratio = cv2.countNonZero(mask)/(img_transformed.size/(1/scale))
     # calculate percentage of non-black pixels
         percent = (ratio * 100)/scale
-    # return percentage
-        return percent
+    # return percentage, img_transformed, and result
+        return percent, img_transformed, result

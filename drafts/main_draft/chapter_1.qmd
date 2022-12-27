@@ -38,7 +38,7 @@ from matplotlib import image as mpimg # for displaying images
 from IPython.display import display, Markdown # for displaying inline code
     #* user-defined
 sys.path.append("../../code/")
-from fun import preProcess
+from fun import preProcess, colorDetector
 ```
 
 ## Introduction
@@ -133,7 +133,7 @@ red_higher = [237, 69, 75] # higher end of spectrum for red
 img = cv2.imread("../../data/chapter_1/gop_2022.png")
 
 # Detect colors
-percent = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
+percent, img_transformed, result = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
 
 cv2.imwrite("../../data/gop_2022_transformed.png", img_transformed) # save transformed image
 
