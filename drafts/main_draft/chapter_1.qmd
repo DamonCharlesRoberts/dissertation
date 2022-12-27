@@ -133,34 +133,8 @@ red_higher = [237, 69, 75] # higher end of spectrum for red
 img = cv2.imread("../../data/chapter_1/gop_2022.png")
 
 # Detect colors
-    # create boundaries 
-boundaries = [([red_lower[2], red_lower[1], red_lower[0]],[red_higher[2], red_higher[1], red_higher[0]])]
-    #print("boundaries correct") 
-    #print(boundaries)
-    # get information about original image
-    #width = img.shape[1] # get width of img
-    #height = img.shape[0] # get get height of img
-    # Transform image
-img_transformed = preProcess(img)
-    #print("img correct")
-    # get information about transformed image
-    #width_t = img_transformed.shape[1] # get width of img_transformed
-    #height_t = img_transformed.shape[0] # get height of img_transformed
-    # calculate scale
-scale = ((img_transformed.shape[0]/img.shape[0]) + (img_transformed.shape[1]/img.shape[1]))/2
-    #print("scale correct")
-for (lower, upper) in boundaries:
-    # adjust red_higher and red_lower to specific type
-    lower = np.array(lower, dtype = np.uint8)
-    upper = np.array(upper, dtype = np.uint8)
-    # take all values within color range and make it white; everything else black
-    mask = cv2.inRange(img_transformed, lower, upper)
-    # take all white values and put it on original image. keep black pixels black
-    result = cv2.bitwise_and(img_transformed, img_transformed, mask = mask)
-    # get ratio of non-black pixels
-    ratio = cv2.countNonZero(mask)/(img_transformed.size/(1/scale))
-    # calculate percentage of non-black pixels
-    percent = (ratio * 100)/scale
+percent = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
+
 cv2.imwrite("../../data/gop_2022_transformed.png", img_transformed) # save transformed image
 
 cv2.imwrite("../../data/gop_2022_detected.png", result) # save masked image
