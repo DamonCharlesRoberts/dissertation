@@ -57,7 +57,7 @@ def names(col):
 
 #* Image pre-processing
 
-def preProcess(img = None, size = [224, 224], inter = cv2.INTER_AREA):
+def preProcess(img, size = [224, 224], inter = cv2.INTER_AREA):
     """
     Description: Function to do the resizing of the images
     
