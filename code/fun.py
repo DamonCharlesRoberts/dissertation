@@ -57,7 +57,7 @@ def names(col):
 
 #* Image pre-processing
 
-def preProcess(img, size = [224, 224], inter = cv2.INTER_AREA):
+def preProcess(img, inter, size = [224, 224]):
     """
     Description: Function to do the resizing of the images
     
@@ -81,7 +81,7 @@ def colorDetector(img, color_upper = [255,255,255], color_lower = [255,255,255])
     # create boundaries 
     boundaries = [([color_lower[2], color_lower[1], color_lower[0]],[color_upper[2], color_upper[1], color_upper[0]])]
     # Transform image
-    img_transformed = preProcess(img)
+    img_transformed = preProcess(img = img, inter = cv2.INTER_AREA)
     # calculate scale
     scale = ((img_transformed.shape[0]/img.shape[0]) + (img_transformed.shape[1]/img.shape[1]))/2
     for (lower, upper) in boundaries:
