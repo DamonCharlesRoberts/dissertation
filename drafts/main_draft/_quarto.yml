@@ -16,14 +16,12 @@ book:
   date-format: long
   chapters:
     - index.qmd
-    - chapter_1.qmd
     - chapter_2.qmd
     - chapter_3.qmd
     - chapter_4.qmd
     - conclusion.qmd
     - references.qmd
   appendices:
-    - chapter_1_appendix.qmd
     - chapter_2_appendix.qmd
   output-file: "dcr_book_project"
 
