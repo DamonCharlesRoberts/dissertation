@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+    <!--
+        Load jsPsych and mouseview dependencies:
+    -->
+<head>
+    <script src="./jsPsych/jspsych.js"></script>
+    <script src="./jsPsych/plugins/jspsych-instructions.js"></script>
+    <script src="./jsPsych/plugins/jspsych-image-button-response.js"></script>
+    <script src="./jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+    <script src="./jsPsych/plugins/jspsych-survey-text.js"></script>
+    <script src="./jspsych-mouseview-start.js"></script>
+    <script src="./jspsych-mouseview-stop.js"></script>
+    <link rel="stylesheet" href="./jsPsych/css/jspsych.css"></link>
+    <!--
+        Set standard image width
+    -->
+    <style>
+        img{width:300px;}
+    </style>
+</head>
+<body></body>
+    <!--
+        Experiment code
+    -->
+<script>
+    // define vars
+    var timeline = [];
+    var mouseview_trial_start = ()=> {     
+        logEvent('Trial Started')
+    };
+    var mouseview_trial_end = ()=> {
+        logEvent('Trial Ended')
+    };
+    // define pages
+    //* instructions
+    //** Pre-demographics questionnaire instructions
+    var pre_questionnaire_inst={
+        type: 'instructions',
+        show_clickable_nav: true,
+        button_label_next:'Next',
+        preamble: '<h1> Instructions: </h1><br><br><br>',
+        pages:[
+            '<h1> Instructions: </h1><br><br><br> I am first going to ask you a number of questions about your background.'
+        ]
+    };
+    //** Pre-political questionnaire instructions
+    var pre_political_inst={
+        type:'instructions',
+        show_clickable_nav: true,
+        button_label_next:'Next',
+        preamble: '<h1> Instructions: </h1><br><br><br>',
+        pages:[
+            'Now I am going to ask you a number of questions about your political attitudes.'
+        ]
+    };
+    //** Pre-experiment instructions
+    var pre_trial_inst={
+        type:'instructions',
+        show_clickable_nav: true,
+        button_label_next:'Begin',
+        preamble: '<h1> Instructions: </h1><br><br><br>',
+        pages:[
+            '<h1> Instructions: </h1><br><br><br> You will now be presented with pairs of images one at a time.<br> You should explore each image. Once you have finished exploring each image, you should press the "Next" button. After viewing each image, you will be asked questions about the individual image. After you have viewed a pair of images, you will be asked questions about both of the images. <br> Click the button below when you are ready to begin.'
+        ]
+    };
+    //* demographics questionnaire
+    var demographics_quest={
+        timeline: [
+            {
+                type:'survey-text',
+                preamble:'<h1> Please tell us a little about yourself</h1><br><br><br>',
+                questions:[
+                    {
+                        name:'age',
+                        prompt:'Confirm your age'
+                    }
+                ]
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[
+                    {
+                        name:'gender_id',
+                        horizontal:false,
+                        prompt:'What is your gender identity?',
+                        options:[
+                            'Non-binary',
+                            'Transgender',
+                            'Female',
+                            'Male',
+                            'Prefer not to choose',
+                            'Other'
+                        ]
+                    },
+                ]
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[
+                    {
+                        name:'sex',
+                        horizontal:false,
+                        prompt:'What is your sex assigned at birth?',
+                        options:[
+                            'Female',
+                            'Male',
+                            'Other'
+                        ]
+                    }
+                ]
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[
+                    {
+                        name:'race_id',
+                        horizontal:false,
+                        prompt:'Which ethnic or racial category best describes you?',
+                        options:[
+                            'White, non-hispanic',
+                            'Black, non-hispanic',
+                            'Hispanic',
+                            'Asian or Native Hawaiian/other Pacific Islander',
+                            'Native American/Alaska Native or other race',
+                            'Multiple races'
+                        ]
+                    }
+                ]
+            },
+
+
+        ],
+        data: {
+            task: "demographics"
+        }
+    };
+    //* political questionnaire
+    //** Ask participants if they are Republican, Democrat, Independent, or Other
+    var pid_3={
+        type:'survey-multi-choice',
+        questions:[{
+            name: 'pid_3',
+            prompt: 'Generally speaking, do you usually think of yourself as a Democrat, a Republican, an Independent, or what?',
+            options:['Republican','Democrat','Independent','Other']
+        }]
+    };
+    //** If they responded to previous answer with Republican, then show them this page
+    //*** Note: to help with figuring this out, I removed the if-else statement and used console.log(resp)
+    var pid_r_str={
+        timeline:[{
+            type:'survey-multi-choice',
+            questions:[{
+                name:'pid_r_str',
+                prompt: 'Would you say that you are a strong Republican or a not every strong Republican?',
+                options:[
+                    'Strong',
+                    'Not very strong'
+                ]
+            }]
+        }],
+        conditional_function: function(){
+            //get data from previous trial
+            //show this page if Republican selected
+            var data=jsPsych.data.get().last(1);
+            var obj=JSON.parse(data.values()[0].responses);
+            var resp=Object.values(obj);
+            if(resp=="Republican"){
+                return true;
+            } else{
+                return false;
+            }
+        }
+    };
+    //** If they responded to pid_3 with Democrat, then show them this page
+    //*** Note: to help with figuring this out, I removed the if-else statement and used console.log(resp)
+    var pid_d_str={
+        timeline:[{
+            type:'survey-multi-choice',
+            questions:[{
+                name:'pid_d_str',
+                prompt:'Would you say that you are a strong Democrat or a not very strong Democrat?',
+                options:[
+                        'Strong',
+                        'Not very strong'
+                ]
+            }]
+        }],
+        conditional_function: function(){
+            //get data from pid_3 trial
+            //show this page if Democrat is selected
+            var data=jsPsych.data.get().last(1);
+            var obj=JSON.parse(data.values()[0].responses);
+            var resp=Object.values(obj);
+            if(resp=="Democrat"){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+    //** If they responded to pid_3 with Independent or Other, then show them this page
+    //*** Note: to help with figuring this out, I removed the if-else statement and used console.log(resp)
+    var ind_lean={
+        timeline:[{
+            type:'survey-multi-choice',
+            questions:[{
+                name:'ind_lean',
+                prompt:'Do you think of yourself as closer to the Republican party or to the Democratic party?',
+                options:[
+                    'Closer to Republican party',
+                    'Neither',
+                    'Closer to Democratic'
+                ]
+            }]
+        }],
+        conditional_function: function(){
+            //get data from pid_3 trial
+            //show this page if Independent or Other is selected
+            var data=jsPsych.data.get().last(1);
+            var obj=JSON.parse(data.values()[0].responses);
+            var resp=Object.values(obj);
+            if(resp=="Independent" || resp=="Other"){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+    //** Checks to see if they are valid responses.
+    //*** Should check to make sure that none of the text between respondents is the same (spoofing IP/VPN)
+    //*** Should check answers are sincere (attention check/non-US-resident)
+    var attn_checks={
+        type:'survey-text',
+        preamble: 'Please elaborate on your views',
+        questions:[
+            {
+                name: 'attn_chk_1',
+                prompt: 'In a few words, describe what is your first memory of a political event.'
+            },
+            {
+                name: 'attn_chk_2',
+                prompt: 'In a few words, describe occurred in the most recent political event.' 
+            },
+            {
+                name: 'attn_chk_3',
+                prompt: 'In a few words, describe how you keep up-to-date with current political events.'
+            },
+            {
+                name: 'attn_chk_4',
+                prompt: 'In a few words, describe what occurred in the most recent non-political event.'
+            },
+        ]
+    };
+    //* trials
+    var trial1={
+        timeline: [
+            {
+                type: 'Mouseview-Start'
+            },
+            {
+                type: 'image-button-response',
+                stimulus: jsPsych.timelineVariable('stimulus'),
+                choices: ['Next'],
+                stimulus_duration: 1000,
+            },
+            {
+                type: 'Mouseview-Stop'
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[
+                    {
+                        prompt: 'Is this candidate a Republican, a Democrat, or Neither?',
+                        options:['Republican', 'Democrat', 'Neither']
+                    }
+                ]
+            },
+        ],
+        timeline_variables:[
+            {stimulus: './assets/blue_1.jpg', name: 'blue_100'},
+            {stimulus: './assets/red_1.jpg', name:'red_100'},
+            {stimulus: './assets/white_1.jpg', name:'white_100'}
+        ],
+        sample: {
+            type: 'without-replacement',
+            size: 2
+        },
+    };
+    var trial2={
+        timeline: [
+            {
+                type: 'Mouseview-Start'
+            },
+            {
+                type: 'image-button-response',
+                stimulus: jsPsych.timelineVariable('stimulus'),
+                choices: ['Next'],
+                stimulus_duration: 1000,
+            },
+            {
+                type: 'Mouseview-Stop'
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[
+                    {
+                        prompt: 'Is this candidate a Republican, a Democrat, or Neither?',
+                        options:['Republican', 'Democrat', 'Neither']
+                    }
+                ]
+            },
+        ],
+        timeline_variables:[
+            {stimulus: './assets/blue_2.jpg', name: 'blue_100'},
+            {stimulus: './assets/red_2.jpg', name:'red_100'},
+            {stimulus: './assets/white_2.jpg', name:'white_100'}
+        ],
+        sample: {
+            type: 'without-replacement',
+            size: 2
+        },
+    };
+    var trial3={
+        timeline: [
+            {
+                type: 'Mouseview-Start'
+            },
+            {
+                type: 'image-button-response',
+                stimulus: jsPsych.timelineVariable('stimulus'),
+                choices: ['Next'],
+                stimulus_duration: 1000,
+            },
+            {
+                type: 'Mouseview-Stop'
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[
+                    {
+                        prompt: 'Is this candidate a Republican, a Democrat, or Neither?',
+                        options:['Republican', 'Democrat', 'Neither']
+                    }
+                ]
+            },
+        ],
+        timeline_variables:[
+            {stimulus: './assets/blue_3.jpg', name: 'blue_100'},
+            {stimulus: './assets/red_3.jpg', name:'red_100'},
+            {stimulus: './assets/white_2.jpg', name:'white_100'}
+        ],
+        sample: {
+            type: 'without-replacement',
+            size: 2
+        },
+    };
+
+    //* predictions
+    /*
+    var prediction={
+        timeline: [
+            {
+                type:'survey-multi-choice',
+                questions: [
+                    {
+                    prompt: 'Is this candidate a Republican, a Democrat, or Neither?',
+                    options:['Republican', 'Democrat', 'Neither']
+                    }
+                ]
+            }
+        ]
+    };
+    var trial1_prediction=prediction
+    var trail2_prediction=prediction
+    */
+    // execution order
+    timeline.push(pre_questionnaire_inst);
+    timeline.push(demographics_quest);
+    timeline.push(pre_political_inst);
+    timeline.push(pid_3);
+    timeline.push(pid_r_str);
+    timeline.push(pid_d_str);
+    timeline.push(ind_lean);
+    timeline.push(attn_checks);
+    timeline.push(pre_trial_inst);
+    timeline.push(trial1);
+    //timeline.push(trial1_prediction);
+    timeline.push(trial2);
+    timeline.push(trial3)
+    //timeline.push(trail2_prediction)
+    // init jspych and execute the experiment
+   jsPsych.init({
+        timeline:timeline,
+        show_progress_bar:true,
+        override_safe_mode:true,
+        on_finish: function(){
+            jsPsych.data.displayData()
+        }
+    });
+</script>
+</html>

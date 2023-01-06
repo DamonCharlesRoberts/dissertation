@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+    Initialize html document containing the experiment
+-->
+<html>
+<!--
+    Input psPsych plugins
+-->
+  <head>
+    <script src="./jsPsych/jspsych.js"></script>
+    <script src="./jsPsych/plugins/jspsych-instructions.js"></script>
+    <script src="./jsPsych/plugins/jspsych-image-button-response.js"></script>
+    <script src="./jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+    <script src="./jspsych-mouseview-start.js"></script>
+    <script src="./jspsych-mouseview-stop-2.js"></script>
+    <script src="https://mouseview-docs.netlify.app/MouseView.js" type = "module"></script>
+    <link rel="stylesheet" href="./jsPsych/css/jspsych.css"></link>
+<!--
+    Set the style for the whole page.
+    Set all images to a default width of 300px
+-->
+    <style>
+      img { width: 300px; }
+    </style>
+  </head>
+  <body></body>
+<!--
+    Initialize the script running the jsPSych and MouseView.js for the experiment
+-->
+    <script>
+        // define vars
+        var timeline = [];
+        var mouseview_trial_start = ()=> {     
+        mouseview.logEvent('Trial Started')
+        }
+        var mouseview_trial_end = ()=> {
+        mouseview.logEvent('Trial Ended')
+        }
+        // instructions before demographics questionnaire
+        timeline.push({
+            type: 'instructions',
+            show_clickable_nav: true,
+            pages: [
+                'I am first going to ask you a number questions about your background.'
+            ]
+        });
+        // start demographics questionnaire
+        timeline.push({
+            type: 'survey-multi-choice',
+            questions: [
+                {
+                    name: "genderID",
+                    horizontal: false,
+                    prompt: "<strong>1.</strong>What is your gender identity?",
+                    options: ["Non-binary", "Transgender", "Female", "Male", "Prefer not to choose", "Other"]
+                },
+                {
+                    name: "sex",
+                    horizontal: false,
+                    prompt: "<strong>2.</strong>What is your sex assigned at birth?",
+                    options: ["Female", "Male", "Other"]
+                },
+                {
+                    name: "raceID",
+                    horizontal: false,
+                    prompt: "<strong>3.</strong>Which ethnic or racial category best describes you?",
+                    options: ["White, non-Hispanic", "Black, non-Hispanic", "Hispanic", "Asian or Native Hawaiian/other Pacific Islander, non-Hispanic alone", "Native American/Alaska Native or other race, non-Hispanic alone", "Multiple races, non-Hispanic"]
+                }
+            ]
+        });
+        // start political questionnaire 
+        timeline.push({
+            type: 'instructions',
+            show_clickable_nav: true,
+            pages: [
+                'Now I am going to ask you a number of questions about your political attitudes'
+            ]
+        });
+        timeline.push({
+            type: 'survey-multi-choice',
+            questions: [
+                {
+                    name: "pid3",
+                    horizontal: false,
+                    prompt: "<strong>1.</strong>Generally speaking, do you usually think of yourself as a Democrat, Republican, an Independent, or what?",
+                    options: ["Republican", "Democrat", "Independent"]
+                },
+                {
+                    name: "pidLean",
+                    horizontal: false,
+                    prompt: "<strong>2.</strong>If you considered yourself to be a Republican or Democrat, would you say that you are a Strong Democrat/Republican or a not very strong Democrat/Republican?",
+                    options: ["Strong", "Not very strong"]
+                },
+                {
+                    name: "pidInd",
+                    horizontal: false,
+                    prompt: "<strong>3.</strong>If you consider yourself to be an Independent, do you think of yourself as closer to the Republican Party or to the Democratic party?",
+                    options: ["Closer to Republican", "Neither", "Closer to Democratic"]
+            
+                }
+            ]
+        });
+        timeline.push({
+            type: 'instructions',
+            show_clickable_nav: true,
+            button_label_next: "Ready to begin",
+            pages: [
+                "You will now be presented with pairs of images. <br> You should explore the image. At the bottom of the page, you should answer the question below the image. <br> After each pair of images, you will be asked to report your preference between the images in that particular pair. <br> Click the button below when you are ready."
+            ]
+        });
+        // start the routine with Mouseview-Start
+        timeline.push({
+          type: 'Mouseview-Start'
+        });
+        // start the first trial, part 1
+        timeline.push({
+            type: 'image-button-response',
+            stimulus: './assets/red_1.jpg',
+            choices: ["Republican", "Democrat", "Neither"],
+            prompt: "<p>Is this candidate a Republican, a Democrat, or Neither?</p>",
+            stimulus_duration: 2000,
+            on_start: mouseview_trial_start,
+            on_end: mouseview_trial_end
+        });
+        // start the first trial, part 2
+        timeline.push({
+            type: 'image-button-response',
+            stimulus: './assets/blue_1.jpg',
+            choices: ["Republican", "Democrat", "Neither"],
+            stimulus_duration: 2000,
+            prompt: "<p>Is this candidate a Republican, a Democrat or Neither?</p>",
+            on_start: mouseview_trial_start,
+            on_end: mouseview_trial_end
+        });
+        //end first trial
+        timeline.push({
+            type: 'Mouseview-Stop'
+        })
+        // start response to first trial
+        timeline.push({
+            type: 'survey-multi-choice',
+            questions: "Of the two images that you saw, which did you prefer?",
+            prompt: ["First", "Second"]
+        });
+        /*
+        // timeline start second trial
+        timeline.push({
+            type: 'Mouseview-Start'
+        });
+        */
+        // start the third trial
+        timeline.push({
+            type: 'image-button-response',
+            stimulus: './jsPsych/examples/img/happy_face_3.jpg',
+            stimulus_width: 600,
+            choices: ['Happy', 'Sad'],
+            trial_duration: 2000,
+            response_ends_trial: false,
+            prompt: "<p>What emotion is this person showing? (trial ends after 2s)</p>",
+            on_start: mouseview_trial_start,
+            on_end: mouseview_trial_end
+        });
+        // end the trials and experiment
+        timeline.push({
+          type: 'MouseView-Stop'
+        })
+        timeline.push({
+
+        })
+        // store the data
+        jsPsych.init({
+            timeline: timeline,
+            on_finish: function(){jsPsych.data.displayData();}
+        });
+    </script>
+</html>
