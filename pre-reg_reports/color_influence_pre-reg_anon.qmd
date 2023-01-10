@@ -30,7 +30,7 @@ execute:
   message: false
   cache: true
 params:
-  os: windows
+#  os: windows
 ---
 
 ```{python}
@@ -63,7 +63,7 @@ A number of scholars make this same argument. An edited issue of *The Internatio
 
 How does politically-relevant visual information matter to politics? From a evolutionary-biological perspective, visual information is a common source of information for millions of years that a variety of single-and-multi-cell organisms rely upon to evaluate their environment [see @grabe_bucy_2009_oup, Chapter 1 for a useful discussion]. Visual information processing, as an ancient biological invention, the human brain is organized around the processing of it. Reflecting this, many scholars of neuroscience argue visual information to be the fastest form of information processing for humans. For example, even complex visual information such as the warmth expressed in someone's facial features are automatically and subconsciously processed in only about 33`ms` [@ames_et-al_2012_ohsn].
 
-Approached from a different perspective, as humans are cognitive misers \index{cognitive misers}, visual information in the realm of politics provides efficient information to voters about politically-relevant actors and events [@lilleker_2019_pm]. Evidence suggests that voters rely on simple visual information in the background of an image to infer the ideological position [@dan_arendt_2021_ijpp] and that their coverage reflects electability perceptions [@stewart_et-al_2021_ijpp] -- which influences reported desire to vote for the candidate. Images posted on social media by politicians provide more personalized information about them and that they take on their own styles [@lindholm_et-al_2021_ijpp; @peng_2021_ijpp]; reflecting that it is an alternative source of information curated to attract support.
+Approached from a different perspective, as humans are cognitive misers \index{cognitive misers}, visual information in the realm of politics provides efficient information to voters about politically-relevant actors and events [@lilleker_2019_pm]. Evidence suggests that voters rely on simple visual information in the background of an image to infer the ideological position [@dan_arendt_2021_ijpp] and that their coverage reflects electability perceptions [@stewart_et-al_2021_ijpp] -- which influences reported desire to vote for the candidate. Images posted on social media by politicians provide more personalized information about them and that they take on their own styles [@lindholm_et-al_2021_ijpp; @peng_2021_ijpp]; reflecting that it is an alternative source of information curated to attract support. There is evidence to suggest that even simple party branding on yard signs have an emotional appeal and encourage a shift in attitudes toward the person who owns the yard sign [@makse_et-al_2019_oup]. That is, even branding as simple as yard signs appear to influence attitudes of those who view them. However, like all types of party branding, there remains questions about the contribution that the individual might visual components provide.
 
 While visual politics is enjoying more attention by social scientists, there is still little focus on the simplest visual information: color. In the context of the United States, the "Republican red" and "Democratic blue" are a relatively recent invention that likely has significant import in a era of significant effort by the parties to distinguish themselves from each other [@clifford_2020_pb] and where voters toe the party line [@utych_2020_es]. Since the 2000 presidential election, the media have consistently used the color red on their electoral maps in "horserace" journalism to represent Republicans and blue to represent Democrats [@elving_2014_npr]. The supposed consequence of this is that Democrats now report preference for the color blue over the color red; and Republicans report a preference for the color red over the color blue [@schloss_palmer_2014_pbr]. Beyond this however, we have yet to robustly develop and test theories about the broader impacts that color has on political information processing and attitude formation.
 
@@ -141,7 +141,7 @@ From this discussion, I expect the following: that individuals do pay attention 
 
 # Study 1 {#sec-study-1}
 
-In [Study 1](#sec-study-1), I examine the effects of color in a common form of campagin branding -- yard signs -- on the attitudes of the observer. In this study, I test the first 4 hypotheses I derive from the snap-judgement model. First, [Study 1](#sec-study-1) tests the claim that individuals do indeed notice color on electoral yard signs. Next it tests the claim that these colors that individuals detect influence the viewer's evaluations of the yard sign and candidate represented on it. [Study 1](#sec-study-1) then tests the claim that the effects on perception are moderated by how consistent the color is with the more complex information displayed on the yard sign. And finally, [Study 1](#sec-study-1) then examines whether positive information that contains consistency is processed quicker than negative or inconsistent information. That is, do partisans quickly detect and encode information from a clearly co-partisan political candidate?
+In [Study 1](#sec-study-1), I examine the effects of color in a common form of campagin branding -- yard signs -- on the attitudes of the observer. Evidence suggests that yard signs *do* matter for shaping political attitudes [@makse_et-al_2019_oup], vote intentions [@makse_et-al_2019_oup], and even electoral outcomes[@green_et-al_2016_es]. As they are quite simple, cheap, intrusive, and common forms of campaign branding, they provide a conservative test of the effects of color in campaign branding. Using yard signs in this study, I test the first 4 hypotheses I derive from the snap-judgement model. First, [Study 1](#sec-study-1) tests the claim that individuals do indeed notice color on electoral yard signs. Next it tests the claim that these colors that individuals detect influence the viewer's evaluations of the yard sign and candidate represented on it. [Study 1](#sec-study-1) then tests the claim that the effects on perception are moderated by how consistent the color is with the more complex information displayed on the yard sign. And finally, [Study 1](#sec-study-1) then examines whether positive information that contains consistency is processed quicker than negative or inconsistent information. That is, do partisans quickly detect and encode information from a clearly co-partisan political candidate?
 
 ## Design
 
@@ -159,7 +159,12 @@ There are three more trials that are much like the first trial. What is differen
 
 ## Do individuals notice color in political branding?
 
+To address this first question, I use two measures of "notice color in political branding". The first measure is the question posed to the participant after viewing each yard sign, "what color was the yard sign?". The second measure is more implicit: it is an accounting of the time someone's mouse hovered over the non-text elements of the yard sign relative to how long their mouse hovered over the text.
+
+This is largely a descriptive exercise. I intend to compare the differences in measures between the "non-partisan" (white) yard sign and the partisan (red and blue) yard signs. I additionally intend to examine the differences in measures between the partisan yard signs among self-identified partisan respondents.
+
 ## Do colors shape perceptions of political objects?
+
 
 ## Do these perceptions require consistency between information types?
 
