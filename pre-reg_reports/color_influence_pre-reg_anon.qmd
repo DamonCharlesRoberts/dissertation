@@ -139,6 +139,12 @@ There is significant evidence in support of the theory that our partisan identif
 
 From this discussion, I expect the following: that individuals do pay attention to the colors used in campaign branding (***$H_{1}$***); that these colors that they notice shape perceptions about the person and ideological symbol represented in the branding -- meaning that they express different levels of preference for receiving more information that is similar to what they saw and their levels of preference for supporting such a campaign (***$H_{2}$***); that more positive perceptions are explained by the consistency of information -- simple visual information with more complex "traditional" information (***$H_{3}$***); this positive and consistent information is processed quicker than negative and inconsistent, negative and consistent, and positive and inconsistent information (***$H_{4}$***); and finally that campaigns make strategic choices about their branding to attract voters (***$H_{5}$***) in line with their primary objective of reelection [@fenno_1973_lb;@mayhew_1974_yup].
 
+<!--
+  TODO: 
+    - Change the tense of Studies 1 and 2 to be more anticipatory
+    - Add a bit more in terms of beefing up details on the analytical strategies
+-->
+
 # Study 1 {#sec-study-1}
 
 In [Study 1](#sec-study-1), I examine the effects of color in a common form of campagin branding -- yard signs -- on the attitudes of the observer. Evidence suggests that yard signs *do* matter for shaping political attitudes [@makse_et-al_2019_oup], vote intentions [@makse_et-al_2019_oup], and even electoral outcomes[@green_et-al_2016_es]. As they are quite simple, cheap, intrusive, and common forms of campaign branding, they provide a conservative test of the effects of color in campaign branding. Using yard signs in this study, I test the first 4 hypotheses I derive from the snap-judgement model. First, [Study 1](#sec-study-1) tests the claim that individuals do indeed notice color on electoral yard signs. Next it tests the claim that these colors that individuals detect influence the viewer's evaluations of the yard sign and candidate represented on it. [Study 1](#sec-study-1) then tests the claim that the effects on perception are moderated by how consistent the color is with the more complex information displayed on the yard sign. And finally, [Study 1](#sec-study-1) then examines whether positive information that contains consistency is processed quicker than negative or inconsistent information. That is, do partisans quickly detect and encode information from a clearly co-partisan political candidate?
@@ -265,6 +271,14 @@ I therefore reach out to a number of relatively easy to contact campaign staff f
 
 With the handful of these informal interviews, I intend to see whether campaigns percieve that a design choice as simple as color matters for their campaign and what message they are sending to voters. 
 
+<!--
+  TODO:
+    - Include my pre-test from SPS
+-->
+<!--
+  TODO:
+    - Beef up the discussion section a bit more.
+-->
 # Discussion
 
 Together, the evidence from [Study 1](#sec-study-1) and [Study 2](#sec-study-2) not only demonstrates that campaigns percieve that the color choices they make matter for voters and respond to electoral contexts as a result, but the evidence also provides support for these perceptions as well. 
