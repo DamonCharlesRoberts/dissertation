@@ -159,18 +159,33 @@ There are three more trials that are much like the first trial. What is differen
 
 ## Do individuals notice color in political branding?
 
-To address this first question, I use two measures of "notice color in political branding". The first measure is the question posed to the participant after viewing each yard sign, "what color was the yard sign?". The second measure is more implicit: it is an accounting of the time someone's mouse hovered over the non-text elements of the yard sign relative to how long their mouse hovered over the text.
+To address this first question, I use two measures of a participant's attention toward the colors on the yard sign. The first measure is collected through a question posed to the participant after viewing each yard sign, "what color was the yard sign?". The second measure is more implicit: it is an accounting of the time someone's mouse hovered over the non-text elements of the yard sign relative to how long their mouse hovered over the text. The self-reported measure allows us to examine the conscious detection of color while the more implicit measure allows us to examine where individuals' attention goes: toward the color or toward the text.
 
 This is largely a descriptive exercise. I intend to compare the differences in measures between the "non-partisan" (white) yard sign and the partisan (red and blue) yard signs. I additionally intend to examine the differences in measures between the partisan yard signs among self-identified partisan respondents.
 
 ## Do colors shape perceptions of political objects?
 
+To address the next question of whether the colors effect perceptions of the candidate and the yard sign, I ask participants to report whether they percieved the candidate to be a partisan -- either Republican or Democrat, or as a non-partisan. Everything on the yard signs remain constant except for the color. As representations of ideology are associated with more than just political views but things like space [@mills_et-al_2016_bbr] and color [@maestre_medero_2022_pr], differences between respondents on the percieved political affiliations of the candidate should be more than stochastic differences, but should be based on the associations with the colors red and blue with partisanship and the lack of political information that the color white conveys.
+
+I examine differences in the reported perceptions of the candidate's partisan affilation among respondents. As respondents see multiple yard signs, I intend to calculate the Individual Marginal Component Effect (IMCE) which allows me to view the within individual difference [@zhirkov_2022_pa] in perceptions with varying color-based information among the yard signs they view. I also am able to calculate the Average Marginal Component Effect (AMCE) by examining the average difference in perceptions among subgroups that vary on level of political interest, partisan strength, and level of political knowledge. 
 
 ## Do these perceptions require consistency between information types?
 
+Another hypothesis derived from the snap-judgement model suggests that inconsistency in the visual information that the yard sign presents will lead to more mixed perceptions of the candidate's political stances. The latter trials of the study are designed to present yard signs with mixtures of non-partisan and out-partisan colors. For example: presumably Republican yard signs that are mostly red, but has some blue or white in it.
+
+I take the same analytical strategy to address this question as I did before. I estimate the IMCE and AMCE's among respondents. I should expect that for the trials that use less "consistent" visual information demonstrate more ambivalence among respondents in their reported perceptions of the politician's positions. Specifically, I expect that the yard signs that have both red and blue on it will be percieved as more moderate and that the higher proportion of the color red or blue among the two colors will lead respondents, on average, to be more likely to believe that the candidate leans more Republican or Democratic.
+
 ## Do partisans process co-partisan branding faster?
 
-# Study 2
+The other analytical tasks do not examine expectations derived from the motivated reasoning portion of the model. That is, do people process in-group information faster than out-group information? There is evidence of these tendencies in political circumstances [@lodge_taber_2013_cup]. 
+
+To examine whether motivated reasoning is also active with the processing of politically-relevant color, I examine the difference between the amount of time between the start of viewing a stimulus and clicking "Next" to stop viewing the stimulus among those who were viewing a presumed co-partisan yard sign relative to those viewing a presumed out-partisan yard sign. As motivated reasoning tends to be more prevalent among strong partisans and those highly knowledgeable and interested in politics [@lodge_taber_2013_cup], I control for responses to the pre-treatment knowledge, interest, and partisan strength batteries.
+
+# Study 2 {#sec-study-2}
+
+[Study 1](#sec-study-1) presents evidence in support of the snap-judgement model in a relatively artificial way. The yard signs presented as stimuli are extremely simple in information content and design. Furthermore, the actual viewing of yard signs in realworld scenarios does not occur through a computer screen with an overlay allowing individuals to observe only a fraction of the screen at a time. 
+
+One way to examine the real world effects of color on decisions about campaign branding is to go directly to the experts. If the effects of [Study 1](#sec-study-1) hold up in real world conditions, we should expect that campaigns do not include the same design elements across electoral contexts. That is, if the color of a yard sign does indeed matter and its electoral effects are dependent on the perceptions of potential voters, we should expect that campaigns are less likely to place yard signs with a large amount of Red or Blue. for example, in districts that contain relatively few co-partisans.
 
 ## Do branding choices reflect electoral context?
 
@@ -238,3 +253,22 @@ $$ {#eq-img-color-percentage}
 ```{python}
 display(Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}')))
 ```
+
+With these data, I estimate a mixed effects model with intercept random effects at the district-level and intercept fixed effects at the election-year-level to examine between district, within the election year differences between choices to employ more "partisan" colors on a yard sign based on historical data on electoral performance of partisan and non-partisan candidates for each district.
+
+
+## Is it *only* electoral differences that shape a campaign's choices?
+
+While this provides useful evidence suggesting systematic differences in choices among campaigns, there is still an open question if whether these differences are *only* the result of electoral differences or if candidate differences influence this; after all, candidates have the ability to shape their campaign. 
+
+I therefore reach out to a number of relatively easy to contact campaign staff for national campaigns and simply ask them "how do you decide what colors to put on a yard sign?"
+
+With the handful of these informal interviews, I intend to see whether campaigns percieve that a design choice as simple as color matters for their campaign and what message they are sending to voters. 
+
+# Discussion
+
+Together, the evidence from [Study 1](#sec-study-1) and [Study 2](#sec-study-2) not only demonstrates that campaigns percieve that the color choices they make matter for voters and respond to electoral contexts as a result, but the evidence also provides support for these perceptions as well. 
+
+Not only do yard signs matter for electoral strategy, outcomes, and for voter attitudes and perceptions, but that the color of the yard signs are a partial explanation for these phenomenon.
+
+While yard signs are a simple form of party branding, with richer theorizing about the ways in which diverse types of potentially politically-relevant information allows us to fill some of these gaps. In the case of yard signs, while some may be skeptical of whether yard signs and campaigns, more generally, matter for electoral outcomes, an application of the snap-judgement model on yard signs suggests that they indeed have a potential and provide an explanation as to how it occurs.
