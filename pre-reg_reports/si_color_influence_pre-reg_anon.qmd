@@ -1,0 +1,104 @@
+---
+title: |
+  Supplimentary Information - How do colors convey political information and effect individual attitudes?
+repo: |
+  For replication, go to: <https://github.com/DamonCharlesRoberts/dissertation>.
+author:
+  - name: Damon C. Roberts
+    email: damon.roberts-1@colorado.edu
+    orcid: 0000-0002-4360-3675
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+abstract: |
+  Are colors important to politics as a form of political information? In this project I argue that they are. Building upon existing theories of political information processing and common theories of information processing, attitude formation, and affect in neuroscience, I present a snap-judgement model of political information processing. In this model, colors provide automatic information about a politically-relevant object that may shape subsequent processing of more complex information that the political science literature is more familiar with. The model has important implications for how we consider the role that visual information has on political information processing and attitude formation. The model additionally provides clarity on motivations behind party branding and the ways in which information may activate partisan biases pre-consciously.
+nonblind: blind
+bibliography: "../assets/references.bib"
+format:
+  pdf:
+    template: "../../../templates/manuscripts/apsr_template.tex"
+    cite-method: biblatex
+    fig-pos: 'h'
+    tbl-pos: 'h'
+execute:
+  echo: false
+  warning: false
+  message: false
+params:
+#    os: windows
+---
+
+# Study 1 Stimuli
+
+## Trial 1
+
+![Republican](protocols/color_influence/assets/red_1.jpg){width=4in height=3in}
+
+![Democrat](protocols/color_influence/assets/blue_1.jpg){width=4in height=3in}
+
+![White](protocols/color_influence/assets/white_1.jpg){width=4in height=3in}
+
+{{< pagebreak >}}
+
+## Trial 2
+
+![Republican](protocols/color_influence/assets/red_2.jpg){width=4in height=3in}
+
+![Democrat](protocols/color_influence/assets/blue_2.jpg){width=4in height=3in}
+
+![White](protocols/color_influence/assets/white_2.jpg){width=4in height=3in}
+
+{{< pagebreak >}}
+
+## Trial 3
+
+![Republican](protocols/color_influence/assets/red_3.jpg){width=4in height=3in}
+
+![Democrat](protocols/color_influence/assets/blue_3.jpg){width=4in height=3in}
+
+![White](protocols/color_influence/assets/white_2.jpg){width=4in height=3in}
+
+{{< pagebreak >}}
+
+# Pre-test
+
+```{r}
+#| label: setup-block
+
+box::use(
+    modelsummary=modelsummary[modelsummary],
+    tibble=tibble[tribble]
+)
+```
+
+```{r}
+#| label: load models
+
+models <- readRDS('ch_1_pre-test_models.rds')
+```
+
+```{r}
+#| label: tbl-pre-test-table
+#| tbl-cap: Color on Yard Signs shape perceptions and vote intentions of candidate
+# Table for models
+  #* Set up non-coefficient related information from models 
+gm = list(
+    list('raw' = 'nobs', 'clean' = 'N', fmt = 0)
+)
+  #* Store models in list object
+table_contents = list(
+    'Party' = models[['party_guess']],
+    'Candidate evaluation' = models[['cand_eval']]
+)
+  #* Add row for sectioning out threshold estimates
+rows = tribble(~term, ~`Party`, ~`Candidate evaluation`, 'Thresholds', " ", " ",)
+attr(rows, 'position') = c(13)
+  #* Generate table
+modelsummary(table_contents, statistic = 'conf.int', coef_map = c('blue_treatment' = 'Blue treatment', 'red_treatment' = 'Red treatment', 'pid' = 'Party ID', 'blue_treatment:pid' = 'Blue treatment $\\times$ Party ID', 'red_treatment:pid' = 'Red treatment $\\times$ Party ID', '(Intercept)' = 'Intercept', '-1|0' = 'Threshold 1', '0|1' = 'Threshold 2'), gof_map = gm, add_rows = rows, notes = c('95-percent credible intervals in brackets.', 'Median estimate from fitted model with 6 chains and 2000 iterations.', 'Data source: Pre-test experiment.'))
+```

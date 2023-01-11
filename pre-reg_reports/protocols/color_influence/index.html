@@ -8,6 +8,7 @@
     <script src="./jsPsych/plugins/jspsych-instructions.js"></script>
     <script src="./jsPsych/plugins/jspsych-image-button-response.js"></script>
     <script src="./jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+    <script src="./jsPsych/plugins/jspsych-survey-multi-select.js"></script>
     <script src="./jsPsych/plugins/jspsych-survey-text.js"></script>
     <script src="./jspsych-mouseview-start.js"></script>
     <script src="./jspsych-mouseview-stop.js"></script>
@@ -51,7 +52,7 @@
         button_label_next:'Next',
         preamble: '<h1> Instructions: </h1><br><br><br>',
         pages:[
-            'Now I am going to ask you a number of questions about your political attitudes.'
+            'Now I am going to ask you a number of questions about politics.'
         ]
     };
     //** Pre-experiment instructions
@@ -128,6 +129,22 @@
                     }
                 ]
             },
+            {
+                type:'survey-multi-select',
+                questions:[{
+                    name: 'color_blind',
+                    horizontal:false,
+                    prompt:'Have you been diagnosed with any of the following visual impairments?',
+                    options:[
+                        'Blurred vision',
+                        'Macular degeneration',
+                        'Glaucoma',
+                        'Cataract',
+                        'Diabetic retinopathy',
+                        'Color blindness (any form)'
+                    ]
+                }]
+            }
 
 
         ],
@@ -136,6 +153,106 @@
         }
     };
     //* political questionnaire
+    //** Political attention
+    var int={
+        type:'survey-multi-choice',
+        questions:[{
+            name:'attention',
+            prompt:'How often do you pay attention to what is going on in government and politics?',
+            options:[
+                'Always',
+                'Most of the time',
+                'About half the time',
+                'Some of the time',
+                'Never'
+            ]
+        }]
+    };
+    //** Knowledge
+    var know_promise={
+        type:'survey-multi-choice',
+        questions:[{
+            name:'know_promise',
+            prompt:'<p>We are interested in the guesses people make when they do not know the answer to a question. We will ask you several questions. Some may be easy, but some are meant to be so difficult that you will have to guess.</p><p> In fact, for some of these questions, if you answer correctly, we will know that you probably looked up the answer.</p><p>Please do not look up the answers you do not know. Instead, please just make your best guess.</p><p>Will you please promise to try your best without looking up any answers? Or do you not want to make that promise?',
+            options:[
+                'I promise to try my best without looking up any answers',
+                'I do not want to make that promise'
+            ]
+        }]
+    };
+    var know={
+        timeline:[
+            {
+                type:'survey-text',
+                questions:[{
+                    name:'know_senate',
+                    prompt:'For how many years is a United States Senator elected -- that is, how many years are there in one full term of office for a U.S. Senator?',
+
+                }]
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[{
+                    name:'know_spend',
+                    prompt:'On which of the following does the U.S. federal government currently spend the least?',
+                    options:[
+                        'Foreign aid',
+                        'Medicare',
+                        'National defense',
+                        'Social security'
+                    ]
+                }]
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[{
+                    name:'know_house',
+                    prompt:'Do you happen to know which party currently has the most members in the U.S. House of Representatives in Washington?',
+                    options:[
+                        'Democrats',
+                        'Republicans'
+                    ]
+                }]
+            },
+            {
+                type:'survey-multi-choice',
+                questions:[{
+                    name:'know_senate',
+                    prompt:'Do you happen to know which party has the most members in the U.S. Senate?',
+                    options:[
+                        'Democrats',
+                        'Republicans'
+                    ]
+                }]
+            },
+            {
+                type:'survey-text',
+                questions:[{
+                    name:'know_catch',
+                    prompt: 'In what year did the Supreme Court of the United States decide Geer v. Connecticut?'
+                }]
+            },
+            {
+                type:'instructions',
+                show_clickable_nav:true,
+                button_label_next:'Next',
+                pages:['<p>Thank you for answering the last few questions. Here are the answers:</p><p>U.S. Senators are elected for 6 year terms.</p><p>The U.S. federal government spends less on foreign aid than on Medicare, national defense, or Social Security.</p><p>The Republicans have the most members in the U.S. House of Representatives.</p><p>The Democrats have the most members in the U.S. Senate.</p><p>Geer v. Connecticut was decided in 1896.</p>']
+            }
+
+        ],
+        conditional_function: function(){
+            //get data from the previous trial
+            //show this page if they promised to not look up answer
+            var data=jsPsych.data.get().last(1);
+            var obj=JSON.parse(data.values()[0].responses);
+            var resp=Object.values(obj);
+            if(resp=="I promise to try my best without looking up any answers"){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
     //** Ask participants if they are Republican, Democrat, Independent, or Other
     var pid_3={
         type:'survey-multi-choice',
@@ -378,6 +495,9 @@
     timeline.push(pre_questionnaire_inst);
     timeline.push(demographics_quest);
     timeline.push(pre_political_inst);
+    timeline.push(int);
+    timeline.push(know_promise);
+    timeline.push(know);
     timeline.push(pid_3);
     timeline.push(pid_r_str);
     timeline.push(pid_d_str);
