@@ -28,7 +28,6 @@ execute:
   echo: false
   warning: false
   message: false
-  #cache: true
 params:
 #  os: windows
 ---
@@ -210,13 +209,8 @@ With these data, I detect the percentage of the "Republican Red" and "Democratic
 To provide an example of how the color detection works, I collected the GOP logo used on their official Twitter account during the 2022 midterm election cycle. I load this image and convert it to a three-dimensional array that contains information about the GBR (reversed RBG) values for the pixels in that image. I then resize the images to be a standardized 224 $x$ 224 pixels. The computer is trained to detect a range of GBR values that encompass the official "Republican Red"^[lower values: (93, 9, 12), higher values: (236, 69, 75)]. For the broader exercise, I do it for the color white^[upper and lower values: (255, 255, 255)] and "Democratic blue"^[lower values: (0, 18, 26), higher values: (102, 212, 255)]. Once this range of values is specified, the computer detects the pixels that do not contain values within this pre-specified range and converts those values to represent the color black. @fig-color-detection-example presents this process.
 
 ```{python}
-#| label: fig-color-detection-example
-#| layout-ncol: 2
-#| fig-cap: Detecting colors in the GOP logo
-#| fig-subcap:
-#|  - "Resized original image"
-#|  - "Masked"
-
+#| label: example detection
+#| echo: false
 # Define colors to detect
     #* White
         #** Not defined. Default for colorDetector()
@@ -231,35 +225,27 @@ img = cv2.imread("../pre-reg_reports/data/gop_2022.png")
 # Detect colors
 percent, img_transformed, result = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
 
-cv2.imwrite("../pre-reg_reports/data/gop_2022_transformed.png", img_transformed) # save transformed image
+transformed=cv2.imwrite("../pre-reg_reports/data/gop_2022_transformed.png", img_transformed) # save transformed image
 
-cv2.imwrite("../pre-reg_reports/data/gop_2022_detected.png", result) # save masked image
-
-# Display transformed and masked image
-img_transformed = mpimg.imread("../pre-reg_reports/data/gop_2022_transformed.png") # load transformed image
-plt.imshow(img_transformed) # show img_transformed
-plt.axis("off") # remove axes
-plt.show() # show plot
-
-img_masked = mpimg.imread("../pre-reg_reports/data/gop_2022_detected.png") # load masked image
-plt.imshow(img_masked) # show img_masked
-plt.axis("off") # remove axes
-plt.show() # show plot
-plt.show() # show plot
+masked=cv2.imwrite("../pre-reg_reports/data/gop_2022_detected.png", result) # save masked image
 ```
 
-I then extract the values in the array that are non-black and calculate the percentage of non-black pixels (as depicted in @eq-img-color-percentage).  
+:::{#fig-color-detection-example layout-ncol=2}
+![Resized original image]("../pre-reg_reports/data/gop_2022_transformed.png"){#fig-resized}
 
+![Masked]("../pre-reg_reports/data/gop_2022_detected.png"){#fig-masked}
+
+Detecting colors in the GOP logo
+:::
+
+I then extract the values in the array that are non-black and calculate the percentage of non-black pixels (as depicted in @eq-img-color-percentage).  
 
 $$
 \text{Color} \% = \frac{\text{Non-black}}{\text{Transformed}} \times \frac{\text{Original}_{\text{Height}} + \text{Original}_{\text{Width}}}{2\text{Transformed}_{\text{Height}} + 2\text{Transformed}_{\text{Width}}}
 $$ {#eq-img-color-percentage}
 
-For the example in @fig-color-detection-example, about ```{python} print(percent)``` of the image is red.
-
 ```{python}
-#| eval: false
-display(Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}')))
+Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}'))
 ```
 
 With these data, I estimate a mixed effects model with intercept random effects at the district-level and intercept fixed effects at the election-year-level to examine between district, within the election year differences between choices to employ more "partisan" colors on a yard sign based on historical data on electoral performance of partisan and non-partisan candidates for each district.
@@ -383,6 +369,7 @@ To examine whether subjects presumed that the fictional candidate is affiliated 
 
 ```{r}
 #| label: model-block
+#| eval: false
 # Create empty model object
 model = list()
 # Models
@@ -395,12 +382,17 @@ model[['cand_eval']]= stan_polr(as.factor(t_vote) ~ blue_treatment + red_treatme
 saveRDS(model, "ch_1_pre-test_models.rds")
 ```
 
+```{r}
+#| label: load-models
+
+model <- readRDS('ch_1_pre-test_models.rds')
+```
 
 ```{r}
 #| label: fig-pre-experiment-guess
 #| fig-cap:
 #|  - "Associate color with partisanship"
-#| fig-width: 8
+#| fig-width: 6
 associate_color = model[['party_guess']] |>
   marginaleffects() |>
   posteriordraws() |>
@@ -422,11 +414,12 @@ With confidence that the subjects associate the yard signs with the candidate's 
 
 ```{r}
 #| label: fig-pre-experiment-cand-eval
-#| fig-ncol: 2
+#| layout-nrow: 2
 #| fig-cap: "Effect of yard sign color on candidate evaluation"
 #| fig-subcap:
 #|  - "Republicans would vote for candidate with Red yard sign"
 #|  - "No difference among partisans in support for candidate with Blue yard sign"
+#| fig-width: 6
 evaluation_candidate_red = model[['cand_eval']] |>
   marginaleffects::plot_cme(effect = 'red_treatment', condition = 'pid') +
     theme_minimal() +
