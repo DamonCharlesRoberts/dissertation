@@ -34,6 +34,7 @@ params:
     os: windows
 ---
 
+
 # Study 1 Stimuli
 
 ## Trial 1
@@ -44,7 +45,10 @@ params:
 
 ![White](protocols/color_influence/assets/white_1.jpg){width=4in height=3in}
 
+
 {{< pagebreak >}}
+
+
 
 ## Trial 2
 
@@ -54,7 +58,10 @@ params:
 
 ![White](protocols/color_influence/assets/white_2.jpg){width=4in height=3in}
 
+
 {{< pagebreak >}}
+
+
 
 ## Trial 3
 
@@ -64,41 +71,52 @@ params:
 
 ![White](protocols/color_influence/assets/white_2.jpg){width=4in height=3in}
 
+
 {{< pagebreak >}}
+
+
 
 # Pre-test
 
-```{r}
-#| label: setup-block
 
-box::use(
-    modelsummary=modelsummary[modelsummary],
-    tibble=tibble[tribble]
-)
-```
+::: {.cell}
 
-```{r}
-#| label: load models
+:::
 
-models <- readRDS('ch_1_pre-test_models.rds')
-```
+::: {.cell}
 
-```{r}
-#| label: tbl-pre-test-table
-#| tbl-cap: Color on Yard Signs shape perceptions and vote intentions of candidate
-# Table for models
-  #* Set up non-coefficient related information from models 
-gm = list(
-    list('raw' = 'nobs', 'clean' = 'N', fmt = 0)
-)
-  #* Store models in list object
-table_contents = list(
-    'Party' = models[['party_guess']],
-    'Candidate evaluation' = models[['cand_eval']]
-)
-  #* Add row for sectioning out threshold estimates
-rows = tribble(~term, ~`Party`, ~`Candidate evaluation`, 'Thresholds', " ", " ",)
-attr(rows, 'position') = c(13)
-  #* Generate table
-modelsummary(table_contents, statistic = 'conf.int', coef_map = c('blue_treatment' = 'Blue treatment', 'red_treatment' = 'Red treatment', 'pid' = 'Party ID', 'blue_treatment:pid' = 'Blue treatment $\\times$ Party ID', 'red_treatment:pid' = 'Red treatment $\\times$ Party ID', '(Intercept)' = 'Intercept', '-1|0' = 'Threshold 1', '0|1' = 'Threshold 2'), gof_map = gm, add_rows = rows, notes = c('95-percent credible intervals in brackets.', 'Median estimate from fitted model with 6 chains and 2000 iterations.', 'Data source: Pre-test experiment.'), escape = FALSE)
-```
+:::
+
+::: {#tbl-pre-test-table .cell tbl-cap='Color on Yard Signs shape perceptions and vote intentions of candidate'}
+::: {.cell-output-display}
+\begin{table}
+\centering
+\begin{tabular}[t]{lcc}
+\toprule
+  & Party & Candidate evaluation\\
+\midrule
+Blue treatment & \num{-2.435} & \num{-0.020}\\
+ & {}[\num{-2.923}, \num{-1.979}] & {}[\num{-0.524}, \num{0.515}]\\
+Red treatment & \num{2.638} & \num{-0.086}\\
+ & {}[\num{2.121}, \num{3.198}] & {}[\num{-0.613}, \num{0.437}]\\
+Party ID &  & \num{-0.183}\\
+ &  & {}[\num{-0.360}, \num{-0.005}]\\
+Blue treatment $\times$ Party ID &  & \num{-0.162}\\
+ &  & {}[\num{-0.401}, \num{0.078}]\\
+Red treatment $\times$ Party ID &  & \num{0.637}\\
+ &  & {}[\num{0.382}, \num{0.905}]\\
+Threshold 1 & \num{-1.229} & \num{-1.929}\\
+ & {}[\num{-1.551}, \num{-0.912}] & {}[\num{-2.353}, \num{-1.527}]\\
+Thresholds &  & \\
+Threshold 2 & \num{0.696} & \num{2.880}\\
+ & {}[\num{0.396}, \num{0.994}] & {}[\num{2.384}, \num{3.405}]\\
+\midrule
+N & \num{520} & \num{463}\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}Data source: Pre-test experiment.}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}Median estimate from fitted model with 6 chains and 2000 iterations.}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}95-percent credible intervals in brackets.}\\
+\end{tabular}
+\end{table}
+:::
+:::

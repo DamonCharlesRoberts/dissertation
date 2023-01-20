@@ -13,7 +13,6 @@ import random # to generate distributions
 import math # for useful math operators
     #* CAPD ANALYSIS
 import numpy as np # for array management
-import polars as pl # for dataframe management
 import re # for regex
 import cv2 # for image detection
 
@@ -64,6 +63,7 @@ def preProcess(img,inter,size=[224,224]):
     """
     resized = cv2.resize(img,size,inter)
     return resized
+    
 #** Color detection
 def colorDetector(img,color_upper=[255,255,255],color_lower=[255,255,255]):
     """

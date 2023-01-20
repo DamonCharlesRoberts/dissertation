@@ -29,7 +29,7 @@ execute:
   warning: false
   message: false
 params:
-#  os: windows
+  os: windows
 ---
 
 ```{python}
@@ -39,8 +39,9 @@ params:
 import os # for path management
 import sys # for path management
 import numpy as np # for array management
-import polars as pl # for dataframe management
+#import polars as pl # for dataframe management
 import cv2 # for color detection
+import matplotlib
 from matplotlib import pyplot as plt # for graphics
 from matplotlib import image as mpimg # for displaying images
 from IPython.display import display, Markdown # for displaying inline code
@@ -157,7 +158,7 @@ I then present participants with an instruction screen informing them of the tas
 
 Rather than use eye-tracking devices and software, I instead use Mouseview.js [see @anwyl-irvine_et-al_2022_brm] which either blocks out or blurs a large portion of the participant's screen and encourages them to move their mouse to view different parts of the screen in isolation. As the participants move their cursor around the screen, it tracks the coordinates of the cursor along with the "dwell" time of the cursor in that particular coordinate. One primary benefit of Mouseview.js is that it allows for researchers to field their experiments outside of a lab-based setting -- while providing results that are robustly correlated with the results from a design employing eyetracking [@anwyl-irvine_et-al_2022_brm]. This opens up the flexibility for researchers to rely less on convenience samples; which are common with eye-tracking studies. For my design in particular, I am concerned about reliance on a convenience sample due to variation in participants' ability to detect and process color in the U.S. population relative to a student sample. This means that Mouseview.js is a particularly useful tool for my study. A published pilot version of the experiment used in [Study 1](#sec-study-1) is published on [Pavlovia](https://run.pavlovia.org/damoncroberts/diss_ch_1_pre-reg/?__pilotToken=c74d97b01eae257e44aa9d5bade97baf&__oauthToken=9a645f267f9b83c8ebb48e60093bae5a746da56a6c824b8343389a9329fa2365).
 
-When viewing each of the yard signs in the first trial, there is a blur over a substantial portion of the screen. At any given point in time, participants can view only 10% of the image without an obstruction. Participants move their cursor to explore the yard sign and are given only 2000 ms to do so until the image goes away to encourage a consistent and short duration to explore the image. After exploring each image, participants are asked what colors were on the yard sign and whether they felt that the candidate represented on the yard sign was a Democrat, a Republican, or Neither. After viewing both images, they are then asked to indicate their preference among the two images.
+When viewing each of the yard signs in the first trial, there is a blur over a substantial portion of the screen. At any given point in time, participants can view only 8% of the image without an obstruction; which simulates the observation that we typically foveate on about 8% of our available visual field at any given time [@wedel_pieters]. Participants move their cursor to explore the yard sign and are given 5000 ms to do so until the image goes away to encourage a consistent and short duration to explore the image.^[In marketing research, some studies give participants about 6000 milliseconds in eye-tracking studies to examine a brand and to formulate an intention to purchase a product or not [@wedel_pieters]. With Mouseview.js, a study examining the tool's correlation with optical responses to viewing disgust-and-pleasure-evoking images uses 10000 milliseconds; but is intended to be an extended amount of time [@anwyl-irvine_et-al_2022_brm].] After exploring each image, participants are asked what colors were on the yard sign and whether they felt that the candidate represented on the yard sign was a Democrat, a Republican, or Neither. After viewing both images, they are then asked to indicate their preference among the two images. To ensure that participants have a standardized initial placement of their cursor, prior to viewing the yard sign, I display a blank page that requires participants to click a "Next" button . Immediately after clicking "Next", participants are then shown the yard sign. The goal of this is to ensure that variation in where participants go to explore the image is not dependent on a non-standard starting point for their cursor. I additionally utilize a gaussian blur for the overlay of the image rather than a solid overlay obstructing the participant's view. This gaussian blur allows participants to see a very blurred visual field beyond the cursor. This allows participants to see enough to take purposeful action to explore blurred parts of the image that attract them [@anwyl-irvine_et-al_2022_brm].
 
 There are three more trials that are much like the first trial. What is different between the two other trials is that I vary the amount of color that are on the yard signs (trials 2 and 3) and I provide more textual information that deviates from the association of Republicans with red and Democrats with blue (trial 4).
 
