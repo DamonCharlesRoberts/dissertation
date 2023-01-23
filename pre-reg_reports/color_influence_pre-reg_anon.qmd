@@ -25,7 +25,7 @@ format:
     template: "../../../templates/manuscripts/apsr_template.tex"
     cite-method: biblatex
 nocite: |
-  @quarto, @duckdb, @polars
+  @quarto, @duckdb, @polars, @ipython
 execute:
   echo: false
   warning: false
@@ -254,9 +254,15 @@ $$
 $$ {#eq-img-color-percentage}
 
 ```{python}
-Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}'))
+#| output: asis
+# Print calculated percentage of example
+print("For the example in @fig-color-detection-example, about {:.2f}".format(percent) + " of the image is red.")
 ```
-
+<!--
+```{python}
+display(Markdown(""" For the example in @fig-color-detection-example, about {percent} of the image is red.""".format(percent = f'{percent:.2f}')))
+```
+-->
 With these data, I estimate a mixed effects model with intercept random effects at the district level and intercept fixed effects at the election year level to examine the district and within election year differences between choices to employ more "partisan" colors on a yard sign based on historical data on the electoral performance of partisan and non-partisan candidates for each district.
 
 
