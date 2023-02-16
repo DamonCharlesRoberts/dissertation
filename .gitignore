@@ -17,3 +17,4 @@ assets/dissertation.bib
 drafts/main_draft/*.otf
 .quarto
 pre-reg_reports/color_influence_pre-reg_anon_files/
+code/pre-reg_reports/color_influence_pre-reg_anon_cache/
