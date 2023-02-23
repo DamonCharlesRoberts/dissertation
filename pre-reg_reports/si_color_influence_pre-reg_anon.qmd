@@ -31,7 +31,7 @@ execute:
   warning: false
   message: false
 params:
-    os: windows
+    windows: true
 ---
 
 # Study 1 Stimuli
@@ -80,7 +80,7 @@ box::use(
 ```{r}
 #| label: load models
 
-models <- readRDS('ch_1_pre-test_models.rds')
+models <- readRDS('../data/pre-reg_reports/pre-test/ch_1_pre-test_models.rds')
 ```
 
 ```{r}
