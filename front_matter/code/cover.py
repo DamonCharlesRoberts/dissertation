@@ -11,11 +11,9 @@
 import matplotlib.pyplot as plt # for plots
 from samila import GenerativeImage # for generating image
 from samila import Projection # for transformation of vector
-import sys # to deal with paths
 
     #* User-defined
-sys.path.append("code/") # set path for imported modules
-from fun import f1, f2 # import f1 and f2 from cover_fun module
+from helper import f1, f2 # import f1 and f2 from cover_fun module
 
 # Create plot
 colorArray = [
