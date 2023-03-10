@@ -9,11 +9,10 @@ Notes:
 
 # Importing dependencies
     #* COVER
-import random # to generate distributions
+from random import uniform # to generate distributions
 import math # for useful math operators
     #* CAPD ANALYSIS
 import numpy as np # for array management
-import re # for regex
 import cv2 # for image detection
 
 # COVER
@@ -26,7 +25,7 @@ def f1(x,y):
 
         Depends on: random, math
     """
-    result = random.uniform(-100,100) * x**2  - math.sin(y**2) + abs(y-x)
+    result = uniform(-100,100) * x**2  - math.sin(y**2) + abs(y-x)
     return result
 def f2(x, y):
     """
@@ -36,7 +35,7 @@ def f2(x, y):
 
         Depends on: random, math
     """
-    result = random.uniform(-1,1) * y**3 - math.cos(x**2) + 2*x
+    result = uniform(-1,1) * y**3 - math.cos(x**2) + 2*x
     return result
 
 # CAPD ANALYSIS
