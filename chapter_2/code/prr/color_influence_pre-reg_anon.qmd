@@ -197,7 +197,7 @@ data[["clean"]] <- data[["original"]][
       q265 == 1, 1, 0
     )
 ][
-    #* red_treatment - did they recieve the red yard sign treatment?
+    #* red_treatment - did they receive the red yard sign treatment?
       #** q421: 0 = did not display treatment, 1 = did display treatment
       #** recoded to: 0 = did not display treatment, 1 = did display treatment
   , `Red treatment` := fifelse(
