@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "dissertation"
+version = "0.1.0"
+description = "Damon C. Roberts' dissertation"
+authors = ["Damon C. Roberts <damon.charles.roberts@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.24.2"
+cv = "^1.0.0"
+duckdb = "^0.7.1"
+polars = "^0.16.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
