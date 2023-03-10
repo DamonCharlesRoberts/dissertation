@@ -19,12 +19,12 @@ author:
 abstract: |
   Colors are important to politics as a form of political information. Building upon existing theories of political information processing, attitude formation, and affect in neuroscience, I present a snap-judgement model of political information processing. In this model, colors provide automatic information about a politically-relevant object that may shape subsequent processing of more complex information. The model has important implications for how we consider the role that visual information has on political information processing and attitude formation. The model additionally provides clarity on motivations behind party branding and the ways in which information may activate partisan biases pre-consciously. I test this model using a survey experiment tracking participants' mouse movements to view different parts of yard signs that vary the use of partisan and non-partisan colors. I additionally leverage congressional redistricting to examine changes in color use for political yard signs as a strategic choice for attracting voters by communicating partisanship.
 nonblind: blind
-bibliography: "../../assets/references.bib"
+bibliography: "../../../assets/references.bib"
 format:
   pdf:
-    template: "../../../../templates/manuscripts/apsr_template.tex"
+    template: "../../../../../templates/manuscripts/apsr_template.tex"
     cite-method: biblatex
-    latex-output-dir: "../../pre-reg_reports"
+    latex-output-dir: "../../drafts/"
 nocite: |
   @quarto, @duckdb, @polars, @ipython
 execute:
@@ -36,34 +36,16 @@ params:
   windows: true
 ---
 
-```{python}
-#| label: setup-block
-# import modules
-    #* from environment
-import os # for path management
-import sys # for path management
-import numpy as np # for array management
-#import polars as pl # for dataframe management
-import cv2 # for color detection
-import matplotlib
-from matplotlib import pyplot as plt # for graphics
-from matplotlib import image as mpimg # for displaying images
-from IPython.display import display, Markdown # for displaying inline code
-    #* user-defined
-sys.path.append("../")
-from fun import colorDetector
-```
-
 # Introduction
 
 ::: {#fig-pre-2000-logos layout-nrow="2"}
-![Republicans pre-2000](%22../../assets/images/rnc_logo_pre-2000.png%22){#fig-republican}
+![Republicans pre-2000](../assets/images/rnc_logo_pre-2000.png){#fig-republican}
 
-![Democrats pre-2000](%22../../assets/images/dnc_logo_1960.png%22){#fig-democrat}
+![Democrats pre-2000](../assets/images/dnc_logo_1960.png){#fig-democrat}
 
-![Republicans 2023](%22../../assets/images/rnc_logo_2023.png%22){#fig-republican-post}
+![Republicans 2023](../assets/images/rnc_logo_2023.png){#fig-republican-post}
 
-![Democrats 2023](%22../../assets/images/dnc_logo_2023.png%22){#fig-democrat-post}
+![Democrats 2023](../assets/images/dnc_logo_2023.png){#fig-democrat-post}
 
 Party logos
 :::
@@ -230,9 +212,9 @@ To address these remaining questions, I employ a second part of [Study 2](#sec-s
 #| label: some-script-execution
 #| eval: false
 import os
-os.system('../../code/03_capd_downloading_images.py')
-os.system('../../code/04_mit_election_lab_merge.py')
-os.system('../../code/05_color_detection.py')
+os.system('../study_2/code/03_capd_downloading_images.py')
+os.system('../study_2/code/04_mit_election_lab_merge.py')
+os.system('../study_2/code/05_color_detection.py')
 ```
 
 To examine whether the use of colors on yard signs varies systematically depending on the electoral context, using the `selenium` [@selenium] and `time` [@time] `python` [@python] packages, I collect images from 2018, 2020, and 2022 Congressional elections for the House of Representatives across the United States. These yard signs are pulled together on one website by the Center for American Politics and Design[^7]. With these data, I detect the percentage of the "Republican Red" and "Democratic Blue" on the yard signs. I then use redistricting data from the [MIT election lab and Redistricting Data Hub](https://redistrictingdatahub.org/data/about-our-data/) to determine districts that did and did not have changes in the 5-year rolling average partisan vote share but that are also nationally representative. As there are a number of external factors that may effect choice in yard sign color besides perceptions of how it may attract voters, this threatens my ability to make claims about any estimation of an Average Treatment Effect [^8]. Instead these data are used to perform a synthetic control design to give me causal leverage over the role that electoral context has on the proportion of partisan colors (i.e., red and blue) on yard signs relative to non-partisan colors by estimating a Local Average Treatment Effect [^9] on districts that were redistricted but vary in whether the redistricting leads to a partisan gerrymandered district or not. This analysis aims to bear evidence on the hypothesis that campaigns respond to the preferences of partisan voters and adjust their branding as a result. In this case, the branding is the color of the yard sign. First, I'll explain how I collected data on the proportion of partisan and non-partisan colors on these yard signs from the [Center for American Politics and Design](https://www.politicsanddesign.com).
@@ -254,6 +236,20 @@ I collected the GOP logo used on their official Twitter account during the 2022 
 ```{python}
 #| label: example detection
 #| echo: false
+
+import os # for path management
+import sys # for path management
+import numpy as np # for array management
+#import polars as pl # for dataframe management
+import cv2 # for color detection
+import matplotlib
+from matplotlib import pyplot as plt # for graphics
+from matplotlib import image as mpimg # for displaying images
+from IPython.display import display, Markdown # for displaying inline code
+    #* user-defined
+sys.path.append("../")
+from helper import colorDetector
+
 # Define colors to detect
     #* White
         #** Not defined. Default for colorDetector()
@@ -263,7 +259,7 @@ red_lower = [93, 9, 12] # lower end of spectrum for red
 red_higher = [237, 69, 75] # higher end of spectrum for red
 
 # Load gop image to read
-img = cv2.imread("../../data/pre-reg_reports/gop_2022.png")
+img = cv2.imread("../../data/study_2/gop_2022.png")
 
 # Detect colors
 percent, img_transformed, result = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
@@ -274,9 +270,9 @@ masked=cv2.imwrite("../../data/pre-reg_reports/gop_2022_detected.png", result) #
 ```
 
 ::: {#fig-color-detection-example layout-ncol="2"}
-![Resized original image](%22../../data/pre-reg_reports/gop_2022_transformed.png%22){#fig-resized}
+![Resized original image](../../data/pre-reg_reports/gop_2022_transformed.png){#fig-resized}
 
-![Masked](%22../../data/pre-reg_reports/gop_2022_detected.png%22){#fig-masked}
+![Masked](../../data/pre-reg_reports/gop_2022_detected.png){#fig-masked}
 
 Detecting colors in the GOP logo
 :::
@@ -317,7 +313,7 @@ box::use(
     #* create empty data list object
 data = list()
     #* import cleaned dataset 
-data[['original']] = setDT(read_dta('../../data/pre-reg_reports/pre-test/sps1.dta'))
+data[['original']] = setDT(read_dta('../../data/prr/pre-test/sps1.dta'))
 
 ```
 

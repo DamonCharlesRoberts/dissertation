@@ -11,7 +11,16 @@ numpy = "^1.24.2"
 cv = "^1.0.0"
 duckdb = "^0.7.1"
 polars = "^0.16.11"
+opencv-python = "^4.7.0.72"
+matplotlib = "^3.7.1"
+ipython = "^8.11.0"
+ipykernel = "^6.21.3"
+poetry-kernel = "^0.1.2"
+opencv-contrib-python = "^4.7.0.72"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.21.3"
 
 [build-system]
 requires = ["poetry-core"]
