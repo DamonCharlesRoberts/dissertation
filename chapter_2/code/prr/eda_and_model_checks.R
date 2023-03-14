@@ -22,7 +22,7 @@ box::use(
     #marginaleffects[marginaleffects, posteriordraws],
     ggplot2[ggplot, aes, labs, theme_minimal],
     ggmosaic[geom_mosaic, product],
-    bayesplot[color_scheme_set, bayesplot_theme_set, ppc_dens_overlay]
+    bayesplot[color_scheme_set, bayesplot_theme_set, ppc_dens_overlay, mcmc_areas]
     #ggdist[stat_halfeye]
 )
     #* create empty data list object
@@ -31,7 +31,8 @@ data <- list()
 data[['original']] <- setDT(read_dta("../../data/prr/pre-test/sps1.dta"))
 
     #* default theme
-color_scheme_set("red")
+red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
+color_scheme_set(red_custom)
 bayesplot_theme_set(new = theme_minimal())
 # Data cleaning
 
@@ -251,4 +252,12 @@ y <- data_complete$Vote
 y_weak_rep <- vote_weak_fitted$draws("y_rep", format = "matrix")
 ppc_dens_overlay(y = y, yrep = y_weak_rep)
 model_draws <- vote_weak_fitted$draws(c("beta_1", "beta_2", "beta_3", "beta_4", "beta_5"), format = "matrix")
-bayesplot::mcmc_areas(model_draws, prob = 0.89)
+mcmc_areas(model_draws, prob = 0.89, border_size = 1, point_size = 10) + 
+    ggplot2::scale_y_discrete(
+        labels = c("beta_1" = "Red", "beta_2" = "Blue", "beta_3" = "Party ID", "beta_4" = "Red X Party ID", "beta_5" = "Blue X Party ID")
+    ) +
+    ggplot2::geom_vline(aes(xintercept = 0), color = "#000000", linetype = 2, linewidth = 1) +
+    labs(
+        x = "Estimated effect",
+        caption ="Data source: Pre-test.\nDistribution of posterior draws from a binary logistic regression.\nb ~ Normal(0, 10)"
+    )
