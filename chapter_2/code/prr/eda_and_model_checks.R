@@ -16,14 +16,12 @@ box::use(
     data.table[...],
     modelsummary[datasummary_skim, datasummary_crosstab, modelsummary],
     cmdstanr[...],
-    #rstan[stan_model, sampling],
-    #brms[brm, pp_check],
-    broom[tidy],
-    #marginaleffects[marginaleffects, posteriordraws],
+    brms[bf, prior, make_stancode, make_standata, pp_check, cumulative],
+    marginaleffects[marginaleffects, posterior_draws],
     ggplot2[ggplot, aes, labs, theme_minimal],
     ggmosaic[geom_mosaic, product],
-    bayesplot[color_scheme_set, bayesplot_theme_set, ppc_dens_overlay, mcmc_areas]
-    #ggdist[stat_halfeye]
+    bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_areas, pp_check],
+    ggdist[stat_halfeye]
 )
     #* create empty data list object
 data <- list()
@@ -209,40 +207,92 @@ white_treatment_xtab <- datasummary_crosstab(WhiteTreatmentCat ~ VoteCat, data =
 
 # Models
     #* On party guesses
-
-party_weak <- brm(
-    Party ~ RedTreatment + BlueTreatment,
+        #** Setup
+            #*** Model specification
+party_formula <- bf(
+    Party ~ RedTreatment + BlueTreatment, 
+    family = cumulative(link = "logit")
+)
+weak_priors <- prior(normal(0, 10), class = b)
+strong_priors <- prior(normal(0, 1), class = b)
+            #*** Convert model and data into cmdstanr
+party_weak_code <- make_stancode(
+    formula = party_formula,
     data = data[["clean"]],
-    family = cumulative("logit"),
-    prior = c(
-        prior(normal(0, 10), class = b)
-    ),
-    chains = 1
+    priors = weak_priors
 )
 
-party_strong <- brm(
-    Party ~ RedTreatment + BlueTreatment,
+party_strong_code <- make_stancode(
+    formula = party_formula, 
     data = data[["clean"]],
-    family = cumulative("logit"),
-    prior = c(
-        prior(normal(0, 1), class = b)
-    ),
-    chains = 1
+    priors = strong_priors
 )
 
+party_data <- make_standata(
+    formula = party_formula,
+    data = data[["clean"]]
+    )
+
+class(party_data) <- NULL
+            #*** Store the model in a temp stan file
+party_weak_file <- write_stan_file(party_weak_code)
+party_strong_file <- write_stan_file(party_strong_code)
+        #** Compile models
+party_weak_model <- cmdstan_model(
+    party_weak_file,
+    cpp_options = list(stan_threads = TRUE),
+    #stanc_options = list("OExperimental")
+)
+party_weak_model$format(
+    overwrite_file = TRUE,
+    canonicalize = TRUE,
+    quiet = TRUE
+)
+party_strong_model <- cmdstan_model(
+    party_strong_file,
+    cpp_options = list(stan_threads = TRUE),
+)
+party_strong_model$format(
+    overwrite_file = TRUE,
+    canonicalize = TRUE,
+    quiet = TRUE
+)
+        #** Fit the models
+party_weak_fitted <- party_weak_model$sample(
+    data = party_data,
+    chains = 4,
+    parallel_chains = 4,
+    threads_per_chain = 5,
+    refresh = 500
+)
+party_strong_fitted <- party_strong_model$sample(
+    data = party_data,
+    chains = 4,
+    parallel_chains = 4,
+    threads_per_chain = 5,
+    refresh = 500
+)
+            #*** Convert the cmdstanr models into brmsfit objects
+party_weak_brms <- brm(party_formula, data = data[["clean"]], empty = TRUE)
+party_weak_brms$fit <- rstan::read_stan_csv(party_weak_fitted$output_files())
+party_weak_brms <- rename_pars(party_weak_brms)
+
+party_strong_brms <- brm(party_formula, data = data[["clean"]], empty = TRUE)
+party_strong_brms$fit<- rstan::read_stan_csv(party_strong_fitted$output_files())
+party_strong_brms <- rename_pars(party_strong_brms)
         #** Check model performance
-party_weak
-party_strong
-mcmc_combo(party_weak)
-mcmc_combo(party_strong)
-pp_check(party_weak, ndraws = 500)
-pp_check(party_strong, ndraws = 500)
-pp_check(party_weak, type = "stat")
-pp_check(party_weak, type = "stat")
+party_weak_brms
+party_strong_brms
+bayesplot::mcmc_combo(party_weak_brms)
+bayesplot::mcmc_combo(party_strong_brms)
+pp_check(party_weak_brms, ndraws = 500)
+pp_check(party_strong_brms, ndraws = 500)
+pp_check(party_weak_brms, type = "stat")
+pp_check(party_weak_brms, type = "stat")
 
         #** plot model results
-ames <- avg_slopes(party_weak, type = "link") |>
-    posterior_draws()
+ames <- marginaleffects::avg_slopes(party_weak_brms, type = "link") |>
+    marginaleffects::posterior_draws()
 
 ggplot(ames, aes(x = draw, y = term)) +
     ggdist::stat_halfeye(slab_alpha = 0.89) +
@@ -252,6 +302,9 @@ ggplot(ames, aes(x = draw, y = term)) +
         y = "",
         caption = "Data source: Pre-test.\n Distribution of Average Marginal Effects for model posterior draws.\n Inverse logit applied to calculate the AME's. Bars reflect 89% HDI's."
     )
+
+
+# TODO: Set up these models like I did above. Also clean all of this up and document it a bit better while I am at it.
     #* On vote choice
 vote_weak <- brm(
     Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
@@ -280,6 +333,7 @@ pp_check(vote_weak, ndraws = 500)
 pp_check(vote_strong, ndraws = 500)
 pp_check(vote_weak, type = "stat")
 pp_check(vote_strong, type = "stat")
+
 #data_complete <- na.omit(data[["clean"]], cols = c("RedTreatment", "BlueTreatment", "Vote", "PartyId"))
 #
 #data_list <- list(
@@ -295,6 +349,25 @@ pp_check(vote_strong, type = "stat")
 #vote_weak_fitted <- vote_weak$sample(
 #    data = data_list,
 #    chains = 1
+#)
+#
+#out <- rstan::read_stan_csv(vote_weak_fitted$output_files())
+#
+#b <- brm(Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
+# data = data[["clean"]],
+# empty = TRUE,
+# backend = "cmdstanr"
+#)
+#attributes(b)$CmdStanModel <- vote_weak
+#b$fit <- rstan::read_stan_csv(vote_weak_fitted$output_files())
+#b <- brms::rename_pars(b)
+#b <- brm(
+#    Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
+#    data = data[["clean"]],
+#    chains = 0,
+#    fit = vote_weak_fitted,
+#    save_model = TRUE,
+#    rename = FALSE
 #)
 #y <- data_complete$Vote
 #y_weak_rep <- vote_weak_fitted$draws("y_rep", format = "matrix")

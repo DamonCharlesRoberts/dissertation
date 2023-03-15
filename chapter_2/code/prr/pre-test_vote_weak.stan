@@ -24,7 +24,7 @@ parameters {
 model {
   Y ~ bernoulli_logit(Intercept + beta_1 * red + beta_2 * blue + beta_3 * pid + beta_4 * red .* pid + beta_5 * blue .* pid);
 }
-generated quantities {
-  array[N] int<lower=0, upper = 1> y_rep;
-  y_rep = bernoulli_logit_rng(Intercept + beta_1 * red + beta_2 * blue + beta_3 * pid + beta_4 * red .* pid + beta_5 * blue .* pid);
-}
+//generated quantities {
+//  array[N] int<lower=0, upper = 1> y_rep;
+//  y_rep = bernoulli_logit_rng(Intercept + beta_1 * red + beta_2 * blue + beta_3 * pid + beta_4 * red .* pid + beta_5 * blue .* pid);
+//}
