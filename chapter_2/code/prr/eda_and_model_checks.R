@@ -34,6 +34,8 @@ data[['original']] <- setDT(read_dta("../../data/prr/pre-test/sps1.dta"))
 red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
 color_scheme_set(red_custom)
 bayesplot_theme_set(new = theme_minimal())
+    #* default tails
+options("marginaleffects_posterior_interval" = "hdi")
 # Data cleaning
 
 data[["clean"]] <- data[["original"]][
@@ -207,57 +209,105 @@ white_treatment_xtab <- datasummary_crosstab(WhiteTreatmentCat ~ VoteCat, data =
 
 # Models
     #* On party guesses
-data_complete <- na.omit(data[["clean"]], cols = c("RedTreatment", "BlueTreatment", "Party"))
 
-data_list <- list(
-    N = nrow(data_complete),
-    Y = data_complete$Party,
-    nthres = 2,
-    K = 2,
-    X = as.matrix(data_complete[, .(RedTreatment, BlueTreatment)]),
-    prior_only = 0
-)
-
-party_weak <- cmdstan_model("pre-test_party_weak.stan")
-party_weak_model <- party_weak$sample(data = data_list, chains = 1)
-
-party_strong <- cmdstan_model("pre-test_party_strong.stan")
-party_strong_model <- party_strong$sample(data = data_list, chains = 1)
-
-    #* Check models
-y <- data_complete$Party
-y_weak_rep <- party_weak_model$draws("y_rep", format = "matrix")
-y_strong_rep <- party_strong_model$draws("y_rep", format = "matrix")
-
-ppc_dens_overlay(y = y, yrep = y_weak_rep)
-ppc_dens_overlay(y = y, yrep = y_strong_rep)
-    #* On vote choice
-data_complete <- na.omit(data[["clean"]], cols = c("RedTreatment", "BlueTreatment", "Vote", "PartyId"))
-
-data_list <- list(
-    N = nrow(data_complete),
-    Y = data_complete$Vote,
-    K = 5,
-    red = data_complete$RedTreatment,
-    blue = data_complete$BlueTreatment,
-    pid = data_complete$PartyId
-)
-
-vote_weak <- cmdstan_model("pre-test_vote_weak.stan")
-vote_weak_fitted <- vote_weak$sample(
-    data = data_list,
+party_weak <- brm(
+    Party ~ RedTreatment + BlueTreatment,
+    data = data[["clean"]],
+    family = cumulative("logit"),
+    prior = c(
+        prior(normal(0, 10), class = b)
+    ),
     chains = 1
 )
-y <- data_complete$Vote
-y_weak_rep <- vote_weak_fitted$draws("y_rep", format = "matrix")
-ppc_dens_overlay(y = y, yrep = y_weak_rep)
-model_draws <- vote_weak_fitted$draws(c("beta_1", "beta_2", "beta_3", "beta_4", "beta_5"), format = "matrix")
-mcmc_areas(model_draws, prob = 0.89, border_size = 1, point_size = 10) + 
-    ggplot2::scale_y_discrete(
-        labels = c("beta_1" = "Red", "beta_2" = "Blue", "beta_3" = "Party ID", "beta_4" = "Red X Party ID", "beta_5" = "Blue X Party ID")
-    ) +
-    ggplot2::geom_vline(aes(xintercept = 0), color = "#000000", linetype = 2, linewidth = 1) +
+
+party_strong <- brm(
+    Party ~ RedTreatment + BlueTreatment,
+    data = data[["clean"]],
+    family = cumulative("logit"),
+    prior = c(
+        prior(normal(0, 1), class = b)
+    ),
+    chains = 1
+)
+
+        #** Check model performance
+party_weak
+party_strong
+mcmc_combo(party_weak)
+mcmc_combo(party_strong)
+pp_check(party_weak, ndraws = 500)
+pp_check(party_strong, ndraws = 500)
+pp_check(party_weak, type = "stat")
+pp_check(party_weak, type = "stat")
+
+        #** plot model results
+ames <- avg_slopes(party_weak, type = "link") |>
+    posterior_draws()
+
+ggplot(ames, aes(x = draw, y = term)) +
+    ggdist::stat_halfeye(slab_alpha = 0.89) +
+    theme_minimal() +
     labs(
-        x = "Estimated effect",
-        caption ="Data source: Pre-test.\nDistribution of posterior draws from a binary logistic regression.\nb ~ Normal(0, 10)"
+        x = "Average Marginal Effect",
+        y = "",
+        caption = "Data source: Pre-test.\n Distribution of Average Marginal Effects for model posterior draws.\n Inverse logit applied to calculate the AME's. Bars reflect 89% HDI's."
     )
+    #* On vote choice
+vote_weak <- brm(
+    Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
+    data = data[["clean"]],
+    family = bernoulli(),
+    prior = c(
+        prior(normal(0, 10), class = b)
+    ),
+    chains = 4
+)
+vote_strong <- brm(
+    Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
+    data = data[["clean"]],
+    family = bernoulli(),
+    prior = c(
+        prior(normal(0, 1), class = b)
+    ),
+    chains = 4
+)
+        #** model checks
+vote_weak
+vote_strong
+mcmc_combo(vote_weak)
+mcmc_combo(vote_strong)
+pp_check(vote_weak, ndraws = 500)
+pp_check(vote_strong, ndraws = 500)
+pp_check(vote_weak, type = "stat")
+pp_check(vote_strong, type = "stat")
+#data_complete <- na.omit(data[["clean"]], cols = c("RedTreatment", "BlueTreatment", "Vote", "PartyId"))
+#
+#data_list <- list(
+#    N = nrow(data_complete),
+#    Y = data_complete$Vote,
+#    K = 5,
+#    red = data_complete$RedTreatment,
+#    blue = data_complete$BlueTreatment,
+#    pid = data_complete$PartyId
+#)
+#
+#vote_weak <- cmdstan_model("pre-test_vote_weak.stan")
+#vote_weak_fitted <- vote_weak$sample(
+#    data = data_list,
+#    chains = 1
+#)
+#y <- data_complete$Vote
+#y_weak_rep <- vote_weak_fitted$draws("y_rep", format = "matrix")
+#ppc_dens_overlay(y = y, yrep = y_weak_rep)
+#model_draws <- vote_weak_fitted$draws(c("beta_1", "beta_2", "beta_3", "beta_4", "beta_5"), format = "matrix")
+#mcmc_areas(model_draws, prob = 0.89, border_size = 1, point_size = 10) + 
+#    ggplot2::scale_y_discrete(
+#        labels = c("beta_1" = "Red", "beta_2" = "Blue", "beta_3" = "Party ID", "beta_4" = "Red X Party ID", "beta_5" = "Blue X Party ID")
+#    ) +
+#    ggplot2::geom_vline(aes(xintercept = 0), color = "#000000", linetype = 2, linewidth = 1) +
+#    labs(
+#        x = "Estimated effect",
+#        caption ="Data source: Pre-test.\nDistribution of posterior draws from a binary logistic regression.\nb ~ Normal(0, 10)"
+#    )
+#marginaleffects::slopes(vote_weak_fitted$draws("beta_1", format = "matrix"))
+#
