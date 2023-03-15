@@ -16,11 +16,12 @@ box::use(
     data.table[...],
     modelsummary[datasummary_skim, datasummary_crosstab, modelsummary],
     cmdstanr[...],
-    brms[bf, prior, make_stancode, make_standata, pp_check, cumulative],
-    marginaleffects[marginaleffects, posterior_draws],
+    brms[bf, prior, make_stancode, make_standata, pp_check, cumulative, bernoulli],
+    rstan[read_stan_csv],
+    marginaleffects[avg_slopes, posterior_draws],
     ggplot2[ggplot, aes, labs, theme_minimal],
     ggmosaic[geom_mosaic, product],
-    bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_areas, pp_check],
+    bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_combo, mcmc_areas, pp_check],
     ggdist[stat_halfeye]
 )
     #* create empty data list object
@@ -274,28 +275,28 @@ party_strong_fitted <- party_strong_model$sample(
 )
             #*** Convert the cmdstanr models into brmsfit objects
 party_weak_brms <- brm(party_formula, data = data[["clean"]], empty = TRUE)
-party_weak_brms$fit <- rstan::read_stan_csv(party_weak_fitted$output_files())
+party_weak_brms$fit <- read_stan_csv(party_weak_fitted$output_files())
 party_weak_brms <- rename_pars(party_weak_brms)
 
 party_strong_brms <- brm(party_formula, data = data[["clean"]], empty = TRUE)
-party_strong_brms$fit<- rstan::read_stan_csv(party_strong_fitted$output_files())
+party_strong_brms$fit<- read_stan_csv(party_strong_fitted$output_files())
 party_strong_brms <- rename_pars(party_strong_brms)
         #** Check model performance
 party_weak_brms
 party_strong_brms
-bayesplot::mcmc_combo(party_weak_brms)
-bayesplot::mcmc_combo(party_strong_brms)
+mcmc_combo(party_weak_brms)
+mcmc_combo(party_strong_brms)
 pp_check(party_weak_brms, ndraws = 500)
 pp_check(party_strong_brms, ndraws = 500)
 pp_check(party_weak_brms, type = "stat")
 pp_check(party_weak_brms, type = "stat")
 
         #** plot model results
-ames <- marginaleffects::avg_slopes(party_weak_brms, type = "link") |>
-    marginaleffects::posterior_draws()
+ames <- avg_slopes(party_weak_brms, type = "link") |>
+    posterior_draws()
 
 ggplot(ames, aes(x = draw, y = term)) +
-    ggdist::stat_halfeye(slab_alpha = 0.89) +
+    stat_halfeye(slab_alpha = 0.89) +
     theme_minimal() +
     labs(
         x = "Average Marginal Effect",
@@ -310,7 +311,7 @@ ggplot(ames, aes(x = draw, y = term)) +
             #*** Model specification
 vote_formula <- bf(
     Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
-    family = brms::bernoulli(link = "logit")
+    family = bernoulli(link = "logit")
 )
 weak_priors <- priors(normal(0, 10), class = b)
 strong_priors <- priors(normal(0, 1), class = b)
