@@ -306,24 +306,91 @@ ggplot(ames, aes(x = draw, y = term)) +
 
 # TODO: Set up these models like I did above. Also clean all of this up and document it a bit better while I am at it.
     #* On vote choice
-vote_weak <- brm(
+        #** Setup
+            #*** Model specification
+vote_formula <- bf(
     Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
-    data = data[["clean"]],
-    family = bernoulli(),
-    prior = c(
-        prior(normal(0, 10), class = b)
-    ),
-    chains = 4
+    family = brms::bernoulli(link = "logit")
 )
-vote_strong <- brm(
-    Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
+weak_priors <- priors(normal(0, 10), class = b)
+strong_priors <- priors(normal(0, 1), class = b)
+            #*** convert model and data into cmdstanr
+vote_weak_code <- make_stancode(
+    formula = vote_formula,
     data = data[["clean"]],
-    family = bernoulli(),
-    prior = c(
-        prior(normal(0, 1), class = b)
-    ),
-    chains = 4
+    priors = weak_priors
 )
+vote_strong_code <- make_stancode(
+    formula = vote_formula,
+    data = data[["clean"]],
+    priors = strong_priors
+)
+vote_data <- make_standata(
+    formula = vote_formula,
+    data = data[["clean"]]
+)
+class(vote_data) <- NULL
+            #*** Store the model in a temp stan file
+vote_weak_file <- write_stan_file(vote_weak_code)
+vote_strong_file <- write_stan_file(vote_strong_code)
+
+        #** Compile models
+vote_weak_model <- cmdstan_model(
+    vote_weak_file,
+    cpp_options = list(stan_threads = TRUE)
+)
+vote_weak_model$format(
+    overwrite_file = TRUE,
+    canonicalize = TRUE,
+    quiet = TRUE
+)
+vote_strong_model <- cmdstan_model(
+    vote_strong_file,
+    cpp_options = list(stan_threads = TRUE)
+)
+vote_strong_model$format(
+    overwrite_file = TRUE,
+    canonicalize = TRUE,
+    quiet = TRUE
+)
+
+        #** Fit models
+vote_weak_fitted <- vote_weak_model$sample(
+    data = vote_data,
+    chains = 4,
+    parallel_chains = 4,
+    threads_per_chain = 5,
+    refresh = 500
+)
+vote_strong_fitted <- vote_strong_model$sample(
+    data = vote_data,
+    chains = 4,
+    parallel_chains = 4,
+    threads_per_chain = 5,
+    refresh = 500
+)
+
+        #** convert cmdstanfit to brmsfit objects
+vote_weak_brms <- brm(
+    party_formula,
+    data = data[["clean"]],
+    empty = TRUE
+)
+vote_weak_brms$fit <- read_stan_csv(
+    party_weak_fitted$output_files()
+)
+vote_weak_brms <- rename_pars(party_weak_brms)
+
+vote_strong_brms <- brm(
+    party_formula,
+    data = data[["clean"]],
+    empty = TRUE
+)
+vote_strong_brms$fit <- read_stan_csv(
+    party_strong_fitted$output_files()
+)
+vote_strong_brms <- rename_pars(party_strong_brms)
+
         #** model checks
 vote_weak
 vote_strong
@@ -333,54 +400,3 @@ pp_check(vote_weak, ndraws = 500)
 pp_check(vote_strong, ndraws = 500)
 pp_check(vote_weak, type = "stat")
 pp_check(vote_strong, type = "stat")
-
-#data_complete <- na.omit(data[["clean"]], cols = c("RedTreatment", "BlueTreatment", "Vote", "PartyId"))
-#
-#data_list <- list(
-#    N = nrow(data_complete),
-#    Y = data_complete$Vote,
-#    K = 5,
-#    red = data_complete$RedTreatment,
-#    blue = data_complete$BlueTreatment,
-#    pid = data_complete$PartyId
-#)
-#
-#vote_weak <- cmdstan_model("pre-test_vote_weak.stan")
-#vote_weak_fitted <- vote_weak$sample(
-#    data = data_list,
-#    chains = 1
-#)
-#
-#out <- rstan::read_stan_csv(vote_weak_fitted$output_files())
-#
-#b <- brm(Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
-# data = data[["clean"]],
-# empty = TRUE,
-# backend = "cmdstanr"
-#)
-#attributes(b)$CmdStanModel <- vote_weak
-#b$fit <- rstan::read_stan_csv(vote_weak_fitted$output_files())
-#b <- brms::rename_pars(b)
-#b <- brm(
-#    Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
-#    data = data[["clean"]],
-#    chains = 0,
-#    fit = vote_weak_fitted,
-#    save_model = TRUE,
-#    rename = FALSE
-#)
-#y <- data_complete$Vote
-#y_weak_rep <- vote_weak_fitted$draws("y_rep", format = "matrix")
-#ppc_dens_overlay(y = y, yrep = y_weak_rep)
-#model_draws <- vote_weak_fitted$draws(c("beta_1", "beta_2", "beta_3", "beta_4", "beta_5"), format = "matrix")
-#mcmc_areas(model_draws, prob = 0.89, border_size = 1, point_size = 10) + 
-#    ggplot2::scale_y_discrete(
-#        labels = c("beta_1" = "Red", "beta_2" = "Blue", "beta_3" = "Party ID", "beta_4" = "Red X Party ID", "beta_5" = "Blue X Party ID")
-#    ) +
-#    ggplot2::geom_vline(aes(xintercept = 0), color = "#000000", linetype = 2, linewidth = 1) +
-#    labs(
-#        x = "Estimated effect",
-#        caption ="Data source: Pre-test.\nDistribution of posterior draws from a binary logistic regression.\nb ~ Normal(0, 10)"
-#    )
-#marginaleffects::slopes(vote_weak_fitted$draws("beta_1", format = "matrix"))
-#
