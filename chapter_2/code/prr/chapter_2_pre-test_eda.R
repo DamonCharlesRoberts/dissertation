@@ -30,11 +30,11 @@ source("pre-test_cleaning.R")
 
 # Univariate EDA
     #* Make table
-data_summary_table <- data[["clean"]][
+data_summary_table <- data[["clean"]][ # select the following columns
     , .(Female, White, age, PartyId, BlueTreatment, RedTreatment, Vote)
 ] |>
-datasummary_skim(
-    notes = c(
+datasummary_skim( # make a table of descriptive statistics
+    notes = c( # add some notes to the table
         "Data source: Pre-test experiment.",
         '"Unique" column includes missing values.'
     )
@@ -43,151 +43,163 @@ datasummary_skim(
 # Bivariate EDA
     #* Party as DV
         #** Plots
+            #*** Red treatment
 red_party_bivariate <- ggplot(
     data = data[["clean"]]
 ) +
-geom_bar(
+geom_bar( # make a bar plot
     aes(
-        x = PartyCat,
-        fill = RedTreatmentCat
+        x = PartyCat, # with this variable on the x-axis
+        fill = RedTreatmentCat # change color of bars based on values of this variable
     ),
-    position ="dodge"
+    position ="dodge" # and put them next to eachother
 ) +
-theme_minimal() +
-scale_fill_manual(
+theme_minimal() + # apply this theme
+scale_fill_manual( # manually choose colors based on fill variable values
     values = c("#D3D3D3", "#8F2727")
 ) +
-labs(
+labs( # add some labels
     x = "Assumed party",
     y = "Count",
     fill = "Red treatment?",
     caption = "Data source: Pre-treatment.\n Perceptions of candidate party based on yard sign in treatment."
 )
-blue_party_bivariate <- ggplot(
+            #*** blue treatment
+blue_party_bivariate <- ggplot( # make a plot
     data = data[["clean"]]
 ) +
 geom_bar(
     aes(
-        x = PartyCat,
-        fill = BlueTreatmentCat
+        x = PartyCat, # put this variable on the x axis
+        fill = BlueTreatmentCat # change color of bars based on values of this variable
     ),
-    position = "dodge"
+    position = "dodge" # and put them next to eachother
 ) +
-theme_minimal() +
-scale_fill_manual(
+theme_minimal() + # apply this theme
+scale_fill_manual( # manually choose colors based on fill variable values
     values = c("#D3D3D3", "#8F2727")
 ) +
-labs(
+labs( # add some labels
     x = "Assumed party",
     y = "Count",
     fill = "Blue Treatment?",
     caption = "Data source: Pre-treatment.\n Perceptions of candidate party based on yard sign in treatment."
 )
-white_party_bivariate <- ggplot(
+            #*** white treatment
+white_party_bivariate <- ggplot( # make a plot
     data = data[["clean"]]
 ) +
-geom_bar(
+geom_bar( # specifically a bar plot
     aes(
-        x = PartyCat,
-        fill = WhiteTreatmentCat
+        x = PartyCat, # put this variable on the x axis
+        fill = WhiteTreatmentCat # change color of bars based on values of this variable
     ),
-    position = "dodge"
+    position = "dodge" # and put them next to eachother
 ) +
-theme_minimal() +
-scale_fill_manual(
+theme_minimal() + # apply this theme
+scale_fill_manual( # manually choose colors based on fill variable values
     values = c("#D3D3D3", "#8F2727")
 ) +
-labs(
+labs( # add some labels
     x = "Assumed party",
     y = "Count",
     fill = "White Treatment?",
     caption = "Data source: Pre-treatment.\n Perceptions of candidate party based on yard sign in treatment."
 )
         #** Crosstabs
-red_party_xtab <- datasummary_crosstab(
-    RedTreatmentCat ~ PartyCat,
+            #*** red treatment
+red_party_xtab <- datasummary_crosstab( # make a crosstab
+    RedTreatmentCat ~ PartyCat, # with these variables left ~ top
     data = data[["clean"]]
 )
-blue_party_xtab <- datasummary_crosstab(
-    BlueTreatmentCat ~ PartyCat,
+            #*** blue treatment
+blue_party_xtab <- datasummary_crosstab( # make a crosstab
+    BlueTreatmentCat ~ PartyCat, # with these variables left ~ top
     data = data[["clean"]]
 )
-white_party_xtab <- datasummary_crosstab(
-    WhiteTreatmentCat ~ PartyCat,
+            #*** white treatment
+white_party_xtab <- datasummary_crosstab( # make a crostab
+    WhiteTreatmentCat ~ PartyCat, # with these variables left ~ top
     data = data[["clean"]]
 )
     #** Vote intention as DV
         #** Plots
-red_vote_bivariate <- ggplot(
+            #*** red treatment
+red_vote_bivariate <- ggplot( # make a plot
     data = data[["clean"]]
 ) +
-geom_bar(
+geom_bar( # specifically a bar plot
     aes(
-        x = VoteCat,
-        fill = RedTreatmentCat
+        x = VoteCat, # put this variable on the x axis
+        fill = RedTreatmentCat # fill the color of the bars based on the values of this variable
     ),
-    position ="dodge"
+    position ="dodge" # put the bars next to eachother
 ) +
-theme_minimal() +
-scale_fill_manual(
+theme_minimal() + # apply this theme
+scale_fill_manual( # specify the colors for the bars
     values = c("#D3D3D3", "#8F2727")
 ) +
-labs(
+labs( # add labels
     x = "Vote?",
     y = "Count",
     fill = "Red treatment?",
     caption = "Data source: Pre-treatment.\n Willingness to cast vote based on yard sign in treatment."
 )
-blue_vote_bivariate <- ggplot(
+            #*** blue treatment
+blue_vote_bivariate <- ggplot( # make a plot
     data = data[["clean"]]
 ) +
-geom_bar(
+geom_bar( # specifically a bar plot
     aes(
-        x = VoteCat,
-        fill = BlueTreatmentCat
+        x = VoteCat, # put this variable on the x axis
+        fill = BlueTreatmentCat # fill the color of the bars based on the values of this variable
     ),
-    position = "dodge"
+    position = "dodge" # put the bars next to eachother
 ) +
-theme_minimal() +
-scale_fill_manual(
+theme_minimal() + # apply this theme
+scale_fill_manual( # specify the colors for the bars
     values = c("#D3D3D3", "#8F2727")
 ) +
-labs(
+labs( # add labels
     x = "Vote?",
     y = "Count",
     fill = "Blue Treatment?",
     caption = "Data source: Pre-treatment.\n Willingness to cast vote based on yard sign in treatment."
 )
-white_vote_bivariate <- ggplot(
+            #*** white treatment
+white_vote_bivariate <- ggplot( # create a plot
     data = data[["clean"]]
 ) +
-geom_bar(
+geom_bar( # specifically a bar plot
     aes(
-        x = VoteCat,
-        fill = WhiteTreatmentCat
+        x = VoteCat, # put this variable on the x-axis
+        fill = WhiteTreatmentCat # fill the color of the bars based on the values of this variable
     ),
-    position = "dodge"
+    position = "dodge" # put the bars next to eachother
 ) +
-theme_minimal() +
-scale_fill_manual(
+theme_minimal() + # apply this theme
+scale_fill_manual( # specify the colors for the bars
     values = c("#D3D3D3", "#8F2727")
 ) +
-labs(
+labs( # add labels
     x = "Vote?",
     y = "Count",
     fill = "White Treatment?",
     caption = "Data source: Pre-treatment.\n Willingness to cast vote based on yard sign in treatment."
 )
         #** Crosstabs
-red_vote_xtab <- datasummary_crosstab(
-    RedTreatmentCat ~ VoteCat,
+            #*** red treatment
+red_vote_xtab <- datasummary_crosstab( # make a crosstab
+    RedTreatmentCat ~ VoteCat, # with these variables Left ~ Top
     data = data[["clean"]]
 )
-blue_vote_xtab <- datasummary_crosstab(
-    BlueTreatmentCat ~ VoteCat,
+            #*** blue treatment
+blue_vote_xtab <- datasummary_crosstab( # make a crosstab
+    BlueTreatmentCat ~ VoteCat, # with these variables Left ~ Top
     data = data[["clean"]]
 )
-white_vote_xtab <- datasummary_crosstab(
-    WhiteTreatmentCat ~ VoteCat,
+            #*** white treatment
+white_vote_xtab <- datasummary_crosstab( # make a crosstab
+    WhiteTreatmentCat ~ VoteCat, # with these variables Left ~ Top
     data = data[["clean"]]
 )
