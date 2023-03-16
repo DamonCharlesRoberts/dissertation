@@ -153,15 +153,16 @@ data[["clean"]] <- data[["original"]][
         #** t_vote: -1 = avoid candidate, 0 = avoid & vote/do not avoid & do not vote, 1 = vote
   , Vote := fcase(
       dr_info_4 == 2 & dr_info_5 == 1, 1,
-      dr_info_4 == 1 & dr_info_5 == 1, 0,
-      dr_info_4 == 2 & dr_info_5 == 2, 0,
-      dr_info_4 == 1 & dr_info_5 == 2, 1
+      dr_info_4 == 1 & dr_info_5 == 1, 2,
+      dr_info_4 == 2 & dr_info_5 == 2, 2,
+      dr_info_4 == 1 & dr_info_5 == 2, 3
     )
 ][
     , VoteCat := factor(
         Vote,
         labels = c(
-            "Won't vote for",
+            "Avoid",
+            "Ambivalent",
             "Will vote for"
         ),
         ordered = TRUE)

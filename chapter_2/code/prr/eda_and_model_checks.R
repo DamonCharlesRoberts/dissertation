@@ -10,25 +10,20 @@
 set.seed(12062022)
     #* Set working directory
 setwd("./chapter_2/code/prr")
+# Source cleaning script
+source("pre-test_cleaning.R")
     #* Load functions
 box::use(
-    haven[read_dta],
     data.table[...],
-    modelsummary[datasummary_skim, datasummary_crosstab, modelsummary],
+    modelsummary[modelsummary],
     cmdstanr[...],
-    brms[bf, prior, make_stancode, make_standata, pp_check, cumulative, bernoulli],
+    brms[bf, prior, brm, rename_pars, make_stancode, make_standata, pp_check, cumulative, bernoulli],
     rstan[read_stan_csv],
-    marginaleffects[avg_slopes, posterior_draws],
-    ggplot2[ggplot, aes, labs, theme_minimal],
-    ggmosaic[geom_mosaic, product],
+    marginaleffects[avg_slopes, posterior_draws, plot_slopes],
+    ggplot2[ggplot, aes, labs, theme_minimal, scale_y_discrete],
     bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_combo, mcmc_areas, pp_check],
     ggdist[stat_halfeye]
 )
-    #* create empty data list object
-data <- list()
-    #* import cleaned dataset 
-data[['original']] <- setDT(read_dta("../../data/prr/pre-test/sps1.dta"))
-
     #* default theme
 red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
 color_scheme_set(red_custom)
@@ -122,17 +117,18 @@ pp_check(party_weak_brms, type = "stat")
 pp_check(party_weak_brms, type = "stat")
 
         #** plot model results
-ames <- avg_slopes(party_weak_brms, type = "link") |>
+party_ames <- avg_slopes(party_strong_brms, type = "link") |>
     posterior_draws()
 
-ggplot(ames, aes(x = draw, y = term)) +
+ggplot(party_ames, aes(x = draw, y = term)) +
     stat_halfeye(slab_alpha = 0.89) +
     theme_minimal() +
     labs(
         x = "Average Marginal Effect",
         y = "",
         caption = "Data source: Pre-test.\n Distribution of Average Marginal Effects for model posterior draws.\n Inverse logit applied to calculate the AME's. Bars reflect 89% HDI's."
-    )
+    ) +
+    scale_y_discrete(labels = c("Red Treatment", "Blue Treatment"))
 
 
 # TODO: Set up these models like I did above. Also clean all of this up and document it a bit better while I am at it.
@@ -141,10 +137,10 @@ ggplot(ames, aes(x = draw, y = term)) +
             #*** Model specification
 vote_formula <- bf(
     Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
-    family = bernoulli(link = "logit")
+    family = cumulative(link = "logit")
 )
-weak_priors <- priors(normal(0, 10), class = b)
-strong_priors <- priors(normal(0, 1), class = b)
+weak_priors <- prior(normal(0, 10), class = b)
+strong_priors <- prior(normal(0, 1), class = b)
             #*** convert model and data into cmdstanr
 vote_weak_code <- make_stancode(
     formula = vote_formula,
@@ -203,31 +199,58 @@ vote_strong_fitted <- vote_strong_model$sample(
 
         #** convert cmdstanfit to brmsfit objects
 vote_weak_brms <- brm(
-    party_formula,
+    vote_formula,
     data = data[["clean"]],
     empty = TRUE
 )
 vote_weak_brms$fit <- read_stan_csv(
-    party_weak_fitted$output_files()
+    vote_weak_fitted$output_files()
 )
-vote_weak_brms <- rename_pars(party_weak_brms)
+vote_weak_brms <- rename_pars(vote_weak_brms)
 
 vote_strong_brms <- brm(
-    party_formula,
+    vote_formula,
     data = data[["clean"]],
     empty = TRUE
 )
 vote_strong_brms$fit <- read_stan_csv(
-    party_strong_fitted$output_files()
+    vote_strong_fitted$output_files()
 )
-vote_strong_brms <- rename_pars(party_strong_brms)
+vote_strong_brms <- rename_pars(vote_strong_brms)
 
         #** model checks
-vote_weak
-vote_strong
-mcmc_combo(vote_weak)
-mcmc_combo(vote_strong)
-pp_check(vote_weak, ndraws = 500)
-pp_check(vote_strong, ndraws = 500)
-pp_check(vote_weak, type = "stat")
-pp_check(vote_strong, type = "stat")
+vote_weak_brms
+vote_strong_brms
+mcmc_combo(vote_weak_brms)
+mcmc_combo(vote_strong_brms)
+pp_check(vote_weak_brms, ndraws = 500)
+pp_check(vote_strong_brms, ndraws = 500)
+pp_check(vote_weak_brms, type = "stat")
+pp_check(vote_strong_brms, type = "stat")
+
+        #** plot model results
+vote_cmes_red <- plot_slopes(
+    vote_strong_brms,
+    variables = "RedTreatment",
+    condition = "PartyId",
+    type = "link"
+) +
+theme_minimal() +
+labs(
+    x = "Party Identification",
+    y = "CME of Red Treatment",
+    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Red Treatment upon support for candidate. Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
+)
+
+vote_cmes_blue <- plot_slopes(
+    vote_strong_brms,
+    variables = "BlueTreatment",
+    condition = "PartyId",
+    type = "link"
+) +
+theme_minimal() +
+labs(
+    x = "Party Identification",
+    y = "CME of Blue Treatment",
+    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Blue Treatment upon support for candidate. Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
+)

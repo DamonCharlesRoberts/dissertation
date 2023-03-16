@@ -52,7 +52,7 @@ geom_bar( # make a bar plot
         x = PartyCat, # with this variable on the x-axis
         fill = RedTreatmentCat # change color of bars based on values of this variable
     ),
-    position ="dodge" # and put them next to eachother
+    position ="dodge" # and put them next to each other
 ) +
 theme_minimal() + # apply this theme
 scale_fill_manual( # manually choose colors based on fill variable values
@@ -73,7 +73,7 @@ geom_bar(
         x = PartyCat, # put this variable on the x axis
         fill = BlueTreatmentCat # change color of bars based on values of this variable
     ),
-    position = "dodge" # and put them next to eachother
+    position = "dodge" # and put them next to each other
 ) +
 theme_minimal() + # apply this theme
 scale_fill_manual( # manually choose colors based on fill variable values
@@ -94,7 +94,7 @@ geom_bar( # specifically a bar plot
         x = PartyCat, # put this variable on the x axis
         fill = WhiteTreatmentCat # change color of bars based on values of this variable
     ),
-    position = "dodge" # and put them next to eachother
+    position = "dodge" # and put them next to each other
 ) +
 theme_minimal() + # apply this theme
 scale_fill_manual( # manually choose colors based on fill variable values
@@ -118,7 +118,7 @@ blue_party_xtab <- datasummary_crosstab( # make a crosstab
     data = data[["clean"]]
 )
             #*** white treatment
-white_party_xtab <- datasummary_crosstab( # make a crostab
+white_party_xtab <- datasummary_crosstab( # make a crosstab
     WhiteTreatmentCat ~ PartyCat, # with these variables left ~ top
     data = data[["clean"]]
 )
@@ -133,7 +133,7 @@ geom_bar( # specifically a bar plot
         x = VoteCat, # put this variable on the x axis
         fill = RedTreatmentCat # fill the color of the bars based on the values of this variable
     ),
-    position ="dodge" # put the bars next to eachother
+    position ="dodge" # put the bars next to each other
 ) +
 theme_minimal() + # apply this theme
 scale_fill_manual( # specify the colors for the bars
@@ -154,7 +154,7 @@ geom_bar( # specifically a bar plot
         x = VoteCat, # put this variable on the x axis
         fill = BlueTreatmentCat # fill the color of the bars based on the values of this variable
     ),
-    position = "dodge" # put the bars next to eachother
+    position = "dodge" # put the bars next to each other
 ) +
 theme_minimal() + # apply this theme
 scale_fill_manual( # specify the colors for the bars
@@ -175,7 +175,7 @@ geom_bar( # specifically a bar plot
         x = VoteCat, # put this variable on the x-axis
         fill = WhiteTreatmentCat # fill the color of the bars based on the values of this variable
     ),
-    position = "dodge" # put the bars next to eachother
+    position = "dodge" # put the bars next to each other
 ) +
 theme_minimal() + # apply this theme
 scale_fill_manual( # specify the colors for the bars
