@@ -25,8 +25,8 @@ box::use(
     ggdist[stat_halfeye]
 )
     #* default theme
-red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
-color_scheme_set(red_custom)
+#red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
+color_scheme_set(scheme = "gray")
 bayesplot_theme_set(new = theme_minimal())
     #* default tails
 options("marginaleffects_posterior_interval" = "hdi")
@@ -45,13 +45,13 @@ strong_priors <- prior(normal(0, 1), class = b)
 party_weak_code <- make_stancode(
     formula = party_formula,
     data = data[["clean"]],
-    priors = weak_priors
+    prior = weak_priors
 )
 
 party_strong_code <- make_stancode(
     formula = party_formula, 
     data = data[["clean"]],
-    priors = strong_priors
+    prior = strong_priors
 )
 
 party_data <- make_standata(
@@ -61,8 +61,8 @@ party_data <- make_standata(
 
 class(party_data) <- NULL
             #*** Store the model in a temp stan file
-party_weak_file <- write_stan_file(party_weak_code)
-party_strong_file <- write_stan_file(party_strong_code)
+party_weak_file <- write_stan_file(party_weak_code, "./stan/", basename = "party_weak_model.stan")
+party_strong_file <- write_stan_file(party_strong_code, "./stan/", basename = "party_strong.stan")
         #** Compile models
 party_weak_model <- cmdstan_model(
     party_weak_file,
@@ -121,7 +121,9 @@ party_ames <- avg_slopes(party_strong_brms, type = "link") |>
     posterior_draws()
 
 ggplot(party_ames, aes(x = draw, y = term)) +
-    stat_halfeye(slab_alpha = 0.89) +
+    stat_halfeye(
+        slab_alpha = 0.45,
+    ) +
     theme_minimal() +
     labs(
         x = "Average Marginal Effect",
@@ -139,18 +141,18 @@ vote_formula <- bf(
     Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId,
     family = cumulative(link = "logit")
 )
-weak_priors <- prior(normal(0, 10), class = b)
-strong_priors <- prior(normal(0, 1), class = b)
+weak_priors <- prior(normal(0, 10), class = "b")
+strong_priors <- prior(normal(0, 1), class = "b")
             #*** convert model and data into cmdstanr
 vote_weak_code <- make_stancode(
     formula = vote_formula,
     data = data[["clean"]],
-    priors = weak_priors
+    prior = weak_priors
 )
 vote_strong_code <- make_stancode(
     formula = vote_formula,
     data = data[["clean"]],
-    priors = strong_priors
+    prior = strong_priors
 )
 vote_data <- make_standata(
     formula = vote_formula,
@@ -158,8 +160,8 @@ vote_data <- make_standata(
 )
 class(vote_data) <- NULL
             #*** Store the model in a temp stan file
-vote_weak_file <- write_stan_file(vote_weak_code)
-vote_strong_file <- write_stan_file(vote_strong_code)
+vote_weak_file <- write_stan_file(vote_weak_code, "./stan/", basename = "vote_weak.stan")
+vote_strong_file <- write_stan_file(vote_strong_code, "./stan/",basename = "vote_strong.stan")
 
         #** Compile models
 vote_weak_model <- cmdstan_model(
@@ -239,7 +241,7 @@ theme_minimal() +
 labs(
     x = "Party Identification",
     y = "CME of Red Treatment",
-    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Red Treatment upon support for candidate. Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
+    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Red Treatment upon support for candidate.\n Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
 )
 
 vote_cmes_blue <- plot_slopes(
@@ -252,5 +254,5 @@ theme_minimal() +
 labs(
     x = "Party Identification",
     y = "CME of Blue Treatment",
-    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Blue Treatment upon support for candidate. Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
+    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Blue Treatment upon support for candidate.\n Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
 )

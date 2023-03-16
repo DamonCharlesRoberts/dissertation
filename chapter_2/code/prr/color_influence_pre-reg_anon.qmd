@@ -24,7 +24,7 @@ format:
   pdf:
     template: "../../../../../templates/manuscripts/apsr_template.tex"
     cite-method: biblatex
-    latex-output-dir: "../../drafts/"
+    latex-output-dir: "../../drafts/prr/"
 nocite: |
   @quarto, @duckdb, @polars, @ipython
 execute:
@@ -39,13 +39,13 @@ params:
 # Introduction
 
 ::: {#fig-pre-2000-logos layout-nrow="2"}
-![Republicans pre-2000](../assets/images/rnc_logo_pre-2000.png){#fig-republican}
+![Republicans pre-2000](../../assets/rnc_logo_pre-2000.png){#fig-republican}
 
-![Democrats pre-2000](../assets/images/dnc_logo_1960.png){#fig-democrat}
+![Democrats pre-2000](../../assets/dnc_logo_1960.png){#fig-democrat}
 
-![Republicans 2023](../assets/images/rnc_logo_2023.png){#fig-republican-post}
+![Republicans 2023](../../assets/rnc_logo_2023.png){#fig-republican-post}
 
-![Democrats 2023](../assets/images/dnc_logo_2023.png){#fig-democrat-post}
+![Democrats 2023](../../assets/dnc_logo_2023.png){#fig-democrat-post}
 
 Party logos
 :::
@@ -102,12 +102,14 @@ While the visual information may encourage a particular immediate reaction to en
 
 @fig-snap-judgement-model-chapter presents an illustration of the snap-judgment model.
 
+<!--
 :::{#fig-snap-judgement-model-chapter}
-![]("../../assets/theory_graph.png"){width=6in}
+
+![](../../../assets/theory_diagram.qmd)
 
 Snap-judgement model
 :::
-
+-->
 All of this means for *pip* is that when we view political events or consume political information with a visual component, we are going to encode visual information along with it. Taking expectations formed from theories of motivated reasoning [see @kunda_1990_pb], I expect that the visual information that we encode with it is likely congruent with the evaluation of the object; we are likely to be unwilling to encode the visual information that is not congruent with the visual information as we do with text-based political information [see @lodge_taber_2013_cup]. That is because unconsciously, we will experience a motivation to disengage from such information as soon as we appraise the visual aspects of an object as incongruent with existing attitudes and, therefore, be uncomfortable. It should also influence how we retrieve memories when we encounter new information, which will affect the attitudes we express. Additionally, this predicts that we will spend less time processing, accessing, and encoding congruent information [@lodge_taber_2013_cup].
 
 Let me illustrate the snap-judgment model with a common experience for residents of the United States. Say you are driving down a highway. At 65 miles an hour, you are traveling at about 95 feet per second at this speed. You split your attention. You focus your eyes on the conditions of the road in front of you, the cars in front of you, and the rear-view mirror where your kids are either dropping food in the crevice between the seats or trying to grab your attention. Out of the corner of your eye, you see a sign. It is not a road sign because it is not on the familiar white or yellow background with black lettering. It is election season. You correctly infer that it is a political yard sign. In this split second, you notice the sign's color and may see a name: Mitch McConnell. You now are racking your brain to think about who that is. If you are politically engaged, you might come to that recognition of the name quickly or it may take you significantly longer if you are less politically engaged [see @kahana_et-al_2022_ohhum]. You figure out that they are a Republican politician. You may have come to this with the help of the fact that every year you have seen yard signs on this stretch of highway. You know that when you see those electoral maps pop up on your news app on your phone that the electoral forecasts always represent Republican support with red and blue for Democrats. Once you have figured out who this person is, with the help of this other information, you react: "ugh, that guy is too loyal to Trump" or "yeah! He's loyal to Trump". You've expressed a political attitude.
@@ -137,36 +139,50 @@ From this discussion, I expect the following: that the average potential voter p
 ```{r}
 #| label: setup-pre-test-block
 
-setwd("chapter_2/code/prr")
-# Setup
-    #* modularly load functions
+    #* Set seed
+set.seed(12062022)
+# Source cleaning script
+source("pre-test_cleaning.R")
+    #* Load functions
 box::use(
-    haven[read_dta],
     data.table[...],
-    modelsummary[datasummary_skim, modelsummary],
-    rstan[stan_model, sampling],
-    broom[tidy],
-    marginaleffects[marginaleffects, posteriordraws],
-    ggplot2[ggplot, aes, labs, theme_minimal],
+    modelsummary[modelsummary, datasummary_skim],
+    cmdstanr[...],
+    brms[bf, prior, brm, rename_pars, make_stancode, make_standata, pp_check, cumulative, bernoulli],
+    rstan[read_stan_csv],
+    marginaleffects[avg_slopes, posterior_draws, plot_slopes],
+    ggplot2[ggplot, aes, labs, theme_minimal, scale_y_discrete],
+    bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_combo, mcmc_areas, pp_check],
     ggdist[stat_halfeye]
 )
-    #* create empty data list object
-data <- list()
-    #* import cleaned dataset 
-data[['original']] <- setDT(read_dta("../../data/prr/pre-test/sps1.dta"))
+cmdstanr::set_cmdstan_path("C:\\cmdstan")
+    #* default theme
+#red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
+color_scheme_set(scheme = "gray")
+bayesplot_theme_set(new = theme_minimal())
+    #* default tails
+options("marginaleffects_posterior_interval" = "hdi")
 
 ```
 
 I conducted a pre-test in November 2019 with a sample of over 400 undergraduate students at a large university in the northwestern region of the United States. I recruited students enrolled in a political science course and were offered extra credit for their participation in the study. The study asked participants to participate in 5 survey experiments administered by those affiliated with the university's college-level unit. These other survey experiments focus on capturing local policy issues around urban design and criminal justice and probing participants about political participation in local and national-level elections. Subjects participated in my survey experiment after one that examined their levels of political participation in local, state, and national elections.
 
 ```{r}
-#| label: tbl-descriptive-stats
-#| tbl-cap: Descriptive Statistics
+#| label: tbl-pre-test-descriptive-stats
+#| tbl-cap: Descriptive statistics of pre-test measures
 
-
+data[["clean"]][ # select the following columns
+    , .(Female, White, age, PartyId, BlueTreatment, RedTreatment, Vote)
+] |>
+datasummary_skim( # make a table of descriptive statistics
+    notes = c( # add some notes to the table
+        "Data source: Pre-test experiment.",
+        '"Unique" column includes missing values.'
+    )
+)
 ```
 
-Using the `modelsummary` [@modelsummary] package implemented in the `R` language [@r_software], I create @tbl-descriptive-stats which presents the descriptive characteristics of the sample. The sample is primarily White with over 80% self-reporting that they are White(coded as: 0 = non-White, 1 = White). The sample also skews slightly female on sex, with about 60% reporting that they are female (coded as 0 = Male, 1 = Female). The sample also, unsurprisingly, skews young, with the average respondent reporting an age of about 22 years old. The average respondent also appears to be an independent but leans Republican (coded as -3 = strong Democrat, -2 = Democrat, -1 = leans Democrat, 0 = Independent, 1 = leans Republican, 2 = Republican, 3 = strong Republican).
+Using the `modelsummary` [@modelsummary] package implemented in the `R` language [@r_software], I create @tbl-pre-test-descriptive-stats which presents the descriptive characteristics of the sample. The sample is primarily White with over 80% self-reporting that they are White(coded as: 0 = non-White, 1 = White). The sample also skews slightly female on sex, with about 60% reporting that they are female (coded as 0 = Male, 1 = Female). The sample also, unsurprisingly, skews young, with the average respondent reporting an age of about 22 years old. The average respondent also appears to be an independent but leans Republican (coded as -3 = strong Democrat, -2 = Democrat, -1 = leans Democrat, 0 = Independent, 1 = leans Republican, 2 = Republican, 3 = strong Republican).
 
 I randomly assign participants to three conditions. The conditions prompt subjects to "Imagine that [they] are driving along a road and see this yard sign" with the same message "Vote for Riley." The conditions vary on the color of the background for the image.[^1] In the control condition, the background was white. Then I had a red yard sign and a blue yard sign condition. I asked participants questions operationalized as outcomes of interest on a separate screen.
 
@@ -176,9 +192,60 @@ To provide a preliminary test of $H_1$ and $H_2$, I ask participants to report w
 
 Using the `haven` [@haven] and `dplyr` [@dplyr] `R` [@r_software] packages, I then combine these questions into a single measure of the subject's valanced response toward the candidate. I coded those who reported they would vote for the candidate or seek more information as 1. I coded those who reported that they would avoid the candidate as -1. I coded those who reported some combination representing mixed views or some degree of ambivalence as 0.
 
-I test whether participants presumed that the candidate was of a particular partisan persuasion based only on the color choice of the yard sign alone and whether the partisanship of the participant moderates the effect color has on valanced reactions directed toward the owner of the sign. I created two indicator variables of the treatment the subjects received: whether or not they had the blue or red yard sign treatment. The control condition is treated as the baseline condition when including both treatment indicator variables in the model.
+I test whether participants presumed that the candidate was of a particular partisan persuasion based only on the color choice of the yard sign alone and whether the partisanship of the participant moderates the effect color has on valanced reactions directed toward the owner of the sign. I created two indicator variables of the treatment the subjects received: whether or not they had the blue or red yard sign treatment. The control condition (the white yard sign treatment) is treated as the baseline condition when including both treatment indicator variables in the model.
 
-To examine whether subjects presumed a partisan affiliation of the fictional candidate, I use the `rstan` [@rstan] implementation of `STAN` to fit an ordinal logistic regression model. 
+To examine whether subjects presumed a partisan affiliation of the fictional candidate, I use the `brms` [@brms] implementation of `STAN` to fit an ordinal logistic regression model using the cumulative PDF with a inverse logit link function. My model specification is reflected in @eq-party-specification. I use posterior prediction checks after fitting the model to examine whether the predicted values from the posterior draws resemble my observed values. I calculate the average marginal effects across my posterior draws with High Density Intervals (as opposed to Equal Tail Intervals) and plot the distributions of these. In @fig-party-pre-test-results, the bars reflect the 90% and 95% credible intervals whereas the dot reflects the median posterior draw.
+
+$$
+\begin{split}
+  \alpha \sim Student-T(3,0,2.5) \\
+  \beta_i \sim Normal(0, 1) \\
+  \hat{Party_i} = Cumulative(logit^{-1}(\alpha_1 + \alpha_2 + \beta_1 \times Red Treatment + \beta_2 \times Blue Treatment))
+\end{split}
+$${#eq-party-specification}
+
+
+```{r}
+#| label: party-pre-test-model
+#| message: false
+#| warning: false
+
+source("pre-test_party_model.R")
+```
+
+```{r}
+#| label: fig-party-pre-test-ames
+#| fig-cap: Effect of treatments on party perceptions
+
+PartyAMES <- avg_slopes(
+  PartyModel,
+  type = "link"
+) |>
+posterior_draws()
+
+ggplot(
+  data = PartyAMES,
+  aes(
+    x = draw,
+    y = term
+  )
+) +
+stat_halfeye(
+  slab_alpha = 0.45
+) +
+theme_minimal() +
+labs(
+  x = "Average Marginal Effect",
+  y = "",
+  caption = "Data source: Pre-test.\n Distribution of AME's for model posterior draws using HDI's.\n Dot reflects median posterior draw where bars reflect 90% and 95% credible intervals."
+) +
+scale_y_discrete(
+  labels = c(
+    "Red Treatment",
+    "Blue Treatment"
+  )
+)
+```
 <!--
 edit all of the below to adjust model here
 To examine whether subjects presumed a partisan affiliation of the fictional candidate, I use the `rstanarm` [@rstanarm] implementation of STAN to fit a model using a cumulative link function from the logistic distribution and specify a prior location of $R^2$ - which represents the proportion of variance the model explains for the discretized latent variable - with an average $R^2$ of $0.3$ when the predictors are at their sample means [see @gelman_et-al_2021_cup, Chapter 15]. I assume this about the $R^2$ as I recognize that color will explain only some variation in the subject's ability to detect partisanship. However, my theory suggests that it should have a meaningful impact. Therefore, I choose an expected value of $0.3$, representing that I expect that my treatments should predict about $30\%$ of the variation. I also assume a normally distributed disturbance term with a mean of zero. I fit the model using six chains and about two-thousand iterations. Using the `marginaleffects` [@marginaleffects], `ggplot2` [@ggplot2] and `ggdist` [@ggdist] packages, I depict the results as the average marginal effects for representative values in @fig-pre-experiment-guess[^14].
@@ -187,6 +254,7 @@ To examine whether subjects presumed a partisan affiliation of the fictional can
 
 ```{r}
 #| label: model-block
+#| eval: false
 # Create empty model object
 model <- list()
 # Models
@@ -208,6 +276,7 @@ model <- readRDS('../../data/pre-reg_reports/pre-test/ch_1_pre-test_models.rds')
 
 ```{r}
 #| label: fig-pre-experiment-guess
+#| eval: false
 #| fig-cap:
 #|  - "Associate color with partisanship"
 #| fig-width: 6
@@ -232,6 +301,7 @@ With confidence that the subjects associate the yard signs with the candidate's 
 
 ```{r}
 #| label: fig-pre-experiment-cand-eval
+#| eval: false
 #| layout-nrow: 2
 #| fig-cap: "Effect of yard sign color on candidate evaluation"
 #| fig-subcap:
@@ -365,7 +435,7 @@ I collected the GOP logo used on their official Twitter account during the 2022 
 from sys import path # for path management
 from cv2 import imread, imwrite # for color detection
     #* user-defined
-path.append("../")
+#path.append("../")
 from helper import colorDetector
 
 # Define colors to detect
@@ -382,15 +452,15 @@ img = imread("../../data/study_2/gop_2022.png")
 # Detect colors
 percent, img_transformed, result = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
 
-transformed= imwrite("../../data/pre-reg_reports/gop_2022_transformed.png", img_transformed) # save transformed image
+transformed= imwrite("../../data/study_2/gop_2022_transformed.png", img_transformed) # save transformed image
 
-masked= imwrite("../../data/pre-reg_reports/gop_2022_detected.png", result) # save masked image
+masked= imwrite("../../data/study_2/gop_2022_detected.png", result) # save masked image
 ```
 
 ::: {#fig-color-detection-example layout-ncol="2"}
-![Resized original image](../../data/pre-reg_reports/gop_2022_transformed.png){#fig-resized}
+![Resized original image](../../data/study_2/gop_2022_transformed.png){#fig-resized}
 
-![Masked](../../data/pre-reg_reports/gop_2022_detected.png){#fig-masked}
+![Masked](../../data/study_2/gop_2022_detected.png){#fig-masked}
 
 Detecting colors in the GOP logo
 :::

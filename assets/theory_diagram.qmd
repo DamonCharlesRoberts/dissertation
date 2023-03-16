@@ -2,7 +2,6 @@
 format: html
 ---
 ```{mermaid}
-%%| fig-width: 6
 %%{init: {'theme':'base', 'themeVariables':{'primaryColor':'#ffffff', 'primaryBorderColor': '#000000'}}}%%
 graph TD
     A[Detection of politically-relevant visual information] --> B(Activation of retrieval mechanism)
