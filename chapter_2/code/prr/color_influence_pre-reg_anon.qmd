@@ -33,7 +33,7 @@ execute:
   message: false
   cache: true
 params:
-  windows: true
+  windows: false
 ---
 
 # Introduction
@@ -172,10 +172,9 @@ box::use(
     marginaleffects[avg_slopes, posterior_draws, plot_slopes],
     ggplot2[ggplot, aes, labs, theme_minimal, scale_y_discrete],
     bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_combo, mcmc_areas, pp_check],
-    ggdist[stat_halfeye],
-    patchwork[...]
+    ggdist[stat_halfeye]
 )
-cmdstanr::set_cmdstan_path("C:\\cmdstan")
+#cmdstanr::set_cmdstan_path("C:\\cmdstan")
     #* default theme
 #red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
 color_scheme_set(scheme = "gray")
@@ -256,8 +255,8 @@ labs(
 ) +
 scale_y_discrete(
   labels = c(
-    "Red Treatment",
-    "Blue Treatment"
+    "Blue Treatment",
+    "Red Treatment"
   )
 )
 ```
@@ -344,7 +343,7 @@ I recruit participants from Prolific.[^4] After providing informed consent to pa
 
 [^5]: Pavolovia allows for researchers to host and run open source experiments for about \$0.20 per participant (to cover their server costs). I use it primarily to integrate the JavaScript components from the jsPsych package [@jspsych] for my experimental design.
 
-I include those questions in the questionnaire due to expectations that they may act as confounds in my hypotheses. As political knowledge intertwines with the strength to which an individual identifies with a political party [@delli-carpini_keeter_1996_yup], I expect that political knowledge is an important confounder in my tests of $H_2$, $H_3$, and $H_4$. Therefore, I include an expanded battery for assessing political knowledge using the battery provided by @barabas_et-al_2014.[^6] As political knowledge is shaped by levels of interest in politics as well [@delli-carpini_keeter_1996_yup], I include the American National Election Study's question to assess levels of self-reported interest in politics. I include a battery to measure patriotism. For this measure, participants can respond to values between 1 (not proud at all) and 4 (very proud) to the following questions: "When I hear the American national anthem, it makes me feel" and "when I say the American pledge of allegiance, it makes me feel" [@huddy_khatib_2007_ajps; @perez_et-al_2019_jop]. I additionally include some questions collecting information on participants' ascriptive and descriptive characteristics such as age, education, gender identity, and racial identity, as a number of these are correlates with partisan identification [see @campbell_et-al_1960_jws; @mason_2018_cup].
+I include those questions in the questionnaire due to expectations that they may act as confounds in my hypotheses. As political knowledge intertwines with the strength to which an individual identifies with a political party [@delli-carpini_keeter_1996_yup], I expect that political knowledge is an important confounder in my tests of $H_2$, $H_3$, and $H_4$. Therefore, I include a standard battery (the American National Election Study's battery) for assessing political knowledge.[^6] As political knowledge is shaped by levels of interest in politics as well [@delli-carpini_keeter_1996_yup], I include the American National Election Study's question to assess levels of self-reported interest in politics. I include a battery to measure patriotism. For this measure, participants can respond to values between 1 (not proud at all) and 4 (very proud) to the following questions: "When I hear the American national anthem, it makes me feel" and "when I say the American pledge of allegiance, it makes me feel" [@huddy_khatib_2007_ajps; @perez_et-al_2019_jop]. I additionally include some questions collecting information on participants' ascriptive and descriptive characteristics such as age, education, gender identity, and racial identity, as a number of these are correlates with partisan identification [see @campbell_et-al_1960_jws; @mason_2018_cup].
 
 [^6]: A table including the wording of this, and all, measures are included in the Supplementary Information.
 
