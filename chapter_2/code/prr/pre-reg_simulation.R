@@ -17,109 +17,92 @@ box::use(
     fabricatr[...]
 )
 
-# Define fxn for data generation
 
-DataGenerate <- function(N) {
-    #' Generate data for pre-registration simulations
-    #' 
-    #' Parameters
-    #' ----
-    #' - n (int): number of observations in the sample
-    #' 
-    #' Returns
-    #' ----
-    #' - Data (data.table): a data.table object of simulated data
-     
-    dgp <- fabricate(
-        N = 100000,
-        E = rnorm(N),
-        age = round(
-            runif(N, 18, 85)
-        ),
-        gender = draw_binary(
+dgp <- fabricate(
+    N = 100000,
+    E = rnorm(N),
+    age = round(
+        runif(N, 18, 85)
+    ),
+    gender = draw_binary(
+        N,
+        prob = 0.5
+    ),
+    white = draw_binary(
+        N,
+        prob = 0.2
+    ),
+    PartyId = draw_ordered(
+        x = rnorm(
             N,
-            prob = 0.5
+            mean = 0.4 * age - 0.6 * gender + 0.7 * white + E
         ),
-        white = draw_binary(
+        breaks = c(
+            -Inf, 20.14, 23.01, Inf
+        )
+    ),
+    Attention = draw_ordered(
+        x = rnorm(
             N,
-            prob = 0.2
+            mean = 0.5 * age - 0.3 * gender + 0.1 * white + E
         ),
-        PartyId = draw_ordered(
-            x = rnorm(
-                N,
-                mean = 0.4 * age - 0.6 * gender + 0.7 * white + E
-            ),
-            breaks = c(
-                -Inf, 20.14, 23.01, Inf
-            )
-        ),
-        Attention = draw_ordered(
-            x = rnorm(
-                N,
-                mean = 0.5 * age - 0.3 * gender + 0.1 * white + E
-            ),
-            breaks = c(
-                -Inf, 16.5, 28.26, 36.54, 43.82, Inf
-            )
-        ),
-        Knowledge = rnorm(
+        breaks = c(
+            -Inf, 16.5, 28.26, 36.54, 43.82, Inf
+        )
+    ),
+    Knowledge = rnorm(
+        N,
+        mean = 0.6 * age - 0.5 * gender + 0.2 * white + 0.8 * Attention + E
+    )/100,
+    RedTreatment = draw_binary(
+        N,
+        prob = 1/3
+    ),
+    BlueTreatment = draw_binary(
+        N,
+        prob = 1/3
+    ),
+    PartyGuess = draw_ordered(
+        x = rnorm(
             N,
-            mean = 0.6 * age - 0.5 * gender + 0.2 * white + 0.8 * Attention + E
-        )/100,
-        RedTreatment = draw_binary(
+            mean = 2 * RedTreatment + -2 * BlueTreatment - 0.01 * age - 0.1 * RedTreatment * age + 0.1 * BlueTreatment * age + 0.1 * Attention + 0.1 * Knowledge + E),
+        breaks = c(
+            -Inf, -0.5, 0, Inf
+        )
+    ),
+    PartyGuessTrialTwo = draw_ordered(
+        x = rnorm(
             N,
-            prob = 0.5
+            mean = 1 * RedTreatment + -1 * BlueTreatment - 0.01 * age - 0.05 * RedTreatment * age + 0.05 * BlueTreatment * age + 0.1 * Attention + 0.1 * Knowledge + E
         ),
-        BlueTreatment = draw_binary(
+        breaks = c(
+            -Inf, -1, 1, Inf
+        )
+    ),
+    Vote = draw_ordered(
+        x = rnorm(
             N,
-            prob = 0.5
+            mean = 1 * RedTreatment + - 1 * BlueTreatment - 0.01 * age + 0.1 * Attention + 0.1 * Knowledge + E
         ),
-        PartyGuess = draw_ordered(
-            x = rnorm(
-                N,
-                mean = 2 * RedTreatment + -2 * BlueTreatment - 0.01 * age - 0.1 * RedTreatment * age + 0.1 * BlueTreatment * age + 0.1 * Attention + 0.1 * Knowledge + E),
-                breaks = c(
-                    -Inf, 2, 4, Inf
-                )
+        breaks = c(
+            -Inf, 0, Inf
         )
     )
-    #TrialData <- data.table(
-    #    "TrialOneTreatmentOne" = integer(),
-    #    "TrialOneTreatmentTwo" = integer(),
-    #    "TrialTwoTreatmentOne" = integer(),
-    #    "TrialTwoTreatmentTwo" = integer(),
-    #    "TrialThreeTreatmentOne" = integer(),
-    #    "TrialThreeTreatmentTwo" = integer()
-    #)
-    #TrialOne <- replicate(N, sample(x = 1:3, size = 2))
-    #TrialTwo <- replicate(N, sample(x = 1:3, size = 2))
-    #TrialThree <- replicate(N, sample(x = 1:3, size = 2))
-    #for (n in 1: N) {
-    #    df <- data.table(
-    #        "TrialOneTreatmentOne" = TrialOne[[1,n]],
-    #        "TrialOneTreatmentTwo" = TrialOne[[2,n]],
-    #        "TrialTwoTreatmentOne" = TrialTwo[[1,n]],
-    #        "TrialTwoTreatmentTwo" = TrialTwo[[2,n]],
-    #        "TrialThreeTreatmentOne" = TrialThree[[1,n]],
-    #        "TrialThreeTreatmentTwo" = TrialThree[[2,n]]
-    #    )
-    #    TrialData <- rbindlist(list(TrialData, df))
-    #}
-#
-    #population <- fabricate(
-    #    N = 500,
-    #    age = round(runif(N, 18, 85)),
-    #    gender = draw_binary(prob = 0.5, N),
-    #    white = draw_binary(prob = 0.2, N),
-    #    PartyId = draw_ordered(
-    #        x = rnorm(N, mean = 0.4 * age - 0.6 * gender + 0.7 * white),
-    #        breaks = c(-Inf, 20.14, 23.01, Inf),
-    #        #break_labels = c("Democrat", "Independent", "Republican"),
-    #    ),
-    #    Attention = draw_ordered(
-    #        x = rnorm(N, mean = 0.5 * age - 0.3 * gender + 0.1 * white),
-    #        breaks = c(-Inf, 16.5, 28.26, 36.54, 43.82, Inf),
-    #        #break_labels = c("Never", "Some of the time", "About half of the time", "Almost always", "Always"),
-    #    ),
-    #    Knowledge = rnorm(N, mean = 0.6 * age - 0.5 * gender + 0.2 * white + 0.8 * Attention)/100,
-    #)
+)
+
+NumOfSamples <- 500
+NumOfObs <- c(100, 200, 300, 400)
+
+GenerateSamples <- function(data, n) {
+    OneSample <- function(data, n) {
+        Sampled <- data[sample(1:nrow(data), n), ]
+    }
+    SampleData  <- lapply(n, OneSample, data = dgp)
+}
+
+Sample <- replicate(NumOfSamples, GenerateSamples(data=dgp, n = NumOfObs))
+
+Sample100 <- purrr::keep(Sample, function(x) nrow(x) == 100)
+Sample200 <- purrr::keep(Sample, function(x) nrow(x) == 200)
+Sample300 <- purrr::keep(Sample, function(x) nrow(x) == 300)
+Sample400 <- purrr::keep(Sample, function(x) nrow(x) == 400)
