@@ -10,7 +10,7 @@
     #* Set seed
 set.seed(12062022)
 # Source cleaning script
-source("pre-test_cleaning.R")
+source("01_pre-test_cleaning.R")
     #* Load functions
 box::use(
     data.table[...],

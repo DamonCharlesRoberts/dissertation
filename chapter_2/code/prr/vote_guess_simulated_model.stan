@@ -72,7 +72,7 @@ parameters {
 transformed parameters {
   real disc = 1;  // discrimination parameters
   real lprior = 0;  // prior contributions to the log posterior
-  lprior += Normal_lpdf(b | 0, 1);
+  lprior += normal_lpdf(b | 0, 1);
   lprior += student_t_lpdf(Intercept | 3, 0, 2.5);
 }
 model {

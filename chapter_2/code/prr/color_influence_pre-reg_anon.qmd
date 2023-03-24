@@ -25,6 +25,7 @@ format:
     template: "../../../../../templates/manuscripts/apsr_template.tex"
     cite-method: biblatex
     latex-output-dir: "../../drafts/prr/"
+    code-overflow: wrap
 nocite: |
   @quarto, @duckdb, @polars, @ipython
 execute:
@@ -33,7 +34,7 @@ execute:
   message: false
   cache: true
 params:
-  windows: false
+  windows: true
 ---
 
 # Introduction
@@ -161,7 +162,7 @@ From this discussion, I expect the following: that the average potential voter p
     #* Set seed
 set.seed(12062022)
 # Source cleaning script
-source("pre-test_cleaning.R")
+source("01_pre-test_cleaning.R")
     #* Load functions
 box::use(
     data.table[...],
@@ -224,7 +225,7 @@ $${#eq-party-specification}
 #| label: party-pre-test-model
 #| include: false
 
-source("pre-test_party_model.R")
+source("04_pre-test_party_model.R")
 ```
 
 ```{r}
@@ -282,7 +283,7 @@ I expect that the effect of the treatment on willingness to engage more with the
 #| label: pre-test-vote-model
 #| include: false
 
-source("pre-test_vote_model.R")
+source("05_pre-test_vote_model.R")
 ```
 
 ```{r}
@@ -392,6 +393,231 @@ The @sec-pre-test provides a lot of useful information that I might use to const
 
 As my estimation strategy does not assume long-run convergence to the population, many assume that my Bayesian models are agnostic to the sample size and often eschew power analyses. However, as estimates from a Bayesian model are weighted by the observed data and my priors, I want to examine the robustness of my model specification using simulated data that vary on sample size. While I do expect that my priors will shift slightly depending on my pre-registered analyses here and upon exploratory data analysis once I collect my data, using simulated data to examine my analytical pipeline offers the opportunity to demonstrate my model specification's ability to converge upon parameters defined by a hypothetical data generating process.
 
+Using the `fabricatr` [@fabricatr] package, I simulate a population with an N of 100000. The specified data generating processes for each of the variables are included in @lst-sim-dgp and @lst-sim-dgp-2. I then generate 500 random samples for each sample size of 200, 400, 600, and 800 participants. This sample size is not the size of the total sample I intend to recruit but is the total sample that I have data on after excluding those who fail attention checks and those who provide duplicate responses. Some estimate that insincere responses account for about 40% of a researcher's original sample [@kennedy_et-al_2021_poq]. Therefore the total sample that I recruit from prolific should be about 40% larger than the total sample size used in these simulations.
+
+```{#lst-sim-dgp .r lst-cap="Code to generate simulated population data"}
+
+dgp <- fabricate(
+    N = 100000, # N in the population
+    E = rnorm(N), # epsilon term
+    age = round( # define age variable
+        runif(N, 18, 85)
+    ),
+    gender = draw_binary( # define binary gender identity variable
+        N,
+        prob = 0.5
+    ),
+    white = draw_binary( # define white indicator variable
+        N,
+        prob = 0.2
+    ),
+    PartyId = draw_ordered( # define party identity variable as 3-item ordinal
+        x = rnorm(
+            N,
+            mean = 0.4 * age - 0.6 * gender + 0.7 * white + E
+        ),
+        breaks = c(
+            -Inf, 20.14, 23.01, Inf
+        )
+    ),
+    Attention = draw_ordered( # define Attention variable as 5-item ordinal
+        x = rnorm(
+            N,
+            mean = 0.5 * age - 0.3 * gender + 0.1 * white + E
+        ),
+        breaks = c(
+            -Inf, 16.5, 28.26, 36.54, 43.82, Inf
+        )
+    ),
+    Knowledge = rnorm( # define Knowledge variable
+        N,
+        mean = 0.6 * age - 0.5 * gender + 0.2 * white + 0.8 * Attention + E
+    )/100,
+    ...
+```
+
+```{#lst-sim-dgp-2 .r lst-cap="Code to generate simulated population data (continued)"}
+  ...
+    RedTreatment = draw_binary( # Simulate treatment assignment with prob 1/3
+        N,
+        prob = 1/3
+    ),
+    BlueTreatment = draw_binary( # Simulate treatment assignment with prob 1/3
+        N,
+        prob = 1/3
+    ),
+    PartyGuess = draw_ordered( # Define PartyGuess outcome variable as 3-item ordinal
+        x = rnorm(
+            N,
+            mean = (
+              2 * RedTreatment + -2 * BlueTreatment - 0.01 * age 
+              - 0.1 * RedTreatment * age + 0.1 * BlueTreatment * age 
+              + 0.1 * Attention + 0.1 * Knowledge + E
+            )
+        ),
+        breaks = c(
+            -Inf, -0.5, 0, Inf
+        )
+    ),
+    PartyGuessTrialTwo = draw_ordered( # Define PartyGuess outcome variable as 3-item categorical
+        x = rnorm(
+            N,
+            mean = (
+              2 * RedTreatment + -2 * BlueTreatment - 0.01 * age 
+              - 0.1 * RedTreatment * age + 0.1 * BlueTreatment * age 
+              + 0.1 * Attention + 0.1 * Knowledge + E
+            )
+        ),
+        breaks = c(
+            -Inf, -0.5, 0, Inf
+        )
+    ),
+    PartyGuessTrialThree = draw_ordered( # Define PartyGuessTrialTwo outcome variable
+        x = rnorm(
+            N,
+            mean = (
+              1 * RedTreatment + -1 * BlueTreatment - 0.01 * age 
+              - 0.05 * RedTreatment * age + 0.05 * BlueTreatment * age 
+              + 0.1 * Attention + 0.1 * Knowledge + E
+            )
+        ),
+        breaks = c(
+            -Inf, -1, 1, Inf
+        )
+    ),
+    Vote = draw_ordered( # Define Vote outcome variable as indicator variable
+        x = rnorm(
+            N,
+            mean = (
+              1 * RedTreatment + - 1 * BlueTreatment - 0.01 * age 
+              + 0.1 * Attention + 0.1 * Knowledge + E
+            )
+        ),
+        breaks = c(
+            -Inf, 0, Inf
+        )
+    )
+)
+```
+
+To examine my analytic strategy's ability to converge upon the population's data generating process for respondents' perceptions of the fictional candidate's partisanship, I specify a ordinal logistic regression where I set relatively constrained priors upon the beta coefficients, as depicted in @eq-party-guess-priors.
+
+$$
+\begin{split}
+  \alpha \sim Student-T(3,0,2.5) \\
+  \beta_i \sim Normal(0, 1) \\
+  \hat{PartyGuess_i} = Cumulative(logit^{-1}(\alpha_1 + \alpha_2 + \beta_1 \times Red Treatment + \beta_2 \times Blue Treatment + \beta_3 \times age + \beta_4 \times Red Treatment \times age + \beta_5 \times Blue Treatment \times age + \beta_6 \times Attention + \beta_7 \times Knowledge))
+\end{split}
+$${#eq-party-guess-priors}
+
+These priors suggest that I believe 68% of my beta coefficients, given the data, should be between -1 and 1; with the bulk of the estimates at 0. 
+
+I run this model on the 2000 total samples. While doing so, I take the mean value of the posterior draws for each coefficient and subtract the parameter value for that coefficient. @fig-discrepancies presents a boxplot displaying these discrepancies.
+
+```{r}
+#| label: fig-discrepancies
+#| fig-cap: Discrepancies between mean posterior draws and parameters
+
+Sample200Results <- readRDS("../../data/prr/sample200SimResults.RData")
+Sample400Results <- readRDS("../../data/prr/sample400SimResults.RData")
+Sample600Results <- readRDS("../../data/prr/sample600SimResults.RData")
+Sample800Results <- readRDS("../../data/prr/sample800SimResults.RData")
+
+RedTreatmentPlot <- ggplot() +
+  geom_boxplot(
+    aes(
+      x = "n = 200",
+      y = MeanRed),
+    data = Sample200Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 400",
+      y = MeanRed
+    ),
+    data = Sample400Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 600",
+      y = MeanRed
+    ),
+    data = Sample600Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 800",
+      y = MeanRed
+    ),
+    data = Sample800Results
+  ) +
+  theme_minimal()
+
+BlueTreatmentPlot <- ggplot() +
+  geom_boxplot(
+    aes(
+      x = "n = 200",
+      y = MeanBlue
+    ),
+    data = Sample200Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 400",
+      y = MeanBlue
+    ),
+    data = Sample400Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 600",
+      y = MeanBlue
+    ),
+    data = Sample600Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 800",
+      y = MeanBlue
+    ),
+    data = Sample800Results
+  )
+
+AgePlot <- ggplot() +
+  geom_boxplot(
+    aes(
+      x = "n = 200",
+      y = MeanAge
+    ),
+    data = Sample200Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 400",
+      y = MeanAge
+    ),
+    data = Sample400Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 600",
+      y = MeanAge
+    ),
+    data = Sample600Results
+  ) +
+  geom_boxplot(
+    aes(
+      x = "n = 800",
+      y = MeanAge
+    ),
+    data = Sample800Results
+  )
+
+RedTreatmentPlot
+BlueTreatmentPlot
+AgePlot
+```
+
 # Study 2 {#sec-study-2}
 
 [Study 1](#sec-study-1) presents evidence in support of the snap-judgment model in a relatively artificial way. The yard signs presented as stimuli are elementary in information content and design. Furthermore, viewing yard signs in real-world scenarios does not occur through a computer screen with an overlay allowing individuals to observe only a fraction of the screen simultaneously.
@@ -491,3 +717,5 @@ Not only do yard signs matter for electoral strategy, outcomes, and voter attitu
 While yard signs are a simple form of party branding, richer theorizing about how diverse types of potentially politically-relevant information allows us to fill some of these gaps. In the case of yard signs, while some may be skeptical of whether yard signs and campaigns, more generally, matter for electoral outcomes, an application of the snap-judgment model on yard signs suggests that they indeed have potential and provide an explanation as to how it occurs.
 
 Outside of color on yard signs, I suspect that color provides valuable information that is processed efficiently by the public. Due to this, voters can connect colors like Red and Blue to make assumptions about a political candidate's partisan affiliation. With this information, voters can then evaluate the candidate. This is a much simpler task than hearing the candidate's positions on immigration, for example, and then making a connection to their partisan affiliation.
+
+{{< pagebreak >}}

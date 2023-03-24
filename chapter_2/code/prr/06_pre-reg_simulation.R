@@ -15,8 +15,9 @@ box::use(
     data.table[...],
     fabricatr[...],
     purrr[keep],
-    brms[make_stancode, make_standata, cumulative, prior],
-    cmdstanr[...]
+    brms[make_stancode, make_standata, cumulative, prior, brmsformula],
+    cmdstanr[...],
+    rstan[stan_model, sampling]
 )
     #* Load helpful helper functions
 source("helper.R")
@@ -74,7 +75,15 @@ dgp <- fabricate(
             -Inf, -0.5, 0, Inf
         )
     ),
-    PartyGuessTrialTwo = draw_ordered( # Define PartyGuessTrialTwo outcome variable
+    PartyGuessTrialTwo = draw_ordered( # Define PartyGuess outcome variable
+        x = rnorm(
+            N,
+            mean = 2 * RedTreatment + -2 * BlueTreatment - 0.01 * age - 0.1 * RedTreatment * age + 0.1 * BlueTreatment * age + 0.1 * Attention + 0.1 * Knowledge + E),
+        breaks = c(
+            -Inf, -0.5, 0, Inf
+        )
+    ),
+    PartyGuessTrialThree = draw_ordered( # Define PartyGuessTrialTwo outcome variable
         x = rnorm(
             N,
             mean = 1 * RedTreatment + -1 * BlueTreatment - 0.01 * age - 0.05 * RedTreatment * age + 0.05 * BlueTreatment * age + 0.1 * Attention + 0.1 * Knowledge + E
@@ -95,27 +104,44 @@ dgp <- fabricate(
 )
 
 # Sample from population
-NumOfObs <- c(100, 200, 300, 400) # Simulate random samples that vary on n
+NumOfObs <- c(200, 400, 600, 800) # Simulate random samples that vary on n
 NumOfSamples <- 500 # I want 500 samples for each sample size
     #* For each sample size, replicate the sampling procedure 500 times
 Sample <- replicate(NumOfSamples, GenerateSamples(data=dgp, n = NumOfObs))
     #* Create a list of the 500 samples for each sample size
-Sample100 <- keep(
-    Sample,
-    function(x) nrow(x) == 100
-)
 Sample200 <- keep(
     Sample,
     function(x) nrow(x) == 200
-)
-Sample300 <- keep(
-    Sample,
-    function(x) nrow(x) == 300
 )
 Sample400 <- keep(
     Sample,
     function(x) nrow(x) == 400
 )
+Sample600 <- keep(
+    Sample,
+    function(x) nrow(x) == 600
+)
+Sample800 <- keep(
+    Sample,
+    function(x) nrow(x) == 800
+)
 
 # Models from simulated data
     #* PartyGuess models
+PartyFormula = brmsformula(
+    PartyGuess ~ RedTreatment + BlueTreatment + age + RedTreatment:age + BlueTreatment:age + Attention + Knowledge
+)
+
+PartyCompiled <- stan_model(
+    "vote_guess_simulated_model.stan",
+    model_name = "PartyGuess"
+)
+
+Sample200Results <- Discrepancy(compiled = PartyCompiled, data = Sample200, formula = PartyFormula, family = cumulative(link = "logit"), model = "PartyGuess")
+saveRDS(Sample200Results,"../../data/prr/sample200SimResults.RDS")
+Sample400Results <- Discrepancy(compiled = PartyCompiled, data = Sample400, formula = PartyFormula, family = cumulative(link = "logit"), model = "PartyGuess")
+saveRDS(Sample400Results,"../../data/prr/sample400SimResults.RDS")
+Sample600Results <- Discrepancy(compiled = PartyCompiled, data = Sample600, formula = PartyFormula, family = cumulative(link = "logit"), model = "PartyGuess")
+saveRDS(Sample600Results,"../../data/prr/sample600SimResults.RDS")
+Sample800Results <- Discrepancy(compiled = PartyCompiled, data = Sample800, formula = PartyFormula, family = cumulative(link = "logit"), model = "PartyGuess")
+saveRDS(Sample800Results,"../../data/prr/sample800SimResults.RDS")
