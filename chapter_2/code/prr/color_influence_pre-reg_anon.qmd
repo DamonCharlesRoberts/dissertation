@@ -171,7 +171,7 @@ box::use(
     brms[bf, prior, brm, rename_pars, make_stancode, make_standata, pp_check, cumulative, bernoulli],
     rstan[read_stan_csv],
     marginaleffects[avg_slopes, posterior_draws, plot_slopes],
-    ggplot2[ggplot, aes, labs, theme_minimal, scale_y_discrete],
+    ggplot2[ggplot, aes, labs, theme_minimal, scale_y_discrete, geom_boxplot],
     bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_combo, mcmc_areas, pp_check],
     ggdist[stat_halfeye]
 )
@@ -409,7 +409,7 @@ dgp <- fabricate(
     ),
     white = draw_binary( # define white indicator variable
         N,
-        prob = 0.2
+        prob = 0.6
     ),
     PartyId = draw_ordered( # define party identity variable as 3-item ordinal
         x = rnorm(
@@ -617,6 +617,7 @@ RedTreatmentPlot
 BlueTreatmentPlot
 AgePlot
 ```
+
 
 # Study 2 {#sec-study-2}
 

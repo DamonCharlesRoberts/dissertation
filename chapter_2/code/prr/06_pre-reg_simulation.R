@@ -35,7 +35,7 @@ dgp <- fabricate(
     ),
     white = draw_binary( # define white indicator variable
         N,
-        prob = 0.2
+        prob = 0.6
     ),
     PartyId = draw_ordered( # define party identification of simulated respondents
         x = rnorm(
