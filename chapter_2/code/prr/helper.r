@@ -44,7 +44,7 @@ Discrepancy <- function(compiled, data, formula, family, model) {
         #** define an empty data.frame to store the mean of the posterior for each sample
         #sample_mean <- NULL
         #** for each imputed/amputed dataset for each sample, do the following
-        for (j in 1: 500){
+        for (j in 1: 2){
             #*** convert the data.frame into a list
             DfList <- make_standata(
                 formula,
