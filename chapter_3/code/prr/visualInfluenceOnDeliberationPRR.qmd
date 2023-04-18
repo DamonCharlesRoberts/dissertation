@@ -1,6 +1,6 @@
 ---
 title: |
-  How do colors convey political information and affect individual attitudes?
+  How does visual information influence social interactions?
 repo: |
   For replication, go to: <https://github.com/DamonCharlesRoberts/dissertation>.
 author:
@@ -17,12 +17,12 @@ author:
         region: CO 
         postal-code: 80309-0333
 abstract: |
-  Colors are important to politics as a form of political information. Building upon existing theories of political information processing, attitude formation, and affect in neuroscience, I present a snap-judgement model of political information processing. In this model, colors provide automatic information about a politically-relevant object that may shape subsequent processing of more complex information. The model has important implications for how we consider the role that visual information has on political information processing and attitude formation. The model additionally provides clarity on motivations behind party branding and the ways in which information may activate partisan biases pre-consciously. I test this model using a survey experiment tracking participants' mouse movements to view different parts of yard signs that vary the use of partisan and non-partisan colors. I additionally leverage congressional redistricting to examine changes in color use for political yard signs as a strategic choice for attracting voters by communicating partisanship.
+  Though political deliberation benefits those often excluded from politics, many individuals avoid such situations in an age of hyper-partisanship and affective polarization. Existing literature on this topic argue that individuals often seek to avoid uncomfortable situations that are caused by disagreement about politics. The outcomes of such motivations are often thought to increase affective polarization and to have negative participatory impacts for those who are often excluded or feel unwelcome in politics. Much of this work assumes that people know the partisanship of potential discussion partners and avoid those who are known to be out-partisans. For those that are strangers, we often can rely on cultural stereotypes of the other party to help us assume the partisanship of this potential discussion partner. This project argues that even more simple visual information can and is used by individuals to decide whether or not to engage in a discussion with another and can shape the outcomes of a conversation. It lays out a cognitive mechanism explaining how individuals make decisions to engage in a conversation and the limits by which deliberation may buffer political polarization.
 bibliography: "../../../assets/references.bib"
 format:
   hikmah-pdf:
     # Spit out in drafts directory
-    latex-output-dir: "../drafts/"
+    latex-output-dir: "../../drafts/prr"
     # Use biblatex-chicago
     biblatex-chicago: true
     biblio-style: authordate
@@ -39,3 +39,7 @@ execute:
   message: false
   cache: true
 ---
+
+{{< pagebreak >}}
+
+# Introduction
