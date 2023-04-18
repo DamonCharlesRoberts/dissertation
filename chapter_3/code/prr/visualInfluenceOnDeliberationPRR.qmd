@@ -1,0 +1,41 @@
+---
+title: |
+  How do colors convey political information and affect individual attitudes?
+repo: |
+  For replication, go to: <https://github.com/DamonCharlesRoberts/dissertation>.
+author:
+  - name: Damon C. Roberts
+    email: damon.roberts-1@colorado.edu
+    orcid: 0000-0002-4360-3675
+    title: PhD Candidate
+    affiliations:
+      - id: CU
+        name: University of Colorado Boulder
+        department: Political Science
+        address: 333 UCB
+        city: Boulder
+        region: CO 
+        postal-code: 80309-0333
+abstract: |
+  Colors are important to politics as a form of political information. Building upon existing theories of political information processing, attitude formation, and affect in neuroscience, I present a snap-judgement model of political information processing. In this model, colors provide automatic information about a politically-relevant object that may shape subsequent processing of more complex information. The model has important implications for how we consider the role that visual information has on political information processing and attitude formation. The model additionally provides clarity on motivations behind party branding and the ways in which information may activate partisan biases pre-consciously. I test this model using a survey experiment tracking participants' mouse movements to view different parts of yard signs that vary the use of partisan and non-partisan colors. I additionally leverage congressional redistricting to examine changes in color use for political yard signs as a strategic choice for attracting voters by communicating partisanship.
+bibliography: "../../../assets/references.bib"
+format:
+  hikmah-pdf:
+    # Spit out in drafts directory
+    latex-output-dir: "../drafts/"
+    # Use biblatex-chicago
+    biblatex-chicago: true
+    biblio-style: authordate
+    biblatexoptions: 
+      - backend=biber
+      - autolang=hyphen
+      - isbn=false
+      - uniquename=false
+nocite: |
+  @quarto
+execute:
+  echo: false
+  warning: false
+  message: false
+  cache: true
+---
