@@ -43,3 +43,17 @@ execute:
 {{< pagebreak >}}
 
 # Introduction
+
+For many folks, participating more in politics and buffering affective polarization share one requirement in common: talking to others [see @brady_et-al_1995;@levendusky_stecula_2021_cup]. While this sounds like a relatively simple fix for an era of American politics seeing more hyper-polarization [@iyengar_westwood_2015_ajps] and more efforts to disenfranchise large groups of voters [@grumbach_2022_oup], organic political deliberation can be relatively hard to come by for the folks that may benefit from it the most [see @mutz_2006_cup].
+
+The existing literature suggests that those generally averse to and excluded from politics or those averse to particular political viewpoints are much less likely to participate in deliberative politics. Political participation, in all of its forms often requires some material or opportunity cost [see @aldrich_1993;@brady_et-al_1995]. As participation is quite costly, those often ignored in politics are less likely to participate [@fraga_2018]. Further, the cost of potentially ruining a close relationships or experiencing the deeply uncomfortable feeling of disagreement in viewpoints often encourages fewer conversations with non-partisans [@mutz_2006_cup;@carlson_settle_2022_cup].
+
+The literature is clearer on how organic political deliberation is less likely for those averse to and excluded from politics. Children are often taught that those who are not a middle-class or wealthy white man are an "aberration" or are a "trailblazer" in politics [TIMES FOR KIDS PAPER]. Many state legislatures actively target these populations when writing laws that supress voter turnout from those who do not identify as white and male [@grumbach_2022_oup]. What remains less clear is how individuals identify potential discussions as being potentially containing varied political viewpoints that lead to disagreement.
+
+This project discusses one possible mechanism that explains how individuals make assumptions about the partisan affiliation of a potential discussion partner they have no prior information on. This project argues that politically-relevant colors -- such as red and blue -- can convey important information about the political viewpoints of others when one is making the fast choice to spark a conversation with someone they do not know. Cognitive schemas enable individuals to connect seemingly innocuous visual information about an individual to their political orientations. As a result of this snap-judgment, individuals predict whether there will be disagreement in a conversation and can choose whether to avoid or engage in the conversation. Furthermore, this project argues how this information inhibits the potential buffering effects of deliberation on polarization.
+
+
+
+# Deliberation's benefits if we can overcome its challenges
+
+While evidence suggests that cross-partisan conversations *can* occur due to our limited capacities to exclude out-partisans from our lives [@huckfeldt_et-al_2004], it is relatively common for individuals to avoid political discussions with those we disagree with [@mutz_2006_cup; see @huckfeldt_2007_ohpb;@huckfeldt_sprague_1987]. Furthermore, conversations about politics can generate an invite for those low in political efficacy and are relatively unlikely to participate in politics; which once invited, often spurs higher rates of participation [@brady_et-al_1995;@mcclurg_2003;@klofstad_2007].
