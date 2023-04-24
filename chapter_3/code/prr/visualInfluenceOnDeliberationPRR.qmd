@@ -52,8 +52,6 @@ The literature is clearer on how organic political deliberation is less likely f
 
 This project discusses one possible mechanism that explains how individuals make assumptions about the partisan affiliation of a potential discussion partner they have no prior information on. This project argues that politically-relevant colors -- such as red and blue -- can convey important information about the political viewpoints of others when one is making the fast choice to spark a conversation with someone they do not know. Cognitive schemas enable individuals to connect seemingly innocuous visual information about an individual to their political orientations. As a result of this snap-judgment, individuals predict whether there will be disagreement in a conversation and can choose whether to avoid or engage in the conversation. Furthermore, this project argues how this information inhibits the potential buffering effects of deliberation on polarization.
 
-
-
 # Deliberation's benefits if we can overcome its challenges
 
 While evidence suggests that cross-partisan conversations *can* occur due to our limited capacities to exclude out-partisans from our lives [@huckfeldt_et-al_2004], it is relatively common for individuals to avoid political discussions with those we disagree with [@mutz_2006_cup; see @huckfeldt_2007_ohpb;@huckfeldt_sprague_1987]. Furthermore, conversations about politics can generate an invite for those low in political efficacy and are relatively unlikely to participate in politics; which once invited, often spurs higher rates of participation [@brady_et-al_1995;@mcclurg_2003;@klofstad_2007].
