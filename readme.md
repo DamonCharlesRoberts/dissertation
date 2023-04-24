@@ -13,12 +13,12 @@
 
 ---
 
-Repository for my dissertation.
+Repository containing all materials needed to replicate my book project.
 
-# File structure
-- drafts/:
-    - _extentions/: Andrew Heiss's hikmah theme
-    - dissertation.bib: bibliography file for the dissertation
-    - prospectus_draft_fall_2022.pdf : pdf file of dissertation prospectus
-    - prospectus_draft_fall_2022.qmd: Quarto file that runs R code for analyses of pre-test, and compiles the pdf document
-- .gitignore: file specifying which folders and files that github should ignore for version control
+
+For details on the file structure, please see the [repository&#39;s wiki](https://github.com/DamonCharlesRoberts/dissertation/wiki).
+
+
+## Maintainers
+
+- [Damon C. Roberts](https://github.com/DamonCharlesRoberts)
