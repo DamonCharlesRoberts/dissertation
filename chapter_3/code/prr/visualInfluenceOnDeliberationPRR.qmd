@@ -44,9 +44,9 @@ execute:
 
 # Introduction
 
-While colors may have increasingly strong associations between partisanship, it is unclear the extent to which they influence political behavior. The existing literature in political science demonstrates that social groups, and particularly partisanship, motivate vast amounts of political behavior. One primary way that this manifests is the degree to which we interact with those in our group versus outside of our group. Rooted in classic social identity theory, the argument is that we have these tendencies out of a motivation to defend our pre-existing beliefs [@kunda_1990_pb;@jost_et-al_2022_n]. Evidence of this occurring manifests in a number of political [see @iyengar_westwood_2015_ajps] and even non-political contexts [@nicholson_et-al_2016_pb].
+While colors may have increasingly strong associations between partisanship, it is unclear the extent to which they influence political behavior. The existing literature in political science demonstrates that social groups, and particularly partisanship, motivate vast amounts of political behavior. One primary way that this manifests is the degree to which we interact with those in our group versus outside of our group. Rooted in classic social identity theory, the argument is that we are motivated to behave this way out of desire to defend those like us and to defend our pre-existing beliefs [@kunda_1990_pb;@jost_et-al_2022_n]. Evidence of this occurring manifests in a number of political [see @iyengar_westwood_2015_ajps] and even seemingly non-political contexts [@nicholson_et-al_2016_pb].
 
-One critical way that this tendency to avoid views we disagree with manifests is through whom we choose to have conversations with. Political deliberation is often considered to be a central component of political behavior in American democracy [@huckfeldt_2007_ohpb] and does not skew as heavily on socio-demographic and socio-economic factors as other forms of engagement such as protest or contacting one's representatives [@schlozman_et-al_2013_pup]. Deliberation is often thought to encourage many different forms of participation in politics [@verba_et-al_1995_hup;@klofstad_2007_prq], increase one's levels of political knowledge [@mcclurg_2003_prq] and to buffer the animosity toward out-partisans [@levendusky_stecula_2021_cup]. Despite its benefits, there are a number of limitations. First, many of our networks for whom we talk to regularly are constructed of close friends and family and we are often reluctant to harm those relationships through disagreement [@mutz_2002_apsr;@mutz_2006_cup]. Second, even outside of our family and close friends, our networks are quite politically homogenous [@huckfeldt_sprague_1987;@butters_hare_2022_pb]. Third, evidence suggests that even if are offered information from other political perspectives, we either do not try to integrate it with our prior beliefs [@kunda_1990_pb;@lodge_taber_2013_cup] or the benefits of such information do not last very long [@levendusky_stecula_2021_cup].
+One critical way that this tendency to avoid views we disagree with manifests is through whom we choose to have conversations with. Political deliberation is often considered to be a central component of political behavior in American democracy [@huckfeldt_2007_ohpb] and does not skew as heavily on socio-demographic and socio-economic factors as other forms of engagement such as protest or contacting one's representatives [@schlozman_et-al_2013_pup]. Deliberation is often thought to encourage many different forms of participation in politics [@verba_et-al_1995_hup;@klofstad_2007_prq], increase one's levels of political knowledge [@mcclurg_2003_prq] and to buffer the animosity toward out-partisans [@levendusky_stecula_2021_cup]. Despite its benefits, there are a number of limitations. First, many of our networks for whom we talk to regularly are constructed of close friends and family and we are often reluctant to harm those relationships through disagreement [@mutz_2002_apsr;@mutz_2006_cup]. Second, even outside of our family and close friends, our networks are quite politically homogenous [@huckfeldt_sprague_1987;@butters_hare_2022_pb]. Third, evidence suggests that even if are offered information from other political perspectives, we either do not try to integrate it with our prior beliefs [@kunda_1990_pb;@lodge_taber_2013_cup] or if we can overcome those limitations, the benefits of such information do not last very long [@levendusky_stecula_2021_cup].
 
 We do not always enter a political conversation having complete information, however. If we have conversations, that may start out about politics or evolve into it, with those that we have limited information on about their political views, we do not know whether to avoid having a political conversation. At least that is a common assumption underlying the more optimistic perspectives on our capacity to buffer polarization. There are some that have begun to suggest that we can rely on visual information about others to guess what their political beliefs are before we initiate a conversation. For example, @carlson_settle_2022_cup argue that we can use the clothing of others to make an informed guess about the partisanship of a potential discussion partner. For example, it would probably be reasonable to assume that someone wearing a Patagonia jacket would be a Democrat and someone wearing a Carhart jacket would be Republican. Just these assumptions based on the appearance of another person can lead someone to avoid a potential political conversation with others [@carlson_settle_2022_cup].
 
@@ -60,7 +60,17 @@ I argue that politically-relevant colors, red and blue, are important informatio
 RESTRUCTURE ALL OF THIS SHIT. IT IS ALL OVER THE PLACE.
 -->
 
-Colors and visual information are among the first pieces of information that we detect, process, organize, and store when interacting with an external object [see @ames_et-al_2013_ohsn]. From an evolutionary biologist's perspective, efficient visual information processing and its centrality for our cognitive schemas is a massive advantage for survival [see @norman_et-al_2012_ohsn]. Due to its value, visual information has strong associations that appear throughout our cognitive structures. On a fundamental level, the connection between emotion and even simple information like color is well established [see @cimbalo_et-al_1978_jgp;@mehta_zhu_2009_s;@dandrade_egan_1974_ae;@valdez_mehrabian_1994 for a number of examples].
+- Colors are efficient forms of information processing.
+- Colors are multi-dimensional -- they contain lots of information about lots of different things.
+  - How? They are central to many cognitive schemas.
+- One such example is that color can reflect social groupings.
+  - Social groupings, like color, are often quite embedded in many of our cognitive structures.
+- Social groupings elicit affective reactions
+  - One way that color can carry affective meaning.
+- Because of its connection to social groups and affective reactions, color can motivate behavior.
+- Snap-judgment model
+
+Colors and visual information are among the first pieces of information that we detect, process, organize, and store when interacting with an external object [see @ames_et-al_2012_ohsn]. From an evolutionary biologist's perspective, efficient visual information processing and its centrality for our cognitive schemas is a massive advantage for survival [see @norman_et-al_2012_ohsn]. Due to its value, visual information has strong associations that appear throughout our cognitive structures. On a fundamental level, the connection between emotion and even simple information like color is well established [see @cimbalo_et-al_1978_jgp;@mehta_zhu_2009_s;@dandrade_egan_1974_ae;@valdez_mehrabian_1994 for a number of examples].
 
 Emotion is also a central neurological process, though it remains quite an elusive process. To memory and information processing, emotion plays a central role. Affect-laden information is processed at dizzily fast rates and help form stronger associations between new information and previously encoded memories [@kensinger_fields_2022_ohhum]. The formation of memories are quite complex processes and many factors predict the degree to which one memory becomes central versus an ancillary memory that is eventually forgotten [@kahana_et-al_2022_ohhum]. One powerful predictor of this, however, is the emotional salience associated with an object [@kahana_et-al_2022_ohhum].
 
@@ -68,9 +78,43 @@ Emotions are central components to predicting behavioral outcomes, though the me
 
 # How the connection to social group membership motivates political behavior
 
+- Party identification is a central social group in political contexts.
+- Parties put in large amounts of effort to distinguish themselves from one another.
+  - One way this occurs is through branding choices, not just on policy matters.
+  - They do this because voters are cognitive misers and it makes elections easier for campaigns and for voters.
+- When politics is primed, we should expect that colors can be a useful cue for people to grapple on to, as intended in electoral contexts.
+  - But we should expect that this can apply in situations where people are potentially about to engage in a political conversation with someone (which can produce anxiety and information seeking behavior).
+  - They may form an initial impression of someone by using whatever information is available to them; where politics is relevant, one thing may be the color of the apparel someone is wearing. Color, after all can contain such information and is among the first things our brain process.
+- The congruency by which one's assumed partisanship is with your own can either encourage you to seek to avoid the conversation if they are an out-partisan or to be okay with being part of it if they are a co-partisan.
+
 # Empirical evidence
 
-# Data
+## Research Design (from prospectus)
+
++-------+-----------+-------------------------------------+------------------------------+
+|       | Immediate | $\sim$ immediate, $\sim$ reinforced | $\sim$ immediate, reinforced |
++=======+===========+=====================================+==============================+
+| Blue  |     1     |               2                     |             3                |
+| Red   |     4     |               5                     |             6                |
+| White |     7     |               8                     |             9                |
++-------+-----------+-------------------------------------+------------------------------+
+
+: Visualization of $3 \times 3$ factorial design {#tbl-chapter-2-design}
+
+
+The previous chapter establishes whether simple visual information is efficacious to encourage changes to one's affective state. The goal of this study in Chapter 2 is to examine the applicability of the snap-judgement model on informal political deliberation and to demonstrate the model's ability to explain a number of conclusions drawn by scholars about deliberation's effects on attitudes, polarization, and network composition. 
+
+Subjects participate in a $3 \times 3$ experimental design as depicted in @tbl-chapter-2-design. Once subjects arrive to the lab, they are prompted to respond to a political attitudes questionnaire and to provide information about their demographic characteristics. Participants are randomly assigned to one of three conditions where they are prompted to form a snap-judgement about a potential discussion partner wearing a red shirt, blue shirt, or a white shirt. Once participants have formed a snap-judgement and have reported whether they are willing to engage in discussion with this fictional discussion partner, they are randomly assigned to either an immediacy condition, not immediate and not reinforced condition, or a not immediate but reinforced condition. 
+
+In the **immediacy** condition, once subjects form their snap-judgments, they are immediately prompted with new complex visual information (the key chains with the party logos or no new information) of the fictional discussion partner. They are then asked whether they are willing to reconsider having a conversation with this discussion partner. 
+
+In the **$\sim$immediate and $\sim$reinforced condition**, once participants have formed a snap-judgement and are presented with the complex visual information, they are then told to return in a week. When they return, participants are then are asked to reconsider their initial choice of engaging in a conversation with the individual. 
+
+In the **$\sim$immediate but reinforced condition**, once participants have formed their snap-judgement and are presented with the complex visual information, they are asked to return one week later, but that the researchers will be in touch. Each day over the course of that week, subjects receive an email reminding them that they have a potential discussion partner with the same image from the complex visual information stage of the study and that when they return they will make a final decision about whether to engage in that conversation. 
+
+When the participants in the **$\sim$immediate and not reinforced** and the **$\sim$immediate but reinforced conditions** return to the lab, they are asked to reconsider whether or not to engage in the conversation. Participants can then report whether or not they would like to and the study will then end and participants are then informed that the other participant dropped out of the study so there was no match made.
+
+In all three conditions, after participants receive the treatment, they are then prompted with a number of questions. The first is a feeling thermometer which prompts subjects to report how positively or negatively they evaluate the potential discussion partner. Finally, following the advice of @druckman_levendusky_2019_poq, subjects are then prompted to respond to the social distancing measure of affective polarization to capture polarization directed toward out-partisans relative to in-partisan members of the public.
 
 # Methods
 
