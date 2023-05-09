@@ -16,13 +16,13 @@ book:
   date-format: long
   chapters:
     - index.qmd
-    - chapter_2/code/chapter_2.qmd
-    - chapter_3/code/chapter_3.qmd
-    - chapter_4/code/chapter_4.qmd
-    - chapter_5/code/conclusion.qmd
+    - chapter_2/src/chapter_2.qmd
+    - chapter_3/src/chapter_3.qmd
+    - chapter_4/src/chapter_4.qmd
+    - chapter_5/src/conclusion.qmd
     - references.qmd
   appendices:
-    - chapter_2/code/chapter_2_appendix.qmd
+    - chapter_2/src/chapter_2_appendix.qmd
   output-file: "dcr_book_project"
 
 bibliography: "assets/references.bib"

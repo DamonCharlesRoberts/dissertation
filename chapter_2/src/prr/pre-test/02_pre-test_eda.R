@@ -9,7 +9,7 @@
 
 # Setup
     #* set working directory
-setwd("./chapter_2/code/prr")
+#setwd("./chapter_2/code/prr")
     #* Modularly load functions
 box::use(
     modelsummary[
@@ -26,7 +26,7 @@ box::use(
     ]
 )
     #* Source cleaning script
-source("01_pre-test_cleaning.R")
+source("./pre-test/01_pre-test_cleaning.R")
 
 # Univariate EDA
     #* Make table

@@ -8,10 +8,8 @@
 # Set up
     #* Set seed
 set.seed(12062022)
-    #* Set working directory
-setwd("./chapter_2/code/prr")
-# Source cleaning script
-source("01_pre-test_cleaning.R")
+    #* Source cleaning script
+source("./pre-test/01_pre-test_cleaning.R")
     #* Load functions
 box::use(
     data.table[...],

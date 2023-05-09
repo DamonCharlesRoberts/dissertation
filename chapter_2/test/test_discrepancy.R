@@ -4,7 +4,7 @@
     #* Description
         #** test of discrepancy function
     #* Updated
-        #** 2023-05-08
+        #** 2023-05-09
         #** dcr
 
 # Setup
@@ -17,6 +17,7 @@ box::use(
     ,brms[
         brmsformula
         ,cumulative
+        ,prior
     ]
     ,rstan[stan_model]
     ,testthat[...]
@@ -40,6 +41,10 @@ result <- discrepancy(
     ,data=exampleSamples
     ,formula=partyFormula
     ,family=cumulative(link="logit")
+    ,priors=prior(
+        Normal(0,1)
+        ,class=b
+    )
     ,model="partyGuess"
 )
 })

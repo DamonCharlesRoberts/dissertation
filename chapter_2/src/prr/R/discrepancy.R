@@ -10,7 +10,14 @@
 #' @param model
 #' @return data.table
 #' @export
-discrepancy <- function(compiled, data, formula, family, model) {
+discrepancy <- function (
+    compiled
+    ,data
+    ,formula
+    ,family
+    ,priors
+    ,model
+) {
     # Define parameters
     parameters <- c(
         "b[1]"
@@ -39,11 +46,8 @@ discrepancy <- function(compiled, data, formula, family, model) {
             dfList <- brms::make_standata(
                 formula
                 ,data = x
-                ,family = brms::cumulative(link="logit")
-                ,priors = brms::prior(
-                    stats::Normal(0,1)
-                    ,class=b
-                )
+                ,family = family
+                ,priors = priors
             )
             # fit the stan model
             fitted <- rstan::sampling(

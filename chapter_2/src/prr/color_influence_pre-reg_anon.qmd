@@ -24,7 +24,7 @@ bibliography: "../../../assets/references.bib"
 format:
   hikmah-pdf:
     # Spit out in drafts directory
-    latex-output-dir: "../../drafts/prr"
+    latex-output-dir: "../../out/prr"
     # Use biblatex-chicago
     biblatex-chicago: true
     biblio-style: authordate
@@ -40,7 +40,9 @@ execute:
   echo: false
   warning: false
   message: false
-  cache: true
+  cache: false
+params:
+  replicate: true
 ---
 
 {{< pagebreak >}}
@@ -67,28 +69,63 @@ From my review of the literature in political science, neuroscience, and communi
 
 ```{r}
 #| label: setup-pre-test-block
-
-    #* Set seed
-set.seed(12062022)
+# set working directory
+#setwd("./chapter_2/src/prr")
+# Set seed
+set.seed(12102022)
 # Source cleaning script
-source("01_pre-test_cleaning.R")
-    #* Load functions
-box::use(
-    data.table[...],
-    modelsummary[modelsummary, datasummary_skim],
-    cmdstanr[...],
-    brms[bf, prior, brm, rename_pars, make_stancode, make_standata, pp_check, cumulative, bernoulli],
-    rstan[read_stan_csv],
-    marginaleffects[avg_slopes, posterior_draws, plot_slopes],
-    ggplot2[ggplot, aes, labs, theme_minimal, scale_y_discrete, geom_boxplot],
-    bayesplot[color_scheme_set, bayesplot_theme_set, mcmc_combo, mcmc_areas, pp_check],
-    ggdist[stat_halfeye]
-)
-#cmdstanr::set_cmdstan_path("C:\\cmdstan")
-    #* default theme
-#red_custom <- c("#DCBCBC", "#C79999", "#B97C7C", "#FFFFFF", "#8F2727", "#7C0000")
-color_scheme_set(scheme = "gray")
-bayesplot_theme_set(new = theme_minimal())
+source("pre-test/01_pre-test_cleaning.R")
+# Load relevant functions
+if (params$replicate == TRUE){
+  box::use(
+    modelsummary[
+      datasummary_skim
+    ]
+    ,marginaleffects[
+      avg_slopes
+      ,posterior_draws
+      ,plot_slopes
+    ]
+    ,ggplot2[
+      ggplot
+      ,aes
+      ,theme_minimal
+      ,labs
+      ,scale_y_discrete
+    ]
+    ,ggdist[
+      stat_halfeye
+    ]
+    ,brms[
+      brmsformula
+      ,cumulative
+      ,prior
+    ]
+    ,rstan[stan_model]
+    ,./R/sim_all[sim_all]
+  )
+} else {
+  box::use(
+    modelsummary[
+      datasummary_skim
+    ]
+    ,marginaleffects[
+      avg_slopes
+      ,posterior_draws
+      ,plot_slopes
+    ]
+    ,ggplot2[
+      ggplot
+      ,aes
+      ,theme_minimal
+      ,labs
+      ,scale_y_discrete
+    ]
+    ,ggdist[
+      stat_halfeye
+    ]
+  )
+}
     #* default tails
 options("marginaleffects_posterior_interval" = "hdi")
 
@@ -101,7 +138,7 @@ I conducted a pre-test in November 2019 with a sample of over 400 undergraduate 
 #| tbl-cap: Descriptive statistics of pre-test measures
 
 data[["clean"]][ # select the following columns
-    , .(Female, White, age, PartyId, BlueTreatment, RedTreatment, Vote)
+    ,list(Female, White, age, PartyId, BlueTreatment, RedTreatment, Vote)
 ] |>
 datasummary_skim( # make a table of descriptive statistics
     notes = c( # add some notes to the table
@@ -133,21 +170,36 @@ $$ {#eq-party-specification}
 #| label: party-pre-test-model
 #| include: false
 
-source("04_pre-test_party_model.R")
+if (params$replicate == TRUE) {
+  # fit the model
+  source(
+    "./pre-test/04_pre-test_party_model.R"
+  )
+  # load the stored model object
+  load(
+    "../../data/models/prr/pre-test/pre-test_party_model.RDS"
+  )
+} else (
+  # load the stored model object
+  load(
+    file="../../data/models/prr/pre-test/pre-test_party_model.RDS"
+  )
+)
+
 ```
 
 ```{r}
 #| label: fig-party-pre-test-ames
 #| fig-cap: Effect of treatments on party perceptions
 
-PartyAMES <- avg_slopes(
+partyAMES <- avg_slopes(
   PartyModel,
   type = "link"
 ) |>
 posterior_draws()
 
 ggplot(
-  data = PartyAMES,
+  data = partyAMES,
   aes(
     x = draw,
     y = term
@@ -160,7 +212,7 @@ theme_minimal() +
 labs(
   x = "Average Marginal Effect",
   y = "",
-  caption = "Data source: Pre-test.\n Distribution of AME's for model posterior draws using HDI's.\n Dot reflects median posterior draw where bars reflect 90% and 95% credible intervals."
+  caption = "Data source: Pre-test.\n Distribution of AME's for model posterior draws using HDI's.\n Interpreted as the logged-odds of an outcome occurring when holding the other independent variables at their mean value.\n Dot reflects median posterior draw where bars reflect 90% and 95% credible intervals."
 ) +
 scale_y_discrete(
   labels = c(
@@ -191,7 +243,22 @@ I expect that the effect of the treatment on willingness to engage more with the
 #| label: pre-test-vote-model
 #| include: false
 
-source("05_pre-test_vote_model.R")
+if (params$replicate == TRUE) {
+  # fit the model
+  source(
+    "./pre-test/05_pre-test_vote_model.R"
+  )
+  # load the stored model object
+  load(
+    file="../../data/models/prr/pre-test/pre-test_vote_model.RDS"
+  ) 
+} else {
+  # load the stored model object
+  load(
+    file="../../data/models/prr/pre-test/pre-test_vote_model.RDS"
+  )
+}
+
 ```
 
 ```{r}
@@ -212,7 +279,7 @@ theme_minimal() +
 labs(
     x = "Party Identification",
     y = "CME of Red Treatment",
-    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Red Treatment upon support for candidate.\n Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
+    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Red Treatment upon support for candidate.\n Interpreted as the logged-odds of voting for fictional candidate\n conditional on varying levels of Party Identification.\n Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
 )
 
 blue_cme <- plot_slopes(
@@ -225,7 +292,7 @@ theme_minimal() +
 labs(
     x = "Party Identification",
     y = "CME of Blue Treatment",
-    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Blue Treatment upon support for candidate.\n Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
+    caption = "Data source: Pre-test.\n Conditional Marginal Effects of Blue Treatment upon support for candidate.\n Interpreted as the logged-odds of voting for fictional candidate\n conditional on varying levels of Party Identification.\n Uncertainty reflected by predicted posterior draws at the 95% level with HDI's."
 )
 
 red_cme
@@ -416,70 +483,102 @@ After fitting each model, I construct 95% high density interval credible interva
 ```{r}
 #| label: load-simulation-results
 
-Sample200Results <- readRDS(file ="../../data/prr/sample200SimResults.RDS")
-Sample400Results <- readRDS(file ="../../data/prr/sample400SimResults.RDS")
-Sample600Results <- readRDS(file ="../../data/prr/sample600SimResults.RDS")
-Sample800Results <- readRDS(file ="../../data/prr/sample800SimResults.RDS")
+if (params$replicate == TRUE) {
+  # Define model arguments
+  formula <- brmsformula(
+    PartyGuess ~ RedTreatment + BlueTreatment + age +
+    RedTreatment:age + BlueTreatment:age +
+    Attention + Knowledge
+  )
+  compiled <- stan_model(
+    "./STAN/vote_guess_simulated_model.stan"
+    ,model_name="partyGuess"
+  )
+  family <- cumulative(link="logit")
+  priors <- prior(
+    stats::Normal(0,1)
+    ,class=b
+  )
+    # Run model
+  modelDiscrepancies <- sim_all(
+    n=c(200,400,600,800)
+    ,num_samples=500
+    ,formula=formula
+    ,compiled=compiled
+    ,family=family
+    ,priors=priors
+    ,model="partyGuess"
+  )
+    # store model
+  save(
+      modelDiscrepancies
+      ,file="../../data/models/prr/sim/sim.RDS"
+  )
+} else {
+  load(
+    file="../../data/models/prr/sim/sim.RDS"
+  )
+}
 ```
  
 +-------------+-----------------------------------------------------------------------------+
 | Sample size | True positive rate                                                          |
 +=============+=============================================================================+
-| n = 200     | -   Red treatment: `r sprintf('%.3f', Sample200Results[,1])`                
+| n = 200     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[1]][,1])`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', Sample200Results[,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[1]][,2])`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', Sample200Results[,3])`                          
+|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[1]][,3])`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', Sample200Results[,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[1]][,4])`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', Sample200Results[,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[1]][,5])`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', Sample200Results[,6])`                    
+|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[1]][,6])`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', Sample200Results[,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[1]][,7])`                    
 +-------------+-----------------------------------------------------------------------------+
-| n = 400     | -   Red treatment: `r sprintf('%.3f', Sample400Results[,1])`                
+| n = 400     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[2]][,1])`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', Sample400Results[,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[2]][,2])`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', Sample400Results[,3])`                          
+|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[2]][,3])`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', Sample400Results[,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[2]][,4])`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', Sample400Results[,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[2]][,5])`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', Sample400Results[,6])`                    
+|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[2]][,6])`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', Sample400Results[,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[2]][,7])`                    
 +-------------+-----------------------------------------------------------------------------+
-| n = 600     | -   Red treatment: `r sprintf('%.3f', Sample600Results[,1])`                
+| n = 600     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[3]][,1])`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', Sample600Results[,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[3]][,2])`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', Sample600Results[,3])`                          
+|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[3]][,3])`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', Sample600Results[,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[3]][,4])`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', Sample600Results[,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[3]][,5])`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', Sample600Results[,6])`                    
+|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[3]][,6])`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', Sample600Results[,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[3]][,7])`                    
 +-------------+-----------------------------------------------------------------------------+
-| n = 800     | -   Red treatment: `r sprintf('%.3f', Sample800Results[,1])`                
+| n = 800     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[4]][,1])`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', Sample800Results[,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[4]][,2])`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', Sample800Results[,3])`                          
+|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[4]][,3])`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', Sample800Results[,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[4]][,4])`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', Sample800Results[,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[4]][,5])`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', Sample800Results[,6])`                    
+|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[4]][,6])`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', Sample800Results[,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[4]][,7])`                    
 +-------------+-----------------------------------------------------------------------------+
 
 : True positive rate {#tbl-true-positive-rates}
