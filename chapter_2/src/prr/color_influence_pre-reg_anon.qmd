@@ -74,7 +74,7 @@ From my review of the literature in political science, neuroscience, and communi
 # Set seed
 set.seed(12102022)
 # Source cleaning script
-source("pre-test/01_pre-test_cleaning.R")
+source("eda/pre-test/01_pre-test_cleaning.R")
 # Load relevant functions
 if (params$replicate == TRUE){
   box::use(
@@ -171,13 +171,20 @@ $$ {#eq-party-specification}
 #| include: false
 
 if (params$replicate == TRUE) {
-  # fit the model
-  source(
-    "./pre-test/04_pre-test_party_model.R"
+  PartyFormula <- bf(
+    Party ~ RedTreatment + BlueTreatment
+    ,family = cumulative(link = "logit")
   )
-  # load the stored model object
-  load(
-    "../../data/models/prr/pre-test/pre-test_party_model.RDS"
+  PartyModel <- brm(
+    formula = PartyFormula,
+    ,data = data[["clean"]]
+    ,chains = 1
+    ,silent = 0
+  )
+  # Store model object
+  save(
+    PartyModel
+    ,file="../../data/models/prr/pre-test/pre-test_party_model.RDS"
   )
 } else (
   # load the stored model object
@@ -245,20 +252,27 @@ I expect that the effect of the treatment on willingness to engage more with the
 
 if (params$replicate == TRUE) {
   # fit the model
-  source(
-    "./pre-test/05_pre-test_vote_model.R"
+  VotePreTestFormula <- bf(
+    Vote ~ RedTreatment + BlueTreatment + PartyId + RedTreatment * PartyId + BlueTreatment * PartyId
+    ,family = cumulative(link = "logit")
   )
-  # load the stored model object
-  load(
-    file="../../data/models/prr/pre-test/pre-test_vote_model.RDS"
-  ) 
+  VotePreTestModel <- brm(
+    formula = VotePreTestFormula
+    ,data = data[["clean"]]
+    ,chains = 1
+    ,silent = 0
+  )
+  # Store model object
+  save(
+    VotePreTestModel
+    ,file="../../data/models/prr/pre-test/pre-test_vote_model.RDS"
+  )
 } else {
   # load the stored model object
   load(
     file="../../data/models/prr/pre-test/pre-test_vote_model.RDS"
   )
 }
-
 ```
 
 ```{r}
@@ -520,11 +534,15 @@ if (params$replicate == TRUE) {
   )
 }
 ```
- 
+
+```{r}
+mean200 <- mean(modelDiscrepancies[[1]][,1])*100
+
+```
 +-------------+-----------------------------------------------------------------------------+
 | Sample size | True positive rate                                                          |
 +=============+=============================================================================+
-| n = 200     | -   Red treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,1]))`                
+| n = 200     | -   Red treatment: `r mean200`                
 |             |                                                                             
 |             | -   Blue treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,2]))`               
 |             |                                                                             
@@ -634,7 +652,7 @@ from sys import path # for path management
 from cv2 import imread, imwrite # for color detection
     #* user-defined
 #path.append("../")
-from helper import colorDetector
+from PY.helper import colorDetector
 
 # Define colors to detect
     #* White
@@ -645,20 +663,20 @@ red_lower = [93, 9, 12] # lower end of spectrum for red
 red_higher = [237, 69, 75] # higher end of spectrum for red
 
 # Load gop image to read
-img = imread("../../data/study_2/gop_2022.png")
+img = imread("../../assets/img/gop_2022.png")
 
 # Detect colors
 percent, img_transformed, result = colorDetector(img = img, color_upper = red_higher, color_lower = red_lower)
 
-transformed= imwrite("../../data/study_2/gop_2022_transformed.png", img_transformed) # save transformed image
+transformed= imwrite("../../assets/img/gop_2022_transformed.png", img_transformed) # save transformed image
 
-masked= imwrite("../../data/study_2/gop_2022_detected.png", result) # save masked image
+masked= imwrite("../../assets/img/gop_2022_detected.png", result) # save masked image
 ```
 
 ::: {#fig-color-detection-example layout-ncol="2"}
-![Resized original image](../../data/study_2/gop_2022_transformed.png){#fig-resized}
+![Resized original image](../../assets/img/gop_2022_transformed.png){#fig-resized}
 
-![Masked](../../data/study_2/gop_2022_detected.png){#fig-masked}
+![Masked](../../assets/img/gop_2022_detected.png){#fig-masked}
 
 Detecting colors in the GOP logo
 :::

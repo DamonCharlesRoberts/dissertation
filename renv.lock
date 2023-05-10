@@ -44,33 +44,6 @@
       ],
       "Hash": "d8f1498dc47763ce4647c8d03214d30b"
     },
-    "DeclareDesign": {
-      "Package": "DeclareDesign",
-      "Version": "1.0.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "estimatr",
-        "fabricatr",
-        "generics",
-        "methods",
-        "randomizr",
-        "rlang"
-      ],
-      "Hash": "ff1eaac4d1d8ac463fbda2e27ec533ea"
-    },
-    "Formula": {
-      "Package": "Formula",
-      "Version": "1.2-5",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "stats"
-      ],
-      "Hash": "7a29697b75e027767a53fde6c903eca7"
-    },
     "HDInterval": {
       "Package": "HDInterval",
       "Version": "0.2.2",
@@ -321,6 +294,13 @@
         "utils"
       ],
       "Hash": "a64d4be61a31696fec80dc24cef69a9c"
+    },
+    "brio": {
+      "Package": "brio",
+      "Version": "1.1.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "976cf154dfb043c012d87cddd8bca363"
     },
     "brms": {
       "Package": "brms",
@@ -613,6 +593,21 @@
       ],
       "Hash": "eebd27ee58fcc58714eedb7aa07d8ad1"
     },
+    "diffobj": {
+      "Package": "diffobj",
+      "Version": "0.3.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "crayon",
+        "methods",
+        "stats",
+        "tools",
+        "utils"
+      ],
+      "Hash": "bcaa8b95f8d7d01a5dedfd959ce88ab8"
+    },
     "digest": {
       "Package": "digest",
       "Version": "0.6.31",
@@ -691,22 +686,6 @@
         "rlang"
       ],
       "Hash": "bb0eec2fe32e88d9e2836c2f73ea2077"
-    },
-    "estimatr": {
-      "Package": "estimatr",
-      "Version": "1.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "Formula",
-        "R",
-        "Rcpp",
-        "RcppEigen",
-        "generics",
-        "methods",
-        "rlang"
-      ],
-      "Hash": "9b9d82e9a0cb55c2262fe469a6b4e6ff"
     },
     "evaluate": {
       "Package": "evaluate",
@@ -1522,6 +1501,26 @@
       ],
       "Hash": "01f28d4278f15c76cddbea05899c5d6f"
     },
+    "pkgload": {
+      "Package": "pkgload",
+      "Version": "1.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cli",
+        "crayon",
+        "desc",
+        "fs",
+        "glue",
+        "methods",
+        "rlang",
+        "rprojroot",
+        "utils",
+        "withr"
+      ],
+      "Hash": "4b20f937a363c78a5730265c1925f54a"
+    },
     "plyr": {
       "Package": "plyr",
       "Version": "1.8.7",
@@ -1554,6 +1553,13 @@
         "vctrs"
       ],
       "Hash": "7be6f62ae6281e965f09ca8657a066b2"
+    },
+    "praise": {
+      "Package": "praise",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a555924add98c99d2f411e37e7d25e9f"
     },
     "prettyunits": {
       "Package": "prettyunits",
@@ -1636,16 +1642,6 @@
       ],
       "Hash": "5f919ae5e7f83a6f91dcf2288943370d"
     },
-    "randomizr": {
-      "Package": "randomizr",
-      "Version": "0.24.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "6ca110c16b11ef728eaec8cca9294e31"
-    },
     "rappdirs": {
       "Package": "rappdirs",
       "Version": "0.3.3",
@@ -1678,6 +1674,16 @@
         "vroom"
       ],
       "Hash": "9c59de1357dc209868b5feb5c9f0fe2f"
+    },
+    "rematch2": {
+      "Package": "rematch2",
+      "Version": "2.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "tibble"
+      ],
+      "Hash": "76c9e04c712a05848ae7a23d2f170a40"
     },
     "renv": {
       "Package": "renv",
@@ -2034,6 +2040,37 @@
       ],
       "Hash": "fd792ceac77f96b647fa8d6e1788969a"
     },
+    "testthat": {
+      "Package": "testthat",
+      "Version": "3.1.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R6",
+        "brio",
+        "callr",
+        "cli",
+        "crayon",
+        "desc",
+        "digest",
+        "ellipsis",
+        "evaluate",
+        "jsonlite",
+        "lifecycle",
+        "magrittr",
+        "methods",
+        "pkgload",
+        "praise",
+        "processx",
+        "ps",
+        "rlang",
+        "utils",
+        "waldo",
+        "withr"
+      ],
+      "Hash": "f76c2a02d0fdc24aa7a47ea34261a6e3"
+    },
     "threejs": {
       "Package": "threejs",
       "Version": "0.3.3",
@@ -2187,6 +2224,23 @@
         "withr"
       ],
       "Hash": "7015a74373b83ffaef64023f4a0f5033"
+    },
+    "waldo": {
+      "Package": "waldo",
+      "Version": "0.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "cli",
+        "diffobj",
+        "fansi",
+        "glue",
+        "methods",
+        "rematch2",
+        "rlang",
+        "tibble"
+      ],
+      "Hash": "035fba89d0c86e2113120f93301b98ad"
     },
     "webshot": {
       "Package": "webshot",
