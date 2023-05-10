@@ -42,7 +42,7 @@ execute:
   message: false
   cache: false
 params:
-  replicate: true
+  replicate: false
 ---
 
 {{< pagebreak >}}
@@ -524,61 +524,61 @@ if (params$replicate == TRUE) {
 +-------------+-----------------------------------------------------------------------------+
 | Sample size | True positive rate                                                          |
 +=============+=============================================================================+
-| n = 200     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[1]][,1])`                
+| n = 200     | -   Red treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,1]))`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[1]][,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,2]))`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[1]][,3])`                          
+|             | -   Age: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,3]))`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[1]][,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,4]))`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[1]][,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,5]))`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[1]][,6])`                    
+|             | -   Attention: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,6]))`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[1]][,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,7]))`                    
 +-------------+-----------------------------------------------------------------------------+
-| n = 400     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[2]][,1])`                
+| n = 400     | -   Red treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,1]))`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[2]][,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,2]))`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[2]][,3])`                          
+|             | -   Age: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,3]))`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[2]][,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,4]))`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[2]][,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,5]))`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[2]][,6])`                    
+|             | -   Attention: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,6]))`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[2]][,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', mean(modelDiscrepancies[[2]][,7]))`                    
 +-------------+-----------------------------------------------------------------------------+
-| n = 600     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[3]][,1])`                
+| n = 600     | -   Red treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,1]))`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[3]][,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,2]))`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[3]][,3])`                          
+|             | -   Age: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,3]))`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[3]][,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,4]))`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[3]][,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,5]))`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[3]][,6])`                    
+|             | -   Attention: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,6]))`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[3]][,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', mean(modelDiscrepancies[[3]][,7]))`                    
 +-------------+-----------------------------------------------------------------------------+
-| n = 800     | -   Red treatment: `r sprintf('%.3f', modelDiscrepancies[[4]][,1])`                
+| n = 800     | -   Red treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,1]))`                
 |             |                                                                             
-|             | -   Blue treatment: `r sprintf('%.3f', modelDiscrepancies[[4]][,2])`               
+|             | -   Blue treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,2]))`               
 |             |                                                                             
-|             | -   Age: `r sprintf('%.3f', modelDiscrepancies[[4]][,3])`                          
+|             | -   Age: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,3]))`                          
 |             |                                                                             
-|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[4]][,4])`   
+|             | -   Red treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,4]))`   
 |             |                                                                             
-|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', modelDiscrepancies[[4]][,5])`  
+|             | -   Blue treatment $\times$ Age: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,5]))`  
 |             |                                                                             
-|             | -   Attention: `r sprintf('%.3f', modelDiscrepancies[[4]][,6])`                    
+|             | -   Attention: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,6]))`                    
 |             |                                                                             
-|             | -   Knowledge: `r sprintf('%.3f', modelDiscrepancies[[4]][,7])`                    
+|             | -   Knowledge: `r sprintf('%.3f', mean(modelDiscrepancies[[4]][,7]))`                    
 +-------------+-----------------------------------------------------------------------------+
 
 : True positive rate {#tbl-true-positive-rates}
