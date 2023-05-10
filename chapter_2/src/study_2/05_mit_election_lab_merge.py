@@ -13,10 +13,8 @@
 import duckdb # for database access
 import polars as pl # for DataFrame management
 import numpy as np # for array management
-import sys # to manage paths
     #* User-defined
-sys.path.append("code/")
-from fun import names
+from PY.helper import names
 
 # Check out the election lab data
 election_lab = pl.read_csv(

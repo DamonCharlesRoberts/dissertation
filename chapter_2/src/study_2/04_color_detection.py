@@ -12,11 +12,9 @@ import numpy as np # to wrangle arrays
 import polars as pl # to wrangle dataFrames
 import re # to wrangle strings
 import cv2 # to do color detection
-import sys # to wrangle paths
 import os # to wrangle local files
     #* User defined
-sys.path.append("code/")
-from fun import names, colorDetector
+from PY.helper import names, colorDetector
 
 # Connect to database
 
