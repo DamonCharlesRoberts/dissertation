@@ -38,8 +38,8 @@ nocite: |
   @quarto
 execute:
   echo: false
-  warning: false
-  message: false
+  warning: true
+  message: true
   cache: false
 params:
   replicate: false
@@ -73,6 +73,7 @@ From my review of the literature in political science, neuroscience, and communi
 #setwd("./chapter_2/src/prr")
 # Set seed
 set.seed(12102022)
+#setwd("./chapter_2/src/prr")
 # Source cleaning script
 source("eda/pre-test/01_pre-test_cleaning.R")
 # Load relevant functions
@@ -103,6 +104,8 @@ if (params$replicate == TRUE){
     ]
     ,rstan[stan_model]
     ,./R/sim_all[sim_all]
+    ,./R/discrepancy_df[discrepancy_df]
+    ,./R/true_positive_hist[true_positive_hist]
   )
 } else {
   box::use(
@@ -124,6 +127,8 @@ if (params$replicate == TRUE){
     ,ggdist[
       stat_halfeye
     ]
+    ,./R/discrepancy_df[discrepancy_df]
+    ,./R/true_positive_hist[true_positive_hist]
   )
 }
     #* default tails
@@ -249,7 +254,6 @@ I expect that the effect of the treatment on willingness to engage more with the
 ```{r}
 #| label: pre-test-vote-model
 #| include: false
-
 if (params$replicate == TRUE) {
   # fit the model
   VotePreTestFormula <- bf(
@@ -536,13 +540,51 @@ if (params$replicate == TRUE) {
 ```
 
 ```{r}
-mean200 <- mean(modelDiscrepancies[[1]][,1])*100
-
+#| label: fig-true-positive-rate
+#| layout-nrow: 4
+#| fig-width: 6
+#| fig-cap: True positive rate
+#| fig-subcap: 
+#|  - "Red treatment"
+#|  - "Blue treatment"
+#|  - "Age"
+#|  - "Red treatment x Age"
+#|  - "Blue treatment x Age"
+#|  - "Attention"
+#|  - "Knowledge"
+cleanNames <- c(
+  "Sample size"
+  ,"Red treatment"
+  ,"Blue treatment"
+  ,"Age"
+  ,"Red treatment x Age"
+  ,"Blue treatment x Age"
+  ,"Attention"
+  ,"Knowledge"
+)
+truePositiveDF <- discrepancy_df(
+  list=modelDiscrepancies
+  ,new_names=cleanNames
+)
+plotList <- lapply(
+  cleanNames
+  ,true_positive_hist
+  ,df=truePositiveDF
+)
+plotList[[2]]
+plotList[[3]]
+plotList[[4]]
+plotList[[5]]
+plotList[[6]]
+plotList[[7]]
+plotList[[8]]
 ```
+
+<!--
 +-------------+-----------------------------------------------------------------------------+
 | Sample size | True positive rate                                                          |
 +=============+=============================================================================+
-| n = 200     | -   Red treatment: `r mean200`                
+| n = 200     | -   Red treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,2]))`                
 |             |                                                                             
 |             | -   Blue treatment: `r sprintf('%.3f', mean(modelDiscrepancies[[1]][,2]))`               
 |             |                                                                             
@@ -600,7 +642,7 @@ mean200 <- mean(modelDiscrepancies[[1]][,1])*100
 +-------------+-----------------------------------------------------------------------------+
 
 : True positive rate {#tbl-true-positive-rates}
-
+-->
 The results of my simulation suggest that I should aim for a sample of 600 respondents once I have excluded those that do not meet the inclusion criteria (i.e., fail attention checks, duplicated IP addresses and provide insincere responses to the open-ended prompts). Given estimates of poor responses for about 40% of some samples [@kennedy_et-al_2021_poq], I should aim to recruit a total of 1500 participants for Study 1.
 
 # Study 2 {#sec-study-2}
