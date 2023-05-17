@@ -333,7 +333,7 @@ The purpose of [Study 1](#sec-study-1) is to examine the average treatment effec
 
 I recruit participants from Prolific.[^color_influence_pre-reg_anon-3] After providing informed consent to participate in the study, Prolific redirects subjects to Pavlovia[^color_influence_pre-reg_anon-4] and are provided with a demographics and political attitudes questionnaire. As I am concerned about priming effects introduced by these questions, while I am simultaneously concerned about bias introduced by post-treatment control [@montgomery_et-al_2018_ajps], I randomly select half of the participants to receive the questionnaire post-treatment and the other half receive it pre-treatment. This questionnaire includes common questions about the participant's ascriptive and descriptive characteristics and about the participant's political ideology, partisan identification, interest in politics, patriotism, and political knowledge.
 
-[^color_influence_pre-reg_anon-3]: I pay subjects a rate of \$12.00 per hour. On top of the price per participant, Prolific charges a 30% servicing fee and an additional fee to guarantee a nationally representative sample.
+[^color_influence_pre-reg_anon-3]: I pay subjects a rate of \$12.00 per hour. On top of the price per participant, Prolific charges a 30% servicing fee.
 
 [^color_influence_pre-reg_anon-4]: Pavolovia allows for researchers to host and run open source experiments for about \$0.20 per participant (to cover their server costs). I use it primarily to integrate the JavaScript components from the jsPsych package [@jspsych] for my experimental design.
 
@@ -341,7 +341,7 @@ I include those questions in the questionnaire due to expectations that they may
 
 [^color_influence_pre-reg_anon-5]: A table including the wording of this, and all, measures are included in the Supplementary Information.
 
-Additionally, I include a question about the respondent's sex assigned at birth and about whether they have received a diagnosis of any color blindness. As some individuals may possess undiagnosed colorblindness, asking about their sex assists in covariate balance. I additionally include four open-ended questions asking participants to describe (1) their "first memory of a political event," (2) "what occurred in the most recent political event" they encountered, (3) how they "keep up-to-date with current political events," and (4) "what occurred in the most recent non-political event" they encountered. The use of multiple open-ended questions helps provide an attention check and identify duplicated responses for those spoofing IP addresses with a VPN [see @kennedy_et-al_2021_poq]. Given estimates using these exclusion criteria, I would expect that upwards of 40% of my original sample will fail these attention checks [@kennedy_et-al_2021_poq]; thus, the large sample size.
+Additionally, I include a question about the respondent's sex assigned at birth and about whether they have received a diagnosis of any color blindness. As some individuals may possess undiagnosed colorblindness, asking about their sex assists in covariate balance. I additionally include an open-ended question asking participants to describe their "first memory of a political event." The use of an open-ended question helps provide an attention check and identify duplicated responses for those spoofing IP addresses with a VPN [see @kennedy_et-al_2021_poq]. Given estimates using these exclusion criteria, I would expect that upwards of 40% of my original sample will fail these attention checks [@kennedy_et-al_2021_poq]; thus, the large sample size.
 
 I then present participants with an instruction screen informing them of the task for the experiment. In the first trial of the experiment, participants I randomly presented participants with two of three possible yard signs, one at a time. These yard signs are simple with the text "Riley Ready to Lead" and a solid background color of either "Republican Red," "Democratic Blue," or White.[^color_influence_pre-reg_anon-6] There is an added component to this, however.
 
@@ -387,7 +387,7 @@ The [Pre-test](#pre-test-sec-pre-test) provides a lot of useful information that
 
 As my estimation strategy does not assume long-run convergence to the population, many assume that my Bayesian models are agnostic to the sample size and often eschew power analyses. However, as estimates from a Bayesian model are weighted by the observed data and my priors, I want to examine the robustness of my model specification using simulated data that vary on sample size. While I do expect that my priors will shift slightly depending on my pre-registered analyses here and upon exploratory data analysis once I collect my data, using simulated data to examine my analytical pipeline offers the opportunity to demonstrate my model specification's ability to converge upon parameters defined by a hypothetical data generating process.
 
-Using the `fabricatr` [@fabricatr] package, I simulate a population with an N of 1,00,000. The specified data generating processes for each of the variables are included in @lst-sim-dgp and @lst-sim-dgp-2. I then generate 500 random samples for each sample size of 200, 400, 600, and 800 participants. This sample size is not the size of the total sample I intend to recruit but is the total sample that I have data on after excluding those who fail attention checks and those who provide duplicate responses. Some estimate that insincere responses account for about 40% of a researcher's original sample [@kennedy_et-al_2021_poq]. Therefore the total sample that I recruit from Prolific should be about 40% larger than the total sample size used in these simulations.
+Using the `fabricatr` [@fabricatr] package, I simulate a population with an N of 1,00,000. The specified data generating processes for each of the variables are included in @lst-sim-dgp and @lst-sim-dgp-2. I then generate 500 random samples for each sample size of 200, 400, 600, and 800 participants. This sample size is not the size of the total sample I intend to recruit but is the total sample that I have data on after excluding those who fail attention checks and those who provide duplicate responses. Some estimate that insincere responses account for about 40% of a researcher's original sample [@kennedy_et-al_2021_poq]. However, it is important to note that this is a quite conservative estimate of the proportion of insincere responses as this estimate comes from platforms that are notorious for poor convenience samples such as MTURK.
 
 ``` {#lst-sim-dgp .r lst-cap="Code to generate simulated population data"}
 
@@ -494,7 +494,7 @@ $$
 \end{split}
 $$ {#eq-party-guess-priors}
 
-These priors suggest that I believe 68% of my beta coefficients, given the data, should be between -1 and 1; with the median of the estimates at 0.
+These priors suggest that I believe 68% of my beta coefficients on a logged-odds scale, given the data, should be between -1 and 1; with the median of the estimates at 0. This is quite a conservative estimate given the results from my pre-test. This is also a quite conservative estimate given that the primary %\beta$ coefficients of interest are both at 0.1 on the logged-odds scale.
 
 After fitting each model, I construct 95% high density interval credible intervals from the model's posterior draws. I then record a value of 1 if the credible interval does not contain zero (true positive) and a value of 0 if the credible interval does (false negative) for each parameter. Once I have run each of my models for the specified sample size, I calculate the average of true positive and false negatives. This gives me a percentage of the time that I would come to the correct conclusion that there is a non-zero effect on that parameter. @fig-true-positive-rate documents these calculations for each sample size.
 
@@ -580,7 +580,7 @@ plotList[[7]]
 plotList[[8]]
 ```
 
-The results of my simulation suggest that I should aim for a sample of 600 respondents once I have excluded those that do not meet the inclusion criteria (i.e., fail attention checks, duplicated IP addresses and provide insincere responses to the open-ended prompts). Given estimates of poor responses for about 40% of some samples [@kennedy_et-al_2021_poq], I should aim to recruit a total of 1500 participants for Study 1.
+The results of my simulation suggest that I should aim for a sample size greater than 400 once I've excluded insincere responses. Given that my estimates of insincere responses and of effect size are quite conservative, I will aim for a total sample size of 1000 participants for Study 1.
 
 # Study 2 {#sec-study-2}
 
