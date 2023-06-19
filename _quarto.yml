@@ -16,13 +16,13 @@ book:
   date-format: long
   chapters:
     - index.qmd
-    - chapter_2/src/chapter_2.qmd
+    - chapter_2/src/manuscript.qmd
     - chapter_3/src/chapter_3.qmd
     - chapter_4/src/chapter_4.qmd
     - chapter_5/src/conclusion.qmd
     - references.qmd
   appendices:
-    - chapter_2/src/chapter_2_appendix.qmd
+    - chapter_2/src/appendix.qmd
   output-file: "dcr_book_project"
 
 bibliography: "assets/references.bib"
@@ -31,7 +31,7 @@ format:
   titlepage-pdf:
     documentclass: scrbook
     coverpage: titleauthor
-    coverpage-bg-image: "./../../assets/cover.jpeg"
+    coverpage-bg-image: "./front_matter/assets/cover.jpeg"
     coverpage-theme:
       title-fontsize: 100
       author-fontstyle: ["textsc"]
@@ -40,12 +40,14 @@ format:
       author-align: "right"
       author-bottom: "2in"
       date-style: "none"
+    fontsize: 12pt
     titlepage: "plain"
     titlepage-theme:
       author-style: "author-address"
       affiliation-style: "none"
       affiliation-sep: "newline"
       elements: ["\\titleblock","\\authorblock","Last Compiled: \\dateblock"]
+    fig-pos: 'b'
     toc: true
     lof: true
     lot: true
@@ -53,10 +55,15 @@ format:
       text: |
         \usepackage{makeidx}
         \makeindex
+        \usepackage{lscape}
+        \newcommand{\blandscape}{\begin{landscape}}
+        \newcommand{\elandscape}{\end{landscape}}
     include-after-body: 
       text: |
         \printindex
 jupyter: python3
 execute:
   echo: false
-  cache: true
+  cache: false
+  warning: false
+  message: false
