@@ -40,6 +40,7 @@ format:
       author-align: "right"
       author-bottom: "2in"
       date-style: "none"
+    fontsize: 12pt
     titlepage: "plain"
     titlepage-theme:
       author-style: "author-address"
